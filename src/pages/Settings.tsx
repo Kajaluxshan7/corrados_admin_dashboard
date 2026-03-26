@@ -248,7 +248,7 @@ const Settings: React.FC = () => {
               color: '#50575E', px: 2,
               '&.Mui-selected': { color: '#BE5953' },
             },
-            '& .MuiTabs-indicator': { backgroundColor: '#BE5953', height: 2, borderRadius: '2px' },
+            '& .MuiTabs-indicator': { bgcolor: '#BE5953', height: 2, borderRadius: '2px' },
           }}
         >
           <Tab icon={<PersonIcon sx={{ fontSize: 16 }} />} iconPosition="start" label="Profile" />
@@ -331,7 +331,7 @@ const Settings: React.FC = () => {
                   </Button>
                   <Button variant="contained" startIcon={<SaveIcon />} onClick={handleSaveProfile}
                     disabled={loading || !hasProfileChanges()}
-                    sx={{ borderRadius: '2px', px: 3, fontWeight: 700, backgroundColor: '#BE5953', '&:hover': { backgroundColor: '#9A413C' } }}>
+                    sx={{ borderRadius: '2px', px: 3, fontWeight: 700, bgcolor: '#BE5953', '&:hover': { bgcolor: '#A84E48' } }}>
                     {loading ? 'Saving…' : 'Save Changes'}
                   </Button>
                 </>

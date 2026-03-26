@@ -41,6 +41,8 @@ import {
   Warning as WarningIcon,
   Search as SearchIcon,
   Refresh as RefreshIcon,
+  Block as BlockIcon,
+  CheckCircleOutline as CheckCircleOutlineIcon,
 } from '@mui/icons-material';
 import moment from 'moment-timezone';
 import { useAuth } from '../contexts/AuthContext';
@@ -271,7 +273,7 @@ const UserManagement: React.FC = () => {
             variant="contained"
             startIcon={<AddIcon />}
             onClick={handleCreate}
-            sx={{ backgroundColor: '#BE5953', '&:hover': { backgroundColor: '#9A413C' }, fontWeight: 700 }}
+            sx={{ bgcolor: '#BE5953', '&:hover': { bgcolor: '#A84E48' }, fontWeight: 700 }}
           >
             Add User
           </Button>
@@ -480,9 +482,11 @@ const UserManagement: React.FC = () => {
             <EditIcon sx={{ fontSize: 16, color: '#BE5953' }} /> Edit User
           </MenuListItem>
           <MenuListItem onClick={() => { if (menuUserId) handleToggleStatus(menuUserId); }}
-            sx={{ py: 1, px: 2, gap: 1.5, fontSize: '0.875rem', '&:hover': { bgcolor: 'rgba(0,0,0,0.04)' } }}>
-            <Switch size="small" sx={{ mr: 0.5 }} checked={users.find((u) => u.id === menuUserId)?.isActive} readOnly />
-            {users.find((u) => u.id === menuUserId)?.isActive ? 'Deactivate' : 'Activate'}
+            sx={{ py: 1, px: 2, gap: 1.5, fontSize: '0.875rem', color: users.find((u) => u.id === menuUserId)?.isActive ? '#787C82' : '#00A32A', '&:hover': { bgcolor: 'rgba(0,0,0,0.04)' } }}>
+            {users.find((u) => u.id === menuUserId)?.isActive
+              ? <BlockIcon sx={{ fontSize: 16 }} />
+              : <CheckCircleOutlineIcon sx={{ fontSize: 16 }} />}
+            {users.find((u) => u.id === menuUserId)?.isActive ? 'Deactivate User' : 'Activate User'}
           </MenuListItem>
           {!users.find((u) => u.id === menuUserId)?.isEmailVerified && (
             <MenuListItem onClick={() => { if (menuUserId) handleResendVerification(menuUserId); }}
@@ -574,7 +578,7 @@ const UserManagement: React.FC = () => {
             )}
             <Grid size={{ xs: 12 }}>
               <FormControlLabel
-                control={<Switch checked={userForm.isActive} onChange={(e) => setUserForm({ ...userForm, isActive: e.target.checked })} />}
+                control={<Switch checked={userForm.isActive} onChange={(e) => setUserForm({ ...userForm, isActive: e.target.checked })} sx={{ '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#00A32A', opacity: 1 } }} />}
                 label={<Typography sx={{ fontSize: '0.875rem' }}>Account Active</Typography>}
               />
             </Grid>
@@ -583,7 +587,7 @@ const UserManagement: React.FC = () => {
         <DialogActions sx={{ px: 3, pb: 3, pt: 2, gap: 1 }}>
           <Button onClick={() => setDialogOpen(false)} variant="outlined" sx={{ borderRadius: '2px', px: 2.5, fontWeight: 600 }}>Cancel</Button>
           <Button onClick={handleSave} variant="contained"
-            sx={{ borderRadius: '2px', px: 2.5, fontWeight: 700, backgroundColor: '#BE5953', '&:hover': { backgroundColor: '#9A413C' } }}>
+            sx={{ borderRadius: '2px', px: 2.5, fontWeight: 700, bgcolor: '#BE5953', '&:hover': { bgcolor: '#A84E48' } }}>
             {selectedUser ? 'Update' : 'Create'}
           </Button>
         </DialogActions>

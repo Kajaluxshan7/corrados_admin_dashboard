@@ -241,7 +241,7 @@ const LoginPage: React.FC = () => {
               startIcon={loading ? <CircularProgress size={14} color="inherit" /> : <LoginIcon sx={{ fontSize: '16px !important' }} />}
               sx={{
                 bgcolor: '#BE5953',
-                '&:hover': { bgcolor: '#9A413C' },
+                '&:hover': { bgcolor: '#A84E48' },
                 '&:disabled': { bgcolor: '#E2E4E7' },
                 borderRadius: '2px',
                 height: 36,

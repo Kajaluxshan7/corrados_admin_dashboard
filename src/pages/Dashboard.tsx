@@ -497,26 +497,37 @@ const Dashboard: React.FC = () => {
                     const isLast = i === recentActivities.length - 1;
                     return (
                       <Box key={act.id} sx={{ display: 'flex', gap: 1.5, position: 'relative' }}>
+                        {/* Vertical connector line — sits behind the icon */}
                         {!isLast && (
-                          <Box sx={{ position: 'absolute', left: 14, top: 28, bottom: 0, width: 1, bgcolor: '#F0F0F1' }} />
+                          <Box sx={{
+                            position: 'absolute',
+                            left: 15,
+                            top: 32,
+                            bottom: 0,
+                            width: 2,
+                            bgcolor: '#E2E4E7',
+                          }} />
                         )}
+                        {/* Icon badge — square WP style */}
                         <Box
                           sx={{
-                            width: 28, height: 28,
-                            borderRadius: '50%',
-                            bgcolor: `${cfg.color}12`,
-                            border: `1.5px solid ${cfg.color}25`,
+                            width: 32, height: 32,
+                            borderRadius: '2px',
+                            bgcolor: '#F6F7F7',
+                            border: '1px solid #E2E4E7',
+                            borderLeft: `3px solid ${cfg.color}`,
                             display: 'flex', alignItems: 'center', justifyContent: 'center',
                             flexShrink: 0, zIndex: 1,
                           }}
                         >
-                          <Icon sx={{ fontSize: 13, color: cfg.color }} />
+                          <Icon sx={{ fontSize: 14, color: cfg.color }} />
                         </Box>
-                        <Box sx={{ flex: 1, pb: isLast ? 0 : 2 }}>
+                        {/* Content */}
+                        <Box sx={{ flex: 1, pb: isLast ? 0 : 2.5, pt: 0.25 }}>
                           <Typography sx={{ fontSize: '0.845rem', fontWeight: 500, color: '#1D2327', lineHeight: 1.4 }}>
                             {act.message}
                           </Typography>
-                          <Typography sx={{ fontSize: '0.72rem', color: '#787C82', mt: 0.25 }}>
+                          <Typography sx={{ fontSize: '0.72rem', color: '#787C82', mt: 0.375 }}>
                             {moment(act.timestamp).fromNow()}
                           </Typography>
                         </Box>
@@ -525,9 +536,11 @@ const Dashboard: React.FC = () => {
                   })}
                 </Box>
               ) : (
-                <Typography sx={{ color: '#787C82', fontSize: '0.845rem', py: 3, textAlign: 'center' }}>
-                  No recent activity
-                </Typography>
+                <Box sx={{ py: 4, textAlign: 'center' }}>
+                  <Typography sx={{ color: '#787C82', fontSize: '0.845rem' }}>
+                    No recent activity
+                  </Typography>
+                </Box>
               )}
             </Box>
 
@@ -716,10 +729,8 @@ const Dashboard: React.FC = () => {
         fullWidth
         slotProps={{ paper: { sx: { borderRadius: '2px', border: '1px solid #E2E4E7' } } }}
       >
-        <DialogTitle sx={{ display: 'flex', alignItems: 'center', gap: 1.5, pt: 2.5, pb: 1, fontSize: '0.95rem', fontWeight: 700, color: '#1D2327' }}>
-          <Box sx={{ width: 32, height: 32, borderRadius: '2px', bgcolor: 'rgba(214,54,56,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <WarningIcon sx={{ fontSize: 16, color: '#D63638' }} />
-          </Box>
+        <DialogTitle sx={{ display: 'flex', alignItems: 'center', gap: 1.5, fontSize: '0.95rem', fontWeight: 700, color: '#FFFFFF', bgcolor: '#1D2327' }}>
+          <WarningIcon sx={{ fontSize: 16, color: 'rgba(255,255,255,0.7)' }} />
           Delete Task
         </DialogTitle>
         <DialogContent sx={{ pb: 1 }}>
@@ -745,7 +756,7 @@ const Dashboard: React.FC = () => {
         fullWidth
         slotProps={{ paper: { sx: { borderRadius: '2px', border: '1px solid #E2E4E7' } } }}
       >
-        <DialogTitle sx={{ fontWeight: 700, fontSize: '1rem', color: '#1D2327', borderBottom: '1px solid #F0F0F1', pb: 2 }}>
+        <DialogTitle sx={{ fontWeight: 700, fontSize: '1rem', color: '#FFFFFF', bgcolor: '#1D2327' }}>
           {selectedTodo ? 'Edit Task' : 'Create New Task'}
         </DialogTitle>
         <DialogContent sx={{ pt: '16px !important' }}>

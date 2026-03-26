@@ -55,13 +55,13 @@ export const FloatingActionButton: React.FC<FloatingActionButtonProps> = ({
           "& .MuiSpeedDial-fab": {
             width: 64,
             height: 64,
-            background: "linear-gradient(135deg, #BE5953 0%, #D4817C 100%)",
-            boxShadow: "0 8px 24px rgba(190, 89, 83, 0.35)",
+            bgcolor: "#BE5953",
+            boxShadow: "none",
             transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
             "&:hover": {
-              background: "linear-gradient(135deg, #9A413C 0%, #BE5953 100%)",
+              bgcolor: "#A84E48",
               transform: "scale(1.1) rotate(90deg)",
-              boxShadow: "0 12px 32px rgba(190, 89, 83, 0.45)",
+              boxShadow: "none",
             },
           },
         }}
@@ -112,12 +112,12 @@ export const FloatingActionButton: React.FC<FloatingActionButtonProps> = ({
             ...getPositionStyles(),
             width: 64,
             height: 64,
-            background: "linear-gradient(135deg, #BE5953 0%, #D4817C 100%)",
+            bgcolor: "#BE5953",
             boxShadow:
               "0 8px 24px rgba(190, 89, 83, 0.35), 0 4px 12px rgba(190, 89, 83, 0.2)",
             transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
             "&:hover": {
-              background: "linear-gradient(135deg, #9A413C 0%, #BE5953 100%)",
+              bgcolor: "#A84E48",
               transform: "scale(1.15) rotate(90deg)",
               boxShadow:
                 "0 12px 32px rgba(190, 89, 83, 0.45), 0 6px 16px rgba(190, 89, 83, 0.25)",

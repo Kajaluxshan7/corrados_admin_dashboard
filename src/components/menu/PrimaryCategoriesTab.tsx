@@ -266,7 +266,7 @@ export default function PrimaryCategoriesTab({
           </Typography>
         </DialogTitle>
         <DialogContent sx={{ px: 3, py: 3 }}>
-          <Typography sx={{ color: '#6B4E3D', fontSize: '0.938rem', lineHeight: 1.6 }}>
+          <Typography sx={{ color: '#50575E', fontSize: '0.938rem', lineHeight: 1.6 }}>
             Are you sure you want to delete this primary category? This action cannot be undone.
           </Typography>
         </DialogContent>

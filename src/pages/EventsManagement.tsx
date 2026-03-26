@@ -450,10 +450,11 @@ const EventsManagement: React.FC = () => {
               startIcon={<AddIcon />}
               onClick={handleCreate}
               sx={{
-                backgroundColor: '#BE5953',
-                color: 'white',
-                fontWeight: 600,
-                '&:hover': { backgroundColor: '#9A413C' },
+                bgcolor: '#BE5953',
+                fontWeight: 700,
+                textTransform: 'none',
+                boxShadow: 'none',
+                '&:hover': { bgcolor: '#A84E48' },
               }}
             >
               Add Event
@@ -487,7 +488,7 @@ const EventsManagement: React.FC = () => {
                 label: 'Past Events',
                 value: eventStats.past,
                 icon: <PastIcon fontSize="small" />,
-                color: '#9E9E9E',
+                color: '#A7AAAD',
               },
               {
                 label: 'Active',
@@ -550,10 +551,10 @@ const EventsManagement: React.FC = () => {
                       fontWeight: 600,
                       backgroundColor:
                         getEventStatus(event) === 'upcoming'
-                          ? '#2c5530'
+                          ? '#00A32A'
                           : getEventStatus(event) === 'ongoing'
-                          ? '#2196f3'
-                          : '#757575',
+                          ? '#0073AA'
+                          : '#50575E',
                       color: 'white',
                     }}
                   />
@@ -563,19 +564,31 @@ const EventsManagement: React.FC = () => {
                 {event.imageUrls && event.imageUrls.length > 0 && (
                   <Box
                     sx={{
-                      height: 200,
-                      backgroundImage: `url(${getImageUrl(
-                        event.imageUrls[0],
-                      )})`,
-                      backgroundSize: 'cover',
-                      backgroundPosition: 'center',
-                      borderRadius: '12px 12px 0 0',
+                      width: '100%',
+                      borderRadius: '2px 2px 0 0',
+                      overflow: 'hidden',
                       cursor: 'pointer',
+                      backgroundColor: '#F6F7F7',
                     }}
                     onClick={() =>
                       setPreviewImage(getImageUrl(event.imageUrls[0]))
                     }
-                  />
+                  >
+                    <Box
+                      component="img"
+                      src={getImageUrl(event.imageUrls[0])}
+                      alt={event.title}
+                      sx={{
+                        width: '100%',
+                        maxWidth: '100%',
+                        height: 'auto',
+                        maxHeight: 180,
+                        display: 'block',
+                        objectFit: 'contain',
+                        mx: 'auto',
+                      }}
+                    />
+                  </Box>
                 )}
 
                 <CardContent sx={{ flexGrow: 1, p: 3 }}>
@@ -615,7 +628,7 @@ const EventsManagement: React.FC = () => {
                   <Typography
                     variant="body2"
                     color="text.secondary"
-                    sx={{ mb: 2, color: '#6B4E3D', lineHeight: 1.6 }}
+                    sx={{ mb: 2, color: '#50575E', lineHeight: 1.6 }}
                   >
                     {event.description}
                   </Typography>
@@ -642,7 +655,7 @@ const EventsManagement: React.FC = () => {
                         secondary={
                           <Typography
                             variant="caption"
-                            sx={{ color: '#6B4E3D' }}
+                            sx={{ color: '#50575E' }}
                           >
                             {moment
                               .tz(event.displayStartDate, TIMEZONE)
@@ -672,7 +685,7 @@ const EventsManagement: React.FC = () => {
                         secondary={
                           <Typography
                             variant="caption"
-                            sx={{ color: '#6B4E3D' }}
+                            sx={{ color: '#50575E' }}
                           >
                             {moment
                               .tz(event.eventStartDate, TIMEZONE)
@@ -698,7 +711,7 @@ const EventsManagement: React.FC = () => {
                           primary={
                             <Typography
                               variant="caption"
-                              sx={{ color: '#6B4E3D' }}
+                              sx={{ color: '#50575E' }}
                             >
                               {event.imageUrls.length} images
                             </Typography>
@@ -724,10 +737,11 @@ const EventsManagement: React.FC = () => {
                   </Button>
                   <Button
                     size="small"
-                    color="error"
                     onClick={() => setDeleteConfirmId(event.id)}
                     sx={{
-                      '&:hover': { backgroundColor: 'rgba(244, 67, 54, 0.1)' },
+                      color: '#D63638',
+                      fontWeight: 600,
+                      '&:hover': { backgroundColor: 'rgba(214,54,56,0.08)' },
                     }}
                   >
                     <DeleteIcon sx={{ fontSize: 16, mr: 0.5 }} />
@@ -752,7 +766,7 @@ const EventsManagement: React.FC = () => {
           fullWidth
           slotProps={{ paper: { sx: { borderRadius: '2px' } } }}
         >
-          <DialogTitle>
+          <DialogTitle sx={{ fontWeight: 700, fontSize: '1rem', color: '#FFFFFF', bgcolor: '#1D2327' }}>
             {selectedEvent ? 'Edit Event' : 'Create Event'}
           </DialogTitle>
           <DialogContent sx={{ p: 3 }}>
@@ -972,8 +986,8 @@ const EventsManagement: React.FC = () => {
                       borderColor: '#BE5953',
                       color: '#BE5953',
                       '&:hover': {
-                        borderColor: '#9A413C',
-                        backgroundColor: 'rgba(139, 69, 19, 0.1)',
+                        borderColor: '#A84E48',
+                        bgcolor: 'rgba(190,89,83,0.06)',
                       },
                     }}
                   >
@@ -1010,8 +1024,9 @@ const EventsManagement: React.FC = () => {
                             alt={`Event ${index + 1}`}
                             sx={{
                               width: '100%',
-                              height: 120,
-                              objectFit: 'cover',
+                              height: 'auto',
+                              display: 'block',
+                              objectFit: 'contain',
                             }}
                           />
                           <IconButton
@@ -1053,8 +1068,9 @@ const EventsManagement: React.FC = () => {
                             alt={`Preview ${index + 1}`}
                             sx={{
                               width: '100%',
-                              height: 120,
-                              objectFit: 'cover',
+                              height: 'auto',
+                              display: 'block',
+                              objectFit: 'contain',
                             }}
                           />
                           <IconButton
@@ -1111,7 +1127,7 @@ const EventsManagement: React.FC = () => {
                       '&.Mui-focused fieldset': { borderColor: '#BE5953' },
                     },
                     '& .MuiInputLabel-root.Mui-focused': { color: '#BE5953' },
-                    '& .MuiFormHelperText-root': { color: '#6B4E3D' },
+                    '& .MuiFormHelperText-root': { color: '#50575E' },
                   }}
                 />
               </Grid>
@@ -1128,18 +1144,27 @@ const EventsManagement: React.FC = () => {
                         })
                       }
                       sx={{
-                        '& .MuiSwitch-switchBase.Mui-checked': {
-                          color: '#BE5953',
-                        },
                         '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track':
-                          { backgroundColor: '#BE5953' },
+                          { backgroundColor: '#00A32A', opacity: 1 },
                       }}
                     />
                   }
                   label={
-                    <Typography sx={{ color: '#50575E', fontWeight: 600 }}>
-                      Active Event
-                    </Typography>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                      <Typography sx={{ fontWeight: 500 }}>Active</Typography>
+                      <Chip
+                        label={eventForm.isActive ? 'Visible' : 'Hidden'}
+                        size="small"
+                        sx={{
+                          height: 20,
+                          fontSize: '0.7rem',
+                          borderRadius: '2px',
+                          bgcolor: eventForm.isActive ? '#EEF7EE' : '#F0F0F1',
+                          color: eventForm.isActive ? '#00A32A' : '#787C82',
+                          border: `1px solid ${eventForm.isActive ? '#B3DFBB' : '#CDD0D4'}`,
+                        }}
+                      />
+                    </Box>
                   }
                 />
               </Grid>
@@ -1157,9 +1182,11 @@ const EventsManagement: React.FC = () => {
               onClick={handleSave}
               disabled={loading}
               sx={{
-                backgroundColor: '#BE5953',
-                '&:hover': { backgroundColor: '#9A413C' },
-                fontWeight: 600,
+                bgcolor: '#BE5953',
+                fontWeight: 700,
+                textTransform: 'none',
+                boxShadow: 'none',
+                '&:hover': { bgcolor: '#A84E48' },
               }}
             >
               {loading ? 'Saving...' : selectedEvent ? 'Update' : 'Create'}
@@ -1169,21 +1196,17 @@ const EventsManagement: React.FC = () => {
 
         {/* Delete Confirmation Dialog */}
         <Dialog open={deleteConfirmId !== null} onClose={() => setDeleteConfirmId(null)} maxWidth="xs" fullWidth>
-          <DialogTitle sx={{ display: 'flex', alignItems: 'center', gap: 1.5, px: 3, py: 2.5, borderBottom: '1px solid rgba(190, 89, 83, 0.1)' }}>
-            <Box sx={{ width: 36, height: 36, borderRadius: '2px', background: 'rgba(239,68,68,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#D63638' }}>
-              <WarningIcon fontSize="small" />
-            </Box>
-            <Typography sx={{ fontWeight: 700, fontSize: '1.05rem', color: '#1D2327' }}>
-              Delete Event
-            </Typography>
+          <DialogTitle sx={{ display: 'flex', alignItems: 'center', gap: 1.5, fontWeight: 700, fontSize: '1rem', color: '#FFFFFF', bgcolor: '#1D2327' }}>
+            <WarningIcon sx={{ fontSize: 16, color: 'rgba(255,255,255,0.7)' }} />
+            Delete Event
           </DialogTitle>
           <DialogContent sx={{ px: 3, py: 3 }}>
-            <Typography sx={{ color: '#6B4E3D', fontSize: '0.938rem', lineHeight: 1.6 }}>
+            <Typography sx={{ color: '#50575E', fontSize: '0.938rem', lineHeight: 1.6 }}>
               Are you sure you want to delete this event? This action cannot be undone.
             </Typography>
           </DialogContent>
           <DialogActions sx={{ px: 3, pb: 3, gap: 1.5 }}>
-            <Button onClick={() => setDeleteConfirmId(null)} variant="outlined" sx={{ borderRadius: '2px', fontWeight: 600, px: 3 }}>
+            <Button onClick={() => setDeleteConfirmId(null)} variant="outlined" sx={{ borderRadius: '2px', fontWeight: 600, px: 3, borderColor: '#E2E4E7', color: '#50575E', textTransform: 'none', '&:hover': { borderColor: '#BE5953', color: '#BE5953', bgcolor: 'transparent' } }}>
               Cancel
             </Button>
             <Button

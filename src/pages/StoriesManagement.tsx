@@ -141,6 +141,7 @@ const StoriesManagement: React.FC = () => {
       if (response.ok) {
         const data = await response.json();
         setCategories(data);
+        setExpandedCategories(new Set(data.map((c: StoryCategory) => c.id)));
       } else {
         throw new Error('Failed to load story categories');
       }
@@ -581,13 +582,13 @@ const StoriesManagement: React.FC = () => {
             startIcon={<AddIcon />}
             onClick={() => handleOpenCategoryDialog()}
             sx={{
-              backgroundColor: '#BE5953',
+              bgcolor: '#BE5953',
               color: 'white',
               fontWeight: 600,
               px: 3,
               borderRadius: '2px',
-              boxShadow: '0 6px 20px rgba(190, 89, 83, 0.3)',
-              '&:hover': { backgroundColor: '#9A413C' },
+              boxShadow: 'none',
+              '&:hover': { bgcolor: '#A84E48' },
             }}
           >
             Add Category
@@ -640,7 +641,7 @@ const StoriesManagement: React.FC = () => {
           sx={{
             mb: 2,
             backgroundColor: 'rgba(190, 89, 83, 0.15)',
-            '& .MuiLinearProgress-bar': { backgroundColor: '#BE5953' },
+            '& .MuiLinearProgress-bar': { bgcolor: '#BE5953' },
           }}
         />
       )}
@@ -739,7 +740,7 @@ const StoriesManagement: React.FC = () => {
                 onClick={expandAllCategories}
                 startIcon={<ExpandMoreIcon />}
                 sx={{
-                  color: '#6B4E3D',
+                  color: '#50575E',
                   '&:hover': { backgroundColor: 'rgba(190, 89, 83, 0.08)' },
                 }}
               >
@@ -750,7 +751,7 @@ const StoriesManagement: React.FC = () => {
                 onClick={collapseAllCategories}
                 startIcon={<ExpandLessIcon />}
                 sx={{
-                  color: '#6B4E3D',
+                  color: '#50575E',
                   '&:hover': { backgroundColor: 'rgba(190, 89, 83, 0.08)' },
                 }}
               >
@@ -792,7 +793,7 @@ const StoriesManagement: React.FC = () => {
               alignItems: 'center',
             }}
           >
-            <Typography variant="caption" sx={{ color: '#6B4E3D', mr: 0.5 }}>
+            <Typography variant="caption" sx={{ color: '#50575E', mr: 0.5 }}>
               Showing:
             </Typography>
             {searchTerm && (
@@ -848,7 +849,7 @@ const StoriesManagement: React.FC = () => {
             <StoriesIcon
               sx={{ fontSize: 64, color: '#BE5953', opacity: 0.4, mb: 2 }}
             />
-            <Typography variant="h6" sx={{ color: '#6B4E3D', mb: 1 }}>
+            <Typography variant="h6" sx={{ color: '#50575E', mb: 1 }}>
               {categories.length === 0
                 ? 'No Categories Yet'
                 : 'No Results Found'}
@@ -912,12 +913,11 @@ const StoriesManagement: React.FC = () => {
                           width: 48,
                           height: 48,
                           borderRadius: '2px',
-                          background:
-                            'linear-gradient(135deg, #BE5953 0%, #9A413C 100%)',
+                          bgcolor: '#BE5953',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          boxShadow: '0 4px 12px rgba(190, 89, 83, 0.25)',
+                          boxShadow: 'none',
                           flexShrink: 0,
                           position: 'relative',
                         }}
@@ -980,7 +980,7 @@ const StoriesManagement: React.FC = () => {
                         >
                           <Typography
                             variant="caption"
-                            sx={{ color: '#6B4E3D' }}
+                            sx={{ color: '#50575E' }}
                           >
                             {storyCount} stories • {totalImages} images
                           </Typography>
@@ -1043,7 +1043,7 @@ const StoriesManagement: React.FC = () => {
                                 color:
                                   index === 0
                                     ? 'rgba(107, 78, 61, 0.3)'
-                                    : '#6B4E3D',
+                                    : '#50575E',
                               }}
                             >
                               <ArrowUpIcon fontSize="small" />
@@ -1062,7 +1062,7 @@ const StoriesManagement: React.FC = () => {
                                 color:
                                   index === filteredCategories.length - 1
                                     ? 'rgba(107, 78, 61, 0.3)'
-                                    : '#6B4E3D',
+                                    : '#50575E',
                               }}
                             >
                               <ArrowDownIcon fontSize="small" />
@@ -1083,13 +1083,8 @@ const StoriesManagement: React.FC = () => {
                             handleToggleCategoryStatus(category.id)
                           }
                           sx={{
-                            '& .MuiSwitch-switchBase.Mui-checked': {
-                              color: '#00A32A',
-                            },
                             '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track':
-                              {
-                                backgroundColor: '#00A32A',
-                              },
+                              { backgroundColor: '#00A32A', opacity: 1 },
                           }}
                         />
                       </Tooltip>
@@ -1115,9 +1110,9 @@ const StoriesManagement: React.FC = () => {
                             size="small"
                             onClick={() => handleDeleteCategory(category.id)}
                             sx={{
-                              color: '#d32f2f',
+                              color: '#D63638',
                               '&:hover': {
-                                backgroundColor: 'rgba(211, 47, 47, 0.1)',
+                                backgroundColor: 'rgba(214,54,56,0.1)',
                               },
                             }}
                           >
@@ -1129,7 +1124,7 @@ const StoriesManagement: React.FC = () => {
                       {/* Expand/Collapse */}
                       <IconButton
                         size="small"
-                        sx={{ color: '#6B4E3D' }}
+                        sx={{ color: '#50575E' }}
                         onClick={(e) => {
                           e.stopPropagation();
                           toggleCategoryExpansion(category.id);
@@ -1263,10 +1258,10 @@ const StoriesManagement: React.FC = () => {
                                           handleDeleteStory(story.id);
                                         }}
                                         sx={{
-                                          bgcolor: 'rgba(239,68,68,0.9)',
+                                          bgcolor: 'rgba(214,54,56,0.9)',
                                           color: 'white',
                                           p: 0.5,
-                                          '&:hover': { bgcolor: '#D63638' },
+                                          '&:hover': { bgcolor: '#A62527' },
                                         }}
                                       >
                                         <DeleteIcon
@@ -1387,7 +1382,7 @@ const StoriesManagement: React.FC = () => {
                           />
                           <Typography
                             variant="body2"
-                            sx={{ color: '#6B4E3D', mb: 2 }}
+                            sx={{ color: '#50575E', mb: 2 }}
                           >
                             No images yet in this category
                           </Typography>
@@ -1475,39 +1470,17 @@ const StoriesManagement: React.FC = () => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            px: 3,
-            py: 2.5,
-            borderBottom: '1px solid rgba(190,89,83,0.1)',
+            fontWeight: 700,
+            fontSize: '1rem',
+            color: '#FFFFFF',
+            bgcolor: '#1D2327',
           }}
         >
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-            <Box
-              sx={{
-                width: 36,
-                height: 36,
-                borderRadius: '2px',
-                background: 'rgba(190,89,83,0.1)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#BE5953',
-              }}
-            >
-              <CategoryIcon fontSize="small" />
-            </Box>
-            <Typography
-              sx={{ fontWeight: 700, fontSize: '1.05rem', color: '#1D2327' }}
-            >
-              {editingCategoryId ? 'Edit Category' : 'Create Category'}
-            </Typography>
-          </Box>
+          {editingCategoryId ? 'Edit Category' : 'Create Category'}
           <IconButton
             size="small"
             onClick={() => setCategoryDialog(false)}
-            sx={{
-              color: 'text.secondary',
-              '&:hover': { color: '#BE5953', bgcolor: 'rgba(190,89,83,0.08)' },
-            }}
+            sx={{ color: 'rgba(255,255,255,0.6)', '&:hover': { color: '#FFFFFF' } }}
           >
             <CloseIcon fontSize="small" />
           </IconButton>
@@ -1550,9 +1523,8 @@ const StoriesManagement: React.FC = () => {
                     })
                   }
                   sx={{
-                    '& .MuiSwitch-switchBase.Mui-checked': { color: '#00A32A' },
                     '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-                      backgroundColor: '#00A32A',
+                      backgroundColor: '#00A32A', opacity: 1,
                     },
                   }}
                 />
@@ -1566,10 +1538,10 @@ const StoriesManagement: React.FC = () => {
                     sx={{
                       height: 20,
                       fontSize: '0.7rem',
-                      bgcolor: categoryForm.isActive
-                        ? 'rgba(44,85,48,0.12)'
-                        : 'rgba(0,0,0,0.06)',
-                      color: categoryForm.isActive ? '#00A32A' : '#757575',
+                      borderRadius: '2px',
+                      bgcolor: categoryForm.isActive ? '#EEF7EE' : '#F0F0F1',
+                      color: categoryForm.isActive ? '#00A32A' : '#787C82',
+                      border: `1px solid ${categoryForm.isActive ? '#B3DFBB' : '#CDD0D4'}`,
                     }}
                   />
                 </Box>
@@ -1578,7 +1550,7 @@ const StoriesManagement: React.FC = () => {
 
             {/* Image Upload Section - shown when editing existing category */}
             {editingCategoryId && selectedCategory && (
-              <Box sx={{ pt: 2, borderTop: '1px solid rgba(190,89,83,0.12)' }}>
+              <Box sx={{ pt: 2, borderTop: '1px solid #E2E4E7' }}>
                 <Box
                   sx={{
                     display: 'flex',
@@ -1908,7 +1880,7 @@ const StoriesManagement: React.FC = () => {
           <Button
             onClick={() => setCategoryDialog(false)}
             variant="outlined"
-            sx={{ borderRadius: '2px', fontWeight: 600, px: 3 }}
+            sx={{ borderRadius: '2px', fontWeight: 600, px: 3, borderColor: '#E2E4E7', color: '#50575E', textTransform: 'none', '&:hover': { borderColor: '#BE5953', color: '#BE5953', bgcolor: 'transparent' } }}
           >
             Cancel
           </Button>
@@ -1918,10 +1890,12 @@ const StoriesManagement: React.FC = () => {
             disabled={loading || !categoryForm.name.trim()}
             sx={{
               borderRadius: '2px',
-              fontWeight: 600,
+              fontWeight: 700,
               px: 3,
-              backgroundColor: '#BE5953',
-              '&:hover': { backgroundColor: '#9A413C' },
+              textTransform: 'none',
+              boxShadow: 'none',
+              bgcolor: '#BE5953',
+              '&:hover': { bgcolor: '#A84E48' },
             }}
           >
             {loading ? 'Saving…' : editingCategoryId ? 'Update' : 'Create'}

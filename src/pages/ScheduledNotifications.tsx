@@ -59,7 +59,7 @@ const STATUS_CONFIG: Record<
 > = {
   pending: {
     label: 'Pending',
-    color: '#ED6C02',
+    color: '#DBA617',
     bg: 'rgba(237, 108, 2, 0.08)',
     icon: <PendingIcon fontSize="small" />,
   },
@@ -71,13 +71,13 @@ const STATUS_CONFIG: Record<
   },
   failed: {
     label: 'Failed',
-    color: '#D32F2F',
+    color: '#D63638',
     bg: 'rgba(211, 47, 47, 0.08)',
     icon: <FailedIcon fontSize="small" />,
   },
   cancelled: {
     label: 'Cancelled',
-    color: '#757575',
+    color: '#50575E',
     bg: 'rgba(117, 117, 117, 0.08)',
     icon: <CancelledIcon fontSize="small" />,
   },
@@ -163,7 +163,7 @@ const ScheduledNotifications: React.FC = () => {
       label: 'Pending',
       value: stats.pending,
       icon: <PendingIcon />,
-      color: '#ED6C02',
+      color: '#DBA617',
     },
     {
       label: 'Sent',
@@ -175,7 +175,7 @@ const ScheduledNotifications: React.FC = () => {
       label: 'Failed',
       value: stats.failed,
       icon: <FailedIcon />,
-      color: '#D32F2F',
+      color: '#D63638',
     },
   ];
 
@@ -433,7 +433,7 @@ const ScheduledNotifications: React.FC = () => {
                           <Typography
                             variant="caption"
                             sx={{
-                              color: '#ED6C02',
+                              color: '#DBA617',
                               fontWeight: 500,
                               fontSize: '0.7rem',
                             }}

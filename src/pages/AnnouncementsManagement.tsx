@@ -239,8 +239,8 @@ const AnnouncementsManagement: React.FC = () => {
               startIcon={<AddIcon sx={{ fontSize: '14px !important' }} />}
               onClick={openCreate}
               sx={{
-                bgcolor: '#1D2327',
-                '&:hover': { bgcolor: '#BE5953' },
+                bgcolor: '#BE5953',
+                '&:hover': { bgcolor: '#A84E48' },
                 borderRadius: '2px',
                 fontWeight: 700,
                 textTransform: 'none',
@@ -429,7 +429,7 @@ const AnnouncementsManagement: React.FC = () => {
                           {a.status === 'draft' && (
                             <>
                               <Tooltip title="Edit">
-                                <IconButton size="small" onClick={() => openEdit(a)} sx={{ color: '#787C82', '&:hover': { color: '#BE5953', bgcolor: 'rgba(190,89,83,0.08)' } }}>
+                                <IconButton size="small" onClick={() => openEdit(a)} sx={{ color: '#BE5953', '&:hover': { bgcolor: 'rgba(190,89,83,0.08)' } }}>
                                   <EditIcon sx={{ fontSize: 15 }} />
                                 </IconButton>
                               </Tooltip>
@@ -441,7 +441,7 @@ const AnnouncementsManagement: React.FC = () => {
                             </>
                           )}
                           <Tooltip title="Delete">
-                            <IconButton size="small" onClick={() => { setSelectedAnnouncement(a); setDeleteDialogOpen(true); }} sx={{ color: '#787C82', '&:hover': { color: '#D63638', bgcolor: 'rgba(239,68,68,0.08)' } }}>
+                            <IconButton size="small" onClick={() => { setSelectedAnnouncement(a); setDeleteDialogOpen(true); }} sx={{ color: '#D63638', '&:hover': { bgcolor: 'rgba(214,54,56,0.08)' } }}>
                               <DeleteIcon sx={{ fontSize: 15 }} />
                             </IconButton>
                           </Tooltip>
@@ -468,8 +468,8 @@ const AnnouncementsManagement: React.FC = () => {
           sx={{
             fontWeight: 700,
             fontSize: '1rem',
-            color: '#1D2327',
-            borderBottom: '1px solid #F0F0F1',
+            color: '#FFFFFF',
+            bgcolor: '#1D2327',
             pb: 2,
             display: 'flex',
             alignItems: 'center',
@@ -477,7 +477,7 @@ const AnnouncementsManagement: React.FC = () => {
           }}
         >
           {editingId ? 'Edit Announcement' : 'New Announcement'}
-          <IconButton size="small" onClick={() => setFormOpen(false)} sx={{ color: '#787C82' }}>
+          <IconButton size="small" onClick={() => setFormOpen(false)} sx={{ color: 'rgba(255,255,255,0.6)', '&:hover': { color: '#FFFFFF' } }}>
             <CloseIcon sx={{ fontSize: 17 }} />
           </IconButton>
         </DialogTitle>
@@ -568,10 +568,8 @@ const AnnouncementsManagement: React.FC = () => {
         onClose={() => !sending && setSendDialogOpen(false)}
         slotProps={{ paper: { sx: { borderRadius: '2px', border: '1px solid #E2E4E7', maxWidth: 480 } } }}
       >
-        <DialogTitle sx={{ fontWeight: 700, fontSize: '1rem', color: '#1D2327', borderBottom: '1px solid #F0F0F1', pb: 2, display: 'flex', alignItems: 'center', gap: 1.25 }}>
-          <Box sx={{ width: 30, height: 30, borderRadius: '2px', bgcolor: 'rgba(0,163,42,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <SendIcon sx={{ fontSize: 15, color: '#00A32A' }} />
-          </Box>
+        <DialogTitle sx={{ fontWeight: 700, fontSize: '1rem', color: '#FFFFFF', bgcolor: '#1D2327', pb: 2, display: 'flex', alignItems: 'center', gap: 1.25 }}>
+          <SendIcon sx={{ fontSize: 16, color: 'rgba(255,255,255,0.7)' }} />
           Send Announcement
         </DialogTitle>
         <DialogContent sx={{ pt: '16px !important' }}>
@@ -610,7 +608,7 @@ const AnnouncementsManagement: React.FC = () => {
             variant="contained"
             disabled={sending}
             startIcon={<SendIcon sx={{ fontSize: '15px !important' }} />}
-            sx={{ bgcolor: '#00A32A', '&:hover': { bgcolor: '#224027' }, borderRadius: '2px', fontWeight: 700, textTransform: 'none', boxShadow: 'none' }}
+            sx={{ bgcolor: '#00A32A', '&:hover': { bgcolor: '#007A1F' }, borderRadius: '2px', fontWeight: 700, textTransform: 'none', boxShadow: 'none' }}
           >
             {sending ? 'Sending…' : 'Send Now'}
           </Button>
@@ -623,10 +621,8 @@ const AnnouncementsManagement: React.FC = () => {
         onClose={() => setDeleteDialogOpen(false)}
         slotProps={{ paper: { sx: { borderRadius: '2px', border: '1px solid #E2E4E7', maxWidth: 420 } } }}
       >
-        <DialogTitle sx={{ fontWeight: 700, fontSize: '1rem', color: '#1D2327', borderBottom: '1px solid #F0F0F1', pb: 2, display: 'flex', alignItems: 'center', gap: 1.25 }}>
-          <Box sx={{ width: 30, height: 30, borderRadius: '2px', bgcolor: 'rgba(239,68,68,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <DeleteIcon sx={{ fontSize: 15, color: '#D63638' }} />
-          </Box>
+        <DialogTitle sx={{ fontWeight: 700, fontSize: '1rem', color: '#FFFFFF', bgcolor: '#1D2327', pb: 2, display: 'flex', alignItems: 'center', gap: 1.25 }}>
+          <DeleteIcon sx={{ fontSize: 16, color: 'rgba(255,255,255,0.7)' }} />
           Delete Announcement
         </DialogTitle>
         <DialogContent sx={{ pt: '16px !important' }}>

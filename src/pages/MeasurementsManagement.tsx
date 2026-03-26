@@ -224,13 +224,13 @@ const MeasurementsManagement: React.FC = () => {
             startIcon={<AddIcon />}
             onClick={openCreate}
             sx={{
-              backgroundColor: '#BE5953',
-              color: '#fff',
-              fontWeight: 600,
+              bgcolor: '#BE5953',
+              fontWeight: 700,
               px: 3,
               borderRadius: '2px',
-              boxShadow: '0 4px 14px rgba(190, 89, 83, 0.3)',
-              '&:hover': { backgroundColor: '#9A413C' },
+              textTransform: 'none',
+              boxShadow: 'none',
+              '&:hover': { bgcolor: '#A84E48' },
             }}
           >
             Add Measurement
@@ -301,7 +301,7 @@ const MeasurementsManagement: React.FC = () => {
               Add your first measurement unit to start sizing menu items
             </Typography>
             <Button variant="outlined" startIcon={<AddIcon />} onClick={openCreate}
-              sx={{ borderColor: '#BE5953', color: '#BE5953', borderRadius: '2px', fontWeight: 600, '&:hover': { background: 'rgba(0,0,0,0.04)' } }}>
+              sx={{ borderColor: '#BE5953', color: '#BE5953', borderRadius: '2px', fontWeight: 600, textTransform: 'none', '&:hover': { borderColor: '#BE5953', bgcolor: 'rgba(190,89,83,0.06)', background: 'unset' } }}>
               Add Measurement Type
             </Button>
           </Box>
@@ -330,7 +330,7 @@ const MeasurementsManagement: React.FC = () => {
                   width: 40, height: 40, borderRadius: '2px',
                   background: m.isActive !== false ? 'rgba(190,89,83,0.1)' : 'rgba(0,0,0,0.04)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  color: m.isActive !== false ? '#BE5953' : '#9E9E9E',
+                  color: m.isActive !== false ? '#BE5953' : '#A7AAAD',
                   flexShrink: 0,
                 }}>
                   <MeasureIcon sx={{ fontSize: '1.1rem' }} />
@@ -341,10 +341,10 @@ const MeasurementsManagement: React.FC = () => {
               </Box>
 
               {/* Description */}
-              <Typography sx={{ color: '#6B4E3D', fontSize: '0.85rem', pr: 2,
+              <Typography sx={{ color: '#50575E', fontSize: '0.85rem', pr: 2,
                 overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                 {m.description || (
-                  <Box component="span" sx={{ color: '#C0B0A4', fontStyle: 'italic' }}>No description</Box>
+                  <Box component="span" sx={{ color: '#A7AAAD', fontStyle: 'italic' }}>No description</Box>
                 )}
               </Typography>
 
@@ -377,7 +377,7 @@ const MeasurementsManagement: React.FC = () => {
                 </Tooltip>
                 <Tooltip title="Delete">
                   <IconButton size="small" onClick={() => handleDeleteClick(m)}
-                    sx={{ color: '#EF5350', '&:hover': { bgcolor: 'rgba(239,83,80,0.1)' } }}>
+                    sx={{ color: '#D63638', '&:hover': { bgcolor: 'rgba(214,54,56,0.1)' } }}>
                     <DeleteIcon sx={{ fontSize: '1rem' }} />
                   </IconButton>
                 </Tooltip>
@@ -391,18 +391,11 @@ const MeasurementsManagement: React.FC = () => {
       <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)} maxWidth="sm" fullWidth>
         <DialogTitle sx={{
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          px: 3, py: 2.5, borderBottom: '1px solid rgba(190,89,83,0.1)',
+          fontWeight: 700, fontSize: '1rem', color: '#FFFFFF', bgcolor: '#1D2327',
         }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-            <Box sx={{ width: 36, height: 36, borderRadius: '2px', background: 'rgba(190,89,83,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#BE5953' }}>
-              <MeasureIcon fontSize="small" />
-            </Box>
-            <Typography sx={{ fontWeight: 700, fontSize: '1.05rem', color: '#1D2327' }}>
-              {selected ? 'Edit' : 'New'} Measurement Type
-            </Typography>
-          </Box>
+          {selected ? 'Edit' : 'New'} Measurement Type
           <IconButton size="small" onClick={() => setDialogOpen(false)}
-            sx={{ color: 'text.secondary', '&:hover': { color: '#BE5953', bgcolor: 'rgba(190,89,83,0.08)' } }}>
+            sx={{ color: 'rgba(255,255,255,0.6)', '&:hover': { color: '#FFFFFF' } }}>
             <CloseIcon fontSize="small" />
           </IconButton>
         </DialogTitle>
@@ -421,24 +414,24 @@ const MeasurementsManagement: React.FC = () => {
               control={
                 <Switch checked={form.isActive}
                   onChange={(e) => setForm({ ...form, isActive: e.target.checked })}
-                  sx={{ '& .MuiSwitch-switchBase.Mui-checked': { color: '#BE5953' }, '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#BE5953' } }} />
+                  sx={{ '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#00A32A', opacity: 1 } }} />
               }
               label={
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                   <Typography sx={{ fontWeight: 500 }}>Active</Typography>
                   <Chip label={form.isActive ? 'Visible' : 'Hidden'} size="small"
-                    sx={{ height: 20, fontSize: '0.7rem', bgcolor: form.isActive ? 'rgba(44,85,48,0.12)' : 'rgba(0,0,0,0.06)', color: form.isActive ? '#00A32A' : '#787C82' }} />
+                    sx={{ height: 20, fontSize: '0.7rem', borderRadius: '2px', bgcolor: form.isActive ? '#EEF7EE' : '#F0F0F1', color: form.isActive ? '#00A32A' : '#787C82', border: `1px solid ${form.isActive ? '#B3DFBB' : '#CDD0D4'}` }} />
                 </Box>
               }
             />
           </Box>
         </DialogContent>
         <DialogActions sx={{ px: 3, pb: 3, pt: 2, gap: 1.5 }}>
-          <Button onClick={() => setDialogOpen(false)} variant="outlined" sx={{ borderRadius: '2px', fontWeight: 600, px: 3 }}>
+          <Button onClick={() => setDialogOpen(false)} variant="outlined" sx={{ borderRadius: '2px', fontWeight: 600, px: 3, borderColor: '#E2E4E7', color: '#50575E', textTransform: 'none', '&:hover': { borderColor: '#BE5953', color: '#BE5953', bgcolor: 'transparent' } }}>
             Cancel
           </Button>
           <Button onClick={save} variant="contained" disabled={loading || !form.name.trim()}
-            sx={{ borderRadius: '2px', fontWeight: 600, px: 3, backgroundColor: '#BE5953', '&:hover': { backgroundColor: '#9A413C' } }}>
+            sx={{ borderRadius: '2px', fontWeight: 700, px: 3, textTransform: 'none', boxShadow: 'none', bgcolor: '#BE5953', '&:hover': { bgcolor: '#A84E48' } }}>
             {loading ? 'Saving…' : selected ? 'Update' : 'Create'}
           </Button>
         </DialogActions>
@@ -446,21 +439,17 @@ const MeasurementsManagement: React.FC = () => {
 
       {/* Delete Confirmation Dialog */}
       <Dialog open={deleteDialogOpen} onClose={() => { setDeleteDialogOpen(false); setMeasurementToDelete(null); }} maxWidth="xs" fullWidth>
-        <DialogTitle sx={{ display: 'flex', alignItems: 'center', gap: 1.5, px: 3, py: 2.5, borderBottom: '1px solid rgba(190,89,83,0.1)' }}>
-          <Box sx={{ width: 36, height: 36, borderRadius: '2px', background: 'rgba(239,68,68,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#D63638' }}>
-            <WarningIcon fontSize="small" />
-          </Box>
-          <Typography sx={{ fontWeight: 700, fontSize: '1.05rem', color: '#1D2327' }}>
-            Delete Measurement Type
-          </Typography>
+        <DialogTitle sx={{ display: 'flex', alignItems: 'center', gap: 1.5, fontWeight: 700, fontSize: '1rem', color: '#FFFFFF', bgcolor: '#1D2327' }}>
+          <WarningIcon sx={{ fontSize: 16, color: 'rgba(255,255,255,0.7)' }} />
+          Delete Measurement Type
         </DialogTitle>
         <DialogContent sx={{ px: 3, py: 3 }}>
-          <Typography sx={{ color: '#6B4E3D', fontSize: '0.938rem', lineHeight: 1.6 }}>
+          <Typography sx={{ color: '#50575E', fontSize: '0.938rem', lineHeight: 1.6 }}>
             Are you sure you want to delete <strong>"{measurementToDelete?.name}"</strong>? This action cannot be undone.
           </Typography>
         </DialogContent>
         <DialogActions sx={{ px: 3, pb: 3, gap: 1.5 }}>
-          <Button onClick={() => { setDeleteDialogOpen(false); setMeasurementToDelete(null); }} variant="outlined" sx={{ borderRadius: '2px', fontWeight: 600, px: 3 }}>
+          <Button onClick={() => { setDeleteDialogOpen(false); setMeasurementToDelete(null); }} variant="outlined" sx={{ borderRadius: '2px', fontWeight: 600, px: 3, borderColor: '#E2E4E7', color: '#50575E', textTransform: 'none', '&:hover': { borderColor: '#BE5953', color: '#BE5953', bgcolor: 'transparent' } }}>
             Cancel
           </Button>
           <Button onClick={confirmDelete} variant="contained"

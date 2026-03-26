@@ -429,9 +429,8 @@ const SpecialsManagement: React.FC = () => {
           <Box
             sx={{
               position: 'relative',
-              height: 180,
               overflow: 'hidden',
-              bgcolor: 'grey.100',
+              bgcolor: '#F6F7F7',
             }}
           >
             {special.imageUrls.length === 1 ? (
@@ -441,8 +440,10 @@ const SpecialsManagement: React.FC = () => {
                 alt={special.title}
                 sx={{
                   width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
+                  height: 'auto',
+                  maxHeight: 200,
+                  display: 'block',
+                  objectFit: 'contain',
                 }}
               />
             ) : (
@@ -454,7 +455,7 @@ const SpecialsManagement: React.FC = () => {
                   gridTemplateRows:
                     special.imageUrls.length <= 2 ? '1fr' : '1fr 1fr',
                   gap: 0.5,
-                  height: '100%',
+                  height: 200,
                 }}
               >
                 {special.imageUrls.slice(0, 4).map((url, idx) => (
@@ -476,7 +477,8 @@ const SpecialsManagement: React.FC = () => {
                       sx={{
                         width: '100%',
                         height: '100%',
-                        objectFit: 'cover',
+                        objectFit: 'contain',
+                        bgcolor: '#F6F7F7',
                       }}
                     />
                     {idx === 3 && special.imageUrls.length > 4 && (
@@ -634,12 +636,16 @@ const SpecialsManagement: React.FC = () => {
           />
           <Button
             size="small"
-            color={special.isActive ? 'warning' : 'success'}
+            variant="outlined"
             onClick={() => handleToggleActive(special)}
             sx={{
               textTransform: 'none',
-              fontWeight: 500,
+              fontWeight: 600,
+              fontSize: '0.78rem',
               borderRadius: '2px',
+              ...(special.isActive
+                ? { color: '#787C82', borderColor: '#CDD0D4', '&:hover': { borderColor: '#50575E', color: '#50575E', bgcolor: 'transparent' } }
+                : { color: '#00A32A', borderColor: '#B3DFBB', '&:hover': { borderColor: '#00A32A', bgcolor: '#EEF7EE' } }),
             }}
           >
             {special.isActive ? 'Deactivate' : 'Activate'}
@@ -765,13 +771,13 @@ const SpecialsManagement: React.FC = () => {
                 handleOpenDialog(undefined, defaults.type, defaults.category);
               }}
               sx={{
-                backgroundColor: '#BE5953',
+                bgcolor: '#BE5953',
                 color: 'white',
                 fontWeight: 600,
                 px: 3,
                 borderRadius: '2px',
-                boxShadow: '0 6px 20px rgba(190, 89, 83, 0.3)',
-                '&:hover': { backgroundColor: '#9A413C' },
+                boxShadow: 'none',
+                '&:hover': { bgcolor: '#A84E48' },
               }}
             >
               {`Add ${getSpecialDefaultsForActiveTab(activeTab).label}`}
@@ -799,7 +805,7 @@ const SpecialsManagement: React.FC = () => {
                 label: 'Inactive',
                 value: specialsStats.inactive,
                 icon: <InactiveIcon fontSize="small" />,
-                color: '#9E9E9E',
+                color: '#A7AAAD',
               },
               {
                 label: 'Daily Specials',
@@ -841,7 +847,7 @@ const SpecialsManagement: React.FC = () => {
               sx={{
                 mb: 2,
                 backgroundColor: 'rgba(190, 89, 83, 0.15)',
-                '& .MuiLinearProgress-bar': { backgroundColor: '#BE5953' },
+                '& .MuiLinearProgress-bar': { bgcolor: '#BE5953' },
               }}
             />
           )}
@@ -880,7 +886,7 @@ const SpecialsManagement: React.FC = () => {
                   '&.Mui-selected': {
                     color: '#FFFFFF',
                     background:
-                      'linear-gradient(135deg, #BE5953 0%, #D4817C 100%)',
+                      '#BE5953',
                     boxShadow:
                       '0 6px 20px rgba(190, 89, 83, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.3)',
                     '&::after': {
@@ -1164,28 +1170,17 @@ const SpecialsManagement: React.FC = () => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                px: 3,
-                py: 2.5,
-                borderBottom: '1px solid rgba(190, 89, 83, 0.1)',
+                fontWeight: 700,
+                fontSize: '1rem',
+                color: '#FFFFFF',
+                bgcolor: '#1D2327',
               }}
             >
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                <Box sx={{
-                  width: 36, height: 36, borderRadius: '2px',
-                  background: 'rgba(190, 89, 83, 0.1)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  color: '#BE5953',
-                }}>
-                  <SpecialIcon fontSize="small" />
-                </Box>
-                <Typography sx={{ fontWeight: 700, fontSize: '1.1rem', color: '#1D2327' }}>
-                  {editingSpecial ? 'Edit Special' : 'Create New Special'}
-                </Typography>
-              </Box>
+              {editingSpecial ? 'Edit Special' : 'Create New Special'}
               <IconButton
                 onClick={handleCloseDialog}
                 size="small"
-                sx={{ color: 'text.secondary', '&:hover': { color: '#BE5953', bgcolor: 'rgba(190,89,83,0.08)' } }}
+                sx={{ color: 'rgba(255,255,255,0.6)', '&:hover': { color: '#FFFFFF' } }}
               >
                 <CloseIcon fontSize="small" />
               </IconButton>
@@ -1398,6 +1393,7 @@ const SpecialsManagement: React.FC = () => {
                             isActive: e.target.checked,
                           })
                         }
+                        sx={{ '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#00A32A', opacity: 1 } }}
                       />
                     }
                     label="Active"
@@ -1528,19 +1524,13 @@ const SpecialsManagement: React.FC = () => {
                 onClick={handleSave}
                 variant="contained"
                 sx={{
-                  background:
-                    'linear-gradient(135deg, #BE5953 0%, #DBA617 100%)',
+                  bgcolor: '#BE5953',
                   textTransform: 'none',
-                  fontWeight: 600,
+                  fontWeight: 700,
                   px: 4,
-                  py: 1.5,
                   borderRadius: '2px',
-                  boxShadow: '0 2px 8px rgba(190, 89, 83, 0.22)',
-                  '&:hover': {
-                    background:
-                      'linear-gradient(135deg, #9A413C 0%, #B5661A 100%)',
-                    boxShadow: '0 4px 12px rgba(190, 89, 83, 0.3)',
-                  },
+                  boxShadow: 'none',
+                  '&:hover': { bgcolor: '#A84E48' },
                 }}
               >
                 {editingSpecial ? 'Update Special' : 'Create Special'}
@@ -1550,21 +1540,17 @@ const SpecialsManagement: React.FC = () => {
 
           {/* Delete Confirmation Dialog */}
           <Dialog open={deleteConfirmId !== null} onClose={() => setDeleteConfirmId(null)} maxWidth="xs" fullWidth>
-            <DialogTitle sx={{ display: 'flex', alignItems: 'center', gap: 1.5, px: 3, py: 2.5, borderBottom: '1px solid rgba(190, 89, 83, 0.1)' }}>
-              <Box sx={{ width: 36, height: 36, borderRadius: '2px', background: 'rgba(239,68,68,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#D63638' }}>
-                <WarningIcon fontSize="small" />
-              </Box>
-              <Typography sx={{ fontWeight: 700, fontSize: '1.05rem', color: '#1D2327' }}>
-                Delete Special
-              </Typography>
+            <DialogTitle sx={{ display: 'flex', alignItems: 'center', gap: 1.5, fontWeight: 700, fontSize: '1rem', color: '#FFFFFF', bgcolor: '#1D2327' }}>
+              <WarningIcon sx={{ fontSize: 16, color: 'rgba(255,255,255,0.7)' }} />
+              Delete Special
             </DialogTitle>
             <DialogContent sx={{ px: 3, py: 3 }}>
-              <Typography sx={{ color: '#6B4E3D', fontSize: '0.938rem', lineHeight: 1.6 }}>
+              <Typography sx={{ color: '#50575E', fontSize: '0.938rem', lineHeight: 1.6 }}>
                 Are you sure you want to delete this special? This action cannot be undone.
               </Typography>
             </DialogContent>
             <DialogActions sx={{ px: 3, pb: 3, gap: 1.5 }}>
-              <Button onClick={() => setDeleteConfirmId(null)} variant="outlined" sx={{ borderRadius: '2px', fontWeight: 600, px: 3 }}>
+              <Button onClick={() => setDeleteConfirmId(null)} variant="outlined" sx={{ borderRadius: '2px', fontWeight: 600, px: 3, borderColor: '#E2E4E7', color: '#50575E', textTransform: 'none', '&:hover': { borderColor: '#BE5953', color: '#BE5953', bgcolor: 'transparent' } }}>
                 Cancel
               </Button>
               <Button

@@ -353,12 +353,12 @@ const NewsletterManagement: React.FC = () => {
 .summary-item .val{font-size:18px;font-weight:800;color:#BE5953;line-height:1}.summary-item .lbl{font-size:8px;color:#999;text-transform:uppercase;letter-spacing:0.5px;margin-top:2px}
 table{width:100%;border-collapse:collapse;font-size:9.5px}thead tr{background:#BE5953}
 thead th{padding:7px 8px;text-align:left;font-weight:700;font-size:8.5px;text-transform:uppercase;letter-spacing:0.5px;color:#fff;white-space:nowrap}
-thead th.num{width:24px;text-align:center}tbody tr.even{background:#fff}tbody tr.odd{background:#fdf8f4}
-td{padding:6px 8px;vertical-align:middle;border-bottom:1px solid #f0e8df}td.num{text-align:center;color:#bbb;font-size:8.5px}
-td.email{font-weight:600;color:#111;word-break:break-all;max-width:180px}td.mono{font-family:'Courier New',monospace;font-weight:700;color:#1565c0;font-size:9px;letter-spacing:1px}
-.badge{display:inline-block;padding:2px 6px;border-radius:8px;font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:0.3px;white-space:nowrap}
-.badge.active{background:#e8f5e9;color:#2e7d32}.badge.inactive{background:#fff3e0;color:#bf360c}
-.badge.sent{background:#e3f2fd;color:#1565c0}.badge.claimed{background:#e8f5e9;color:#2e7d32}.badge.pending{background:#F0F0F1;color:#757575}
+thead th.num{width:24px;text-align:center}tbody tr.even{background:#fff}tbody tr.odd{background:#F6F7F7}
+td{padding:6px 8px;vertical-align:middle;border-bottom:1px solid #E2E4E7}td.num{text-align:center;color:#A7AAAD;font-size:8.5px}
+td.email{font-weight:600;color:#1D2327;word-break:break-all;max-width:180px}td.mono{font-family:'Courier New',monospace;font-weight:700;color:#0073AA;font-size:9px;letter-spacing:1px}
+.badge{display:inline-block;padding:2px 6px;border-radius:2px;font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:0.3px;white-space:nowrap}
+.badge.active{background:#EEF7EE;color:#00A32A}.badge.inactive{background:#FCEEEE;color:#D63638}
+.badge.sent{background:#EEF5FA;color:#0073AA}.badge.claimed{background:#EEF7EE;color:#00A32A}.badge.pending{background:#F0F0F1;color:#50575E}
 @media print{body{padding:96px 0 48px 0}}
 </style></head><body>
 <div class="page-header"><div class="header-inner">
@@ -402,7 +402,7 @@ td.email{font-weight:600;color:#111;word-break:break-all;max-width:180px}td.mono
   const statCards = [
     { label: 'Total Subscribers', value: stats.total, color: '#BE5953', icon: <GroupIcon sx={{ fontSize: 18 }} /> },
     { label: 'Active', value: stats.active, color: '#00A32A', icon: <CheckCircleIcon sx={{ fontSize: 18 }} /> },
-    { label: 'Unsubscribed', value: stats.unsubscribed, color: '#757575', icon: <CancelIcon sx={{ fontSize: 18 }} /> },
+    { label: 'Unsubscribed', value: stats.unsubscribed, color: '#50575E', icon: <CancelIcon sx={{ fontSize: 18 }} /> },
     { label: 'Promo Sent', value: stats.promoSent, color: '#0073AA', icon: <SentPromoIcon sx={{ fontSize: 18 }} /> },
     { label: 'Pending Promo', value: stats.promoPending, color: '#DBA617', icon: <PendingPromoIcon sx={{ fontSize: 18 }} /> },
   ];
@@ -594,10 +594,10 @@ td.email{font-weight:600;color:#111;word-break:break-all;max-width:180px}td.mono
                       </TableCell>
                       <TableCell sx={tdSx}>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25 }}>
-                          <Box sx={{ width: 32, height: 32, borderRadius: '50%', bgcolor: subscriber.isActive ? 'rgba(0,163,42,0.1)' : 'rgba(117,117,117,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                          <Box sx={{ width: 32, height: 32, borderRadius: '50%', bgcolor: subscriber.isActive ? 'rgba(0,163,42,0.1)' : 'rgba(80,87,94,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                             {subscriber.isActive
                               ? <EmailIcon sx={{ fontSize: 15, color: '#00A32A' }} />
-                              : <UnsubscribedIcon sx={{ fontSize: 15, color: '#757575' }} />}
+                              : <UnsubscribedIcon sx={{ fontSize: 15, color: '#50575E' }} />}
                           </Box>
                           <Box>
                             <Typography sx={{ fontSize: '0.82rem', fontWeight: 600, color: '#1D2327' }}>{subscriber.email}</Typography>
@@ -617,7 +617,7 @@ td.email{font-weight:600;color:#111;word-break:break-all;max-width:180px}td.mono
                           border: '1px solid',
                           ...(subscriber.isActive
                             ? { color: '#00A32A', bgcolor: 'rgba(0,163,42,0.08)', borderColor: 'rgba(0,163,42,0.2)' }
-                            : { color: '#757575', bgcolor: 'rgba(117,117,117,0.08)', borderColor: 'rgba(117,117,117,0.2)' }),
+                            : { color: '#50575E', bgcolor: 'rgba(80,87,94,0.08)', borderColor: 'rgba(80,87,94,0.2)' }),
                         }}>
                           {subscriber.isActive ? <CheckCircleIcon sx={{ fontSize: '0.85rem' }} /> : <CancelIcon sx={{ fontSize: '0.85rem' }} />}
                           {subscriber.isActive ? 'Active' : 'Unsubscribed'}
@@ -722,16 +722,9 @@ td.email{font-weight:600;color:#111;word-break:break-all;max-width:180px}td.mono
         onClose={() => setDeleteDialogOpen(false)}
         slotProps={{ paper: { sx: { borderRadius: '2px', maxWidth: 420, width: '100%' } } }}
       >
-        <DialogTitle sx={{ p: 0 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, px: 3, py: 2.5, borderBottom: '1px solid #F0F0F1', bgcolor: '#F6F7F7' }}>
-            <Box sx={{ width: 36, height: 36, borderRadius: '2px', bgcolor: 'rgba(190,89,83,0.1)', border: '1px solid rgba(190,89,83,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <DeleteIcon sx={{ fontSize: 17, color: '#BE5953' }} />
-            </Box>
-            <Box>
-              <Typography sx={{ fontWeight: 700, fontSize: '0.95rem', color: '#1D2327', lineHeight: 1.2 }}>Remove Subscriber</Typography>
-              <Typography sx={{ fontSize: '0.75rem', color: '#787C82' }}>This action cannot be undone</Typography>
-            </Box>
-          </Box>
+        <DialogTitle sx={{ display: 'flex', alignItems: 'center', gap: 1.5, fontWeight: 700, fontSize: '1rem', color: '#FFFFFF', bgcolor: '#1D2327' }}>
+          <DeleteIcon sx={{ fontSize: 16, color: 'rgba(255,255,255,0.7)' }} />
+          Remove Subscriber
         </DialogTitle>
         <DialogContent sx={{ px: 3, pt: 2.5, pb: 1 }}>
           <Typography sx={{ fontSize: '0.875rem', color: '#50575E' }}>
@@ -739,10 +732,10 @@ td.email{font-weight:600;color:#111;word-break:break-all;max-width:180px}td.mono
           </Typography>
         </DialogContent>
         <DialogActions sx={{ px: 3, pb: 2.5, gap: 1 }}>
-          <Button onClick={() => setDeleteDialogOpen(false)} variant="outlined" sx={{ borderColor: '#E2E4E7', color: '#50575E', '&:hover': { borderColor: '#787C82' }, borderRadius: '2px', textTransform: 'none', fontWeight: 600, fontSize: '0.82rem' }}>
+          <Button onClick={() => setDeleteDialogOpen(false)} variant="outlined" sx={{ borderColor: '#E2E4E7', color: '#50575E', '&:hover': { borderColor: '#BE5953', color: '#BE5953', bgcolor: 'transparent' }, borderRadius: '2px', textTransform: 'none', fontWeight: 600, fontSize: '0.82rem' }}>
             Cancel
           </Button>
-          <Button onClick={handleDelete} variant="contained" sx={{ bgcolor: '#BE5953', '&:hover': { bgcolor: '#A84E48' }, borderRadius: '2px', textTransform: 'none', fontWeight: 700, fontSize: '0.82rem', boxShadow: 'none' }}>
+          <Button onClick={handleDelete} variant="contained" sx={{ bgcolor: '#D63638', '&:hover': { bgcolor: '#A62527' }, borderRadius: '2px', textTransform: 'none', fontWeight: 700, fontSize: '0.82rem', boxShadow: 'none' }}>
             Remove
           </Button>
         </DialogActions>
