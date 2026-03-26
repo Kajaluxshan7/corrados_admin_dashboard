@@ -7,11 +7,11 @@ const StyledTooltip = styled(({ className, ...props }: TooltipProps) => (
 ))(() => ({
   "& .MuiTooltip-tooltip": {
     backgroundColor: "rgba(45, 36, 22, 0.95)",
-    color: "#FDF8F4",
+    color: "#F6F7F7",
     fontSize: "0.875rem",
     fontWeight: 500,
     padding: "8px 16px",
-    borderRadius: 8,
+    borderRadius: '2px',
     backdropFilter: "blur(10px)",
     boxShadow: "0 4px 20px rgba(0, 0, 0, 0.25)",
     maxWidth: 320,

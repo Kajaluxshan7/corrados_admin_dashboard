@@ -45,10 +45,10 @@ export const LoadingState: React.FC<LoadingStateProps> = ({
           <LinearProgress
             sx={{
               height: 3,
-              borderRadius: 2,
+              borderRadius: '2px',
               backgroundColor: 'rgba(190,89,83,0.12)',
               '& .MuiLinearProgress-bar': {
-                borderRadius: 2,
+                borderRadius: '2px',
                 backgroundColor: '#BE5953',
               },
             }}
@@ -64,7 +64,7 @@ export const LoadingState: React.FC<LoadingStateProps> = ({
       {message && (
         <Typography
           sx={{
-            color: '#8B9D77',
+            color: '#787C82',
             fontSize: size === 'small' ? '0.813rem' : '0.938rem',
             fontWeight: 500,
             letterSpacing: '0.02em',

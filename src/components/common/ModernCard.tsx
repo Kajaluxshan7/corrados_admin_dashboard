@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardContent, Box, Typography, IconButton, Chip, Avatar } from '@mui/material';
+import { Card, CardContent, Box, Typography, IconButton, Chip } from '@mui/material';
 import { MoreVert as MoreVertIcon } from '@mui/icons-material';
 
 interface ModernCardProps {
@@ -8,7 +8,6 @@ interface ModernCardProps {
   children: React.ReactNode;
   action?: React.ReactNode;
   icon?: React.ReactNode;
-  color?: string;
   variant?: 'default' | 'gradient' | 'glass' | 'elevated';
   tag?: string;
   tagColor?: string;
@@ -21,130 +20,77 @@ export const ModernCard: React.FC<ModernCardProps> = ({
   subtitle,
   children,
   action,
-  icon,
-  color = '#BE5953',
-  variant = 'default',
   tag,
   tagColor,
   onClick,
   onMenuClick,
 }) => {
-  const getVariantStyles = () => {
-    switch (variant) {
-      case 'gradient':
-        return {
-          background: '#FFFFFF',
-          border: `1px solid ${color}15`,
-          borderTop: `3px solid ${color}`,
-          boxShadow: '0 2px 10px rgba(0,0,0,0.05)',
-        };
-      case 'glass':
-        return {
-          background: 'rgba(255, 255, 255, 0.92)',
-          border: '1px solid rgba(232, 224, 216, 0.8)',
-          boxShadow: '0 2px 10px rgba(0,0,0,0.05)',
-        };
-      case 'elevated':
-        return {
-          background: '#FFFFFF',
-          border: '1px solid #EDE0D8',
-          boxShadow: '0 4px 16px rgba(0,0,0,0.06)',
-        };
-      default:
-        return {
-          background: '#FFFFFF',
-          border: '1px solid #EDE0D8',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
-        };
-    }
-  };
-
   return (
     <Card
       onClick={onClick}
       sx={{
-        borderRadius: 2,
-        transition: 'box-shadow 0.2s ease, transform 0.2s ease',
+        borderRadius: '2px',
+        border: '1px solid #E2E4E7',
+        backgroundColor: '#FFFFFF',
+        boxShadow: '0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.05)',
         cursor: onClick ? 'pointer' : 'default',
         position: 'relative',
         overflow: 'hidden',
-        ...getVariantStyles(),
-        '&:hover': onClick
-          ? {
-              transform: 'translateY(-2px)',
-              boxShadow: '0 8px 24px rgba(0,0,0,0.08)',
-              borderColor: `${color}30`,
-            }
-          : {},
+        transition: 'border-color 150ms ease',
+        '&:hover': onClick ? { borderColor: '#CDD0D4' } : {},
       }}
     >
-      <CardContent sx={{ p: 2.5, '&:last-child': { pb: 2.5 } }}>
+      <CardContent sx={{ p: '16px', '&:last-child': { pb: '16px' } }}>
         {/* Header Section */}
-        {(title || action || icon || tag || onMenuClick) && (
+        {(title || action || tag || onMenuClick) && (
           <Box
             sx={{
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'flex-start',
-              mb: title || subtitle ? 2 : 0,
+              mb: title || subtitle ? '16px' : 0,
+              pb: title || subtitle ? '12px' : 0,
+              borderBottom: title || subtitle ? '1px solid #E2E4E7' : 'none',
             }}
           >
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, flex: 1 }}>
-              {icon && (
-                <Avatar
-                  sx={{
-                    width: 40,
-                    height: 40,
-                    backgroundColor: `${color}12`,
-                    color,
-                    border: `1.5px solid ${color}20`,
-                    borderRadius: 1.5,
-                  }}
-                >
-                  {icon}
-                </Avatar>
-              )}
-              <Box sx={{ flex: 1 }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: subtitle ? 0.5 : 0 }}>
-                  {title && (
-                    <Typography
-                      variant="h6"
-                      sx={{
-                        fontFamily: '"Playfair Display", "Georgia", serif',
-                        fontWeight: 700,
-                        fontSize: '1rem',
-                        color: '#2D2926',
-                        letterSpacing: '-0.01em',
-                      }}
-                    >
-                      {title}
-                    </Typography>
-                  )}
-                  {tag && (
-                    <Chip
-                      label={tag}
-                      size="small"
-                      sx={{
-                        height: 20,
-                        fontSize: '0.65rem',
-                        fontWeight: 700,
-                        letterSpacing: '0.04em',
-                        backgroundColor: tagColor ? `${tagColor}15` : `${color}12`,
-                        color: tagColor || color,
-                        border: `1px solid ${tagColor || color}25`,
-                        borderRadius: 1,
-                      }}
-                    />
-                  )}
-                </Box>
-                {subtitle && (
-                  <Typography variant="body2" sx={{ color: '#5C524D', fontSize: '0.85rem' }}>
-                    {subtitle}
+            <Box sx={{ flex: 1 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px', mb: subtitle ? '2px' : 0 }}>
+                {title && (
+                  <Typography
+                    sx={{
+                      fontFamily: '"Inter", sans-serif',
+                      fontWeight: 600,
+                      fontSize: '1rem',
+                      color: '#1D2327',
+                    }}
+                  >
+                    {title}
                   </Typography>
                 )}
+                {tag && (
+                  <Chip
+                    label={tag}
+                    size="small"
+                    sx={{
+                      height: 20,
+                      fontSize: '0.6875rem',
+                      fontWeight: 700,
+                      textTransform: 'uppercase',
+                      backgroundColor: tagColor ? `${tagColor}15` : '#F0F0F1',
+                      color: tagColor || '#50575E',
+                      border: `1px solid ${tagColor ? `${tagColor}25` : '#CDD0D4'}`,
+                      borderRadius: '2px',
+                    }}
+                  />
+                )}
               </Box>
+              {subtitle && (
+                <Typography sx={{ fontSize: '0.8125rem', color: '#787C82' }}>
+                  {subtitle}
+                </Typography>
+              )}
             </Box>
-            <Box sx={{ display: 'flex', gap: 1, flexShrink: 0 }}>
+            <Box sx={{ display: 'flex', gap: '8px', flexShrink: 0 }}>
               {action}
               {onMenuClick && (
                 <IconButton
@@ -154,11 +100,9 @@ export const ModernCard: React.FC<ModernCardProps> = ({
                     onMenuClick();
                   }}
                   sx={{
-                    color: '#B0A8A2',
-                    '&:hover': {
-                      backgroundColor: `${color}10`,
-                      color,
-                    },
+                    color: '#787C82',
+                    borderRadius: '2px',
+                    '&:hover': { backgroundColor: '#F0F0F1', color: '#1D2327' },
                   }}
                 >
                   <MoreVertIcon fontSize="small" />

@@ -65,7 +65,7 @@ const STATUS_CONFIG: Record<
   },
   sent: {
     label: 'Sent',
-    color: '#2C5530',
+    color: '#00A32A',
     bg: 'rgba(46, 125, 50, 0.08)',
     icon: <SentIcon fontSize="small" />,
   },
@@ -94,7 +94,7 @@ const TYPE_CONFIG: Record<
   },
   event: {
     label: 'Event',
-    color: '#243A7D',
+    color: '#0073AA',
     icon: <EventIcon fontSize="small" />,
   },
 };
@@ -169,7 +169,7 @@ const ScheduledNotifications: React.FC = () => {
       label: 'Sent',
       value: stats.sent,
       icon: <SendIcon />,
-      color: '#2C5530',
+      color: '#00A32A',
     },
     {
       label: 'Failed',
@@ -206,7 +206,7 @@ const ScheduledNotifications: React.FC = () => {
         }
       />
 
-      {loading && <LinearProgress sx={{ mb: 2, borderRadius: 1 }} />}
+      {loading && <LinearProgress sx={{ mb: 2, borderRadius: '2px' }} />}
 
       <SummaryStats stats={summaryStats} columns={4} />
 
@@ -237,7 +237,7 @@ const ScheduledNotifications: React.FC = () => {
           sx={{
             minWidth: 260,
             '& .MuiOutlinedInput-root': {
-              borderRadius: 2,
+              borderRadius: '2px',
               bgcolor: 'rgba(255,255,255,0.6)',
             },
           }}
@@ -314,7 +314,7 @@ const ScheduledNotifications: React.FC = () => {
             textAlign: 'center',
             py: 6,
             bgcolor: 'rgba(255,255,255,0.6)',
-            borderRadius: 3,
+            borderRadius: '2px',
             border: '1px solid rgba(0,0,0,0.06)',
           }}
         >
@@ -340,7 +340,7 @@ const ScheduledNotifications: React.FC = () => {
                 key={notification.id}
                 sx={{
                   bgcolor: 'rgba(255,255,255,0.7)',
-                  borderRadius: 3,
+                  borderRadius: '2px',
                   border: '1px solid rgba(0,0,0,0.06)',
                   transition: 'all 0.2s ease',
                   '&:hover': {
@@ -373,7 +373,7 @@ const ScheduledNotifications: React.FC = () => {
                         sx={{
                           width: 40,
                           height: 40,
-                          borderRadius: 2,
+                          borderRadius: '2px',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',

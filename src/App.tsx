@@ -11,145 +11,154 @@ const theme = createTheme({
     mode: 'light',
     primary: {
       main: '#BE5953',
-      light: '#D4817C',
-      dark: '#8E3830',
+      light: '#D48680',
+      dark: '#9A413C',
       contrastText: '#FFFFFF',
     },
     secondary: {
-      main: '#2C5530',
-      light: '#4A7A4F',
-      dark: '#1A3A1E',
+      main: '#50575E',
+      light: '#787C82',
+      dark: '#1D2327',
       contrastText: '#FFFFFF',
     },
     background: {
-      default: '#F5EDE4',
+      default: '#F0F0F1',
       paper: '#FFFFFF',
     },
     text: {
-      primary: '#2D2926',
-      secondary: '#5C524D',
-      disabled: '#B0A8A2',
+      primary: '#1D2327',
+      secondary: '#50575E',
+      disabled: '#A7AAAD',
     },
     grey: {
-      50: '#FDF8F4',
-      100: '#F5EDE4',
-      200: '#EDE0D5',
-      300: '#E0D0C4',
-      400: '#C9B8AA',
-      500: '#A89080',
-      600: '#7A6358',
-      700: '#5C4A40',
-      800: '#3D3028',
-      900: '#2D2926',
+      50: '#FAFAFA',
+      100: '#F6F7F7',
+      200: '#F0F0F1',
+      300: '#E2E4E7',
+      400: '#CDD0D4',
+      500: '#A7AAAD',
+      600: '#787C82',
+      700: '#50575E',
+      800: '#2C3338',
+      900: '#1D2327',
     },
     success: {
-      main: '#2C5530',
-      light: '#4A7A4F',
-      dark: '#1A3A1E',
+      main: '#00A32A',
+      light: '#EEF7EE',
+      dark: '#007A1F',
       contrastText: '#FFFFFF',
     },
     warning: {
-      main: '#C9A96E',
-      light: '#DFC08A',
-      dark: '#A88040',
+      main: '#DBA617',
+      light: '#FEF8EE',
+      dark: '#996800',
     },
     error: {
-      main: '#EF4444',
-      light: '#FCA5A5',
-      dark: '#DC2626',
+      main: '#D63638',
+      light: '#FCEEEE',
+      dark: '#A62527',
     },
     info: {
-      main: '#243A7D',
-      light: '#4A62B0',
-      dark: '#162558',
+      main: '#0073AA',
+      light: '#EEF5FA',
+      dark: '#005177',
     },
-    divider: '#EDE0D8',
+    divider: '#E2E4E7',
   },
   typography: {
-    fontFamily: '"Lato", "Helvetica Neue", Arial, sans-serif',
+    fontFamily: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif',
     h1: {
-      fontFamily: '"Playfair Display", "Georgia", serif',
+      fontFamily: '"Inter", sans-serif',
       fontWeight: 700,
-      letterSpacing: '-0.02em',
-      color: '#2D2926',
+      fontSize: '1.375rem',
+      lineHeight: 1.3,
+      color: '#1D2327',
     },
     h2: {
-      fontFamily: '"Playfair Display", "Georgia", serif',
+      fontFamily: '"Inter", sans-serif',
       fontWeight: 700,
-      letterSpacing: '-0.01em',
-      color: '#2D2926',
+      fontSize: '1.125rem',
+      lineHeight: 1.3,
+      color: '#1D2327',
     },
     h3: {
-      fontFamily: '"Playfair Display", "Georgia", serif',
+      fontFamily: '"Inter", sans-serif',
       fontWeight: 600,
-      color: '#2D2926',
+      fontSize: '1rem',
+      lineHeight: 1.4,
+      color: '#1D2327',
     },
     h4: {
-      fontFamily: '"Playfair Display", "Georgia", serif',
+      fontFamily: '"Inter", sans-serif',
       fontWeight: 600,
-      color: '#2D2926',
+      fontSize: '0.875rem',
+      lineHeight: 1.4,
+      color: '#1D2327',
     },
     h5: {
-      fontFamily: '"Lato", "Helvetica Neue", Arial, sans-serif',
+      fontFamily: '"Inter", sans-serif',
       fontWeight: 600,
-      color: '#2D2926',
+      fontSize: '0.875rem',
+      color: '#1D2327',
     },
     h6: {
-      fontFamily: '"Lato", "Helvetica Neue", Arial, sans-serif',
+      fontFamily: '"Inter", sans-serif',
       fontWeight: 600,
-      color: '#2D2926',
+      fontSize: '0.875rem',
+      color: '#1D2327',
     },
     body1: {
-      fontFamily: '"Lato", "Helvetica Neue", Arial, sans-serif',
-      fontSize: '1rem',
-      lineHeight: 1.65,
-    },
-    body2: {
-      fontFamily: '"Lato", "Helvetica Neue", Arial, sans-serif',
+      fontFamily: '"Inter", sans-serif',
       fontSize: '0.875rem',
       lineHeight: 1.6,
     },
+    body2: {
+      fontFamily: '"Inter", sans-serif',
+      fontSize: '0.8125rem',
+      lineHeight: 1.5,
+    },
     button: {
-      fontFamily: '"Lato", "Helvetica Neue", Arial, sans-serif',
-      fontWeight: 700,
+      fontFamily: '"Inter", sans-serif',
+      fontWeight: 600,
+      fontSize: '0.8125rem',
       textTransform: 'none',
-      letterSpacing: '0.02em',
+      letterSpacing: '0',
     },
     subtitle1: {
-      fontFamily: '"Lato", "Helvetica Neue", Arial, sans-serif',
+      fontFamily: '"Inter", sans-serif',
       fontWeight: 400,
-      fontSize: '1rem',
+      fontSize: '0.875rem',
       lineHeight: 1.6,
     },
     subtitle2: {
-      fontFamily: '"Lato", "Helvetica Neue", Arial, sans-serif',
+      fontFamily: '"Inter", sans-serif',
       fontWeight: 600,
-      fontSize: '0.875rem',
-      letterSpacing: '0.06em',
+      fontSize: '0.75rem',
+      letterSpacing: '0.02em',
       textTransform: 'uppercase',
     },
     caption: {
-      fontFamily: '"Lato", "Helvetica Neue", Arial, sans-serif',
-      fontSize: '0.75rem',
+      fontFamily: '"Inter", sans-serif',
+      fontSize: '0.6875rem',
       lineHeight: 1.4,
     },
   },
   shape: {
-    borderRadius: 6,
+    borderRadius: 0,
   },
   shadows: [
     'none',
-    '0 1px 3px rgba(0,0,0,0.05)',
-    '0 2px 6px rgba(0,0,0,0.07)',
-    '0 4px 12px rgba(0,0,0,0.07)',
-    '0 6px 18px rgba(0,0,0,0.08)',
-    '0 8px 24px rgba(0,0,0,0.09)',
-    '0 12px 32px rgba(0,0,0,0.10)',
-    '0 16px 40px rgba(0,0,0,0.11)',
-    '0 20px 48px rgba(0,0,0,0.12)',
-    '0 24px 56px rgba(0,0,0,0.12)',
-    '0 28px 64px rgba(0,0,0,0.12)',
-    '0 32px 72px rgba(0,0,0,0.12)',
+    '0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.05)',
+    '0 2px 8px rgba(0,0,0,0.08)',
+    '0 4px 12px rgba(0,0,0,0.08)',
+    '0 4px 16px rgba(0,0,0,0.12)',
+    '0 8px 24px rgba(0,0,0,0.15), 0 2px 8px rgba(0,0,0,0.08)',
+    '0 8px 24px rgba(0,0,0,0.15)',
+    '0 12px 32px rgba(0,0,0,0.15)',
+    '0 16px 40px rgba(0,0,0,0.15)',
+    '0 20px 48px rgba(0,0,0,0.15)',
+    '0 24px 56px rgba(0,0,0,0.15)',
+    '0 28px 64px rgba(0,0,0,0.15)',
     'none',
     'none',
     'none',
@@ -179,19 +188,19 @@ const theme = createTheme({
       styleOverrides: {
         html: {
           scrollbarWidth: 'thin',
-          scrollbarColor: '#D4C8C0 transparent',
+          scrollbarColor: '#CDD0D4 transparent',
         },
         body: {
-          fontFamily: '"Lato", "Helvetica Neue", Arial, sans-serif',
+          fontFamily: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
           '&::-webkit-scrollbar': { width: '6px', height: '6px' },
           '&::-webkit-scrollbar-track': { background: 'transparent' },
-          '&::-webkit-scrollbar-thumb': { background: '#D4C8C0', borderRadius: '3px', '&:hover': { background: '#B0A8A2' } },
+          '&::-webkit-scrollbar-thumb': { background: '#CDD0D4', borderRadius: '0', '&:hover': { background: '#A7AAAD' } },
         },
         '*': {
           scrollbarWidth: 'thin',
-          scrollbarColor: '#D4C8C0 transparent',
+          scrollbarColor: '#CDD0D4 transparent',
           '&::-webkit-scrollbar': { width: '6px', height: '6px' },
-          '&::-webkit-scrollbar-thumb': { background: '#D4C8C0', borderRadius: '3px' },
+          '&::-webkit-scrollbar-thumb': { background: '#CDD0D4', borderRadius: '0' },
         },
       },
     },
@@ -209,7 +218,16 @@ const theme = createTheme({
     MuiMenu: {
       styleOverrides: {
         root: { zIndex: 1400 },
-        paper: { zIndex: 1400 },
+        paper: {
+          zIndex: 1400,
+          borderRadius: '2px',
+          border: '1px solid #E2E4E7',
+          boxShadow: '0 4px 16px rgba(0,0,0,0.12)',
+          '& .MuiMenuItem-root': {
+            fontSize: '0.875rem',
+            '&:hover': { backgroundColor: '#F6F7F7' },
+          },
+        },
       },
     },
     MuiPopover: {
@@ -231,83 +249,110 @@ const theme = createTheme({
     MuiAppBar: {
       styleOverrides: {
         root: {
-          backgroundColor: '#FFFFFF',
+          backgroundColor: '#1D2327',
           backgroundImage: 'none',
-          boxShadow: '0 1px 4px rgba(0,0,0,0.05)',
-          borderBottom: '1px solid rgba(190,89,83,0.1)',
-          color: '#2D2926',
+          boxShadow: 'none',
+          borderBottom: 'none',
+          color: '#FFFFFF',
+          height: '46px',
         },
       },
     },
     MuiDrawer: {
       styleOverrides: {
         paper: {
-          backgroundColor: '#FFFFFF',
-          borderRight: '1px solid rgba(190,89,83,0.08)',
-          boxShadow: '2px 0 12px rgba(0,0,0,0.04)',
+          backgroundColor: '#1D2327',
+          borderRight: 'none',
+          boxShadow: 'none',
         },
       },
     },
     MuiCard: {
       styleOverrides: {
         root: {
-          borderRadius: 10,
-          boxShadow: '0 1px 6px rgba(0,0,0,0.04)',
-          border: '1px solid #EDE0D8',
+          borderRadius: '2px',
+          boxShadow: '0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.05)',
+          border: '1px solid #E2E4E7',
           backgroundColor: '#FFFFFF',
           overflow: 'hidden',
           position: 'relative',
+          transition: 'border-color 150ms ease',
+          '&:hover': {
+            borderColor: '#CDD0D4',
+          },
         },
       },
     },
     MuiButton: {
       styleOverrides: {
         root: {
-          borderRadius: 6,
-          fontWeight: 700,
-          fontSize: '0.875rem',
-          padding: '9px 22px',
+          borderRadius: '2px',
+          fontWeight: 600,
+          fontSize: '0.8125rem',
+          padding: '0 14px',
+          height: '32px',
+          minHeight: '32px',
           boxShadow: 'none',
           '&:hover': { boxShadow: 'none' },
-          transition: 'all 0.15s ease',
+          transition: 'background-color 100ms ease, border-color 100ms ease, color 100ms ease',
         },
         contained: {
           backgroundColor: '#BE5953',
-          '&:hover': { backgroundColor: '#8E3830' },
+          color: '#FFFFFF',
+          '&:hover': { backgroundColor: '#9A413C' },
+          '&:active': { backgroundColor: '#7E3330' },
         },
         outlined: {
-          borderWidth: '1.5px',
-          borderColor: '#BE5953',
-          color: '#BE5953',
+          borderWidth: '1px',
+          borderColor: '#CDD0D4',
+          color: '#1D2327',
+          backgroundColor: 'transparent',
           '&:hover': {
-            borderWidth: '1.5px',
-            backgroundColor: 'rgba(190,89,83,0.06)',
-            borderColor: '#8E3830',
-            color: '#8E3830',
+            borderWidth: '1px',
+            backgroundColor: '#F6F7F7',
+            borderColor: '#A7AAAD',
           },
         },
         text: {
-          color: '#BE5953',
-          '&:hover': { backgroundColor: 'rgba(190,89,83,0.06)' },
+          color: '#0073AA',
+          '&:hover': { backgroundColor: '#F6F7F7', textDecoration: 'underline' },
+        },
+        containedError: {
+          backgroundColor: '#D63638',
+          '&:hover': { backgroundColor: '#A62527' },
         },
       },
       defaultProps: { disableElevation: true },
     },
+    MuiIconButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: '2px',
+          color: '#787C82',
+          '&:hover': {
+            color: '#1D2327',
+            backgroundColor: '#F0F0F1',
+          },
+        },
+      },
+    },
     MuiChip: {
       styleOverrides: {
         root: {
-          borderRadius: 5,
-          fontWeight: 600,
-          fontSize: '0.8rem',
-          height: '26px',
+          borderRadius: '2px',
+          fontWeight: 700,
+          fontSize: '0.6875rem',
+          height: '22px',
+          textTransform: 'uppercase',
+          letterSpacing: '0.02em',
         },
         filled: {
-          backgroundColor: 'rgba(190,89,83,0.09)',
-          color: '#8E3830',
-          border: '1px solid rgba(190,89,83,0.15)',
+          backgroundColor: '#F0F0F1',
+          color: '#50575E',
+          border: '1px solid #CDD0D4',
         },
         outlined: {
-          borderWidth: '1.5px',
+          borderWidth: '1px',
         },
       },
     },
@@ -318,49 +363,54 @@ const theme = createTheme({
           backgroundColor: '#FFFFFF',
         },
         elevation1: {
-          boxShadow: '0 1px 6px rgba(0,0,0,0.05)',
-          border: '1px solid #EDE0D8',
+          boxShadow: '0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.05)',
+          border: '1px solid #E2E4E7',
         },
         elevation2: {
-          boxShadow: '0 4px 14px rgba(0,0,0,0.07)',
-          border: '1px solid #EDE0D8',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+          border: '1px solid #E2E4E7',
         },
         elevation3: {
-          boxShadow: '0 8px 24px rgba(0,0,0,0.09)',
-          border: '1px solid rgba(190,89,83,0.1)',
+          boxShadow: '0 8px 24px rgba(0,0,0,0.15), 0 2px 8px rgba(0,0,0,0.08)',
+          border: 'none',
         },
-        rounded: { borderRadius: 10 },
+        rounded: { borderRadius: '2px' },
       },
     },
     MuiListItemButton: {
       styleOverrides: {
         root: {
-          borderRadius: 6,
-          transition: 'background-color 0.15s ease',
+          borderRadius: '0',
+          transition: 'background-color 100ms ease',
           '&.Mui-selected': {
-            backgroundColor: 'rgba(190,89,83,0.08)',
-            '&:hover': { backgroundColor: 'rgba(190,89,83,0.12)' },
+            backgroundColor: '#BE5953',
+            color: '#FFFFFF',
+            '& .MuiListItemIcon-root': { color: '#FFFFFF' },
+            '& .MuiListItemText-primary': { color: '#FFFFFF' },
+            '&:hover': { backgroundColor: '#9A413C' },
           },
-          '&:hover': { backgroundColor: 'rgba(190,89,83,0.05)' },
+          '&:hover': { backgroundColor: 'rgba(255,255,255,0.07)' },
         },
       },
     },
     MuiDialogTitle: {
       styleOverrides: {
         root: {
-          fontFamily: '"Playfair Display", "Georgia", serif',
+          fontFamily: '"Inter", sans-serif',
           fontWeight: 700,
-          fontSize: '1.05rem',
-          color: '#2D2926',
-          letterSpacing: '-0.01em',
-          padding: '20px 24px 10px',
+          fontSize: '1.125rem',
+          color: '#FFFFFF',
+          backgroundColor: '#1D2327',
+          padding: '16px 24px',
+          letterSpacing: '0',
         },
       },
     },
     MuiDialogContent: {
       styleOverrides: {
         root: {
-          padding: '12px 24px',
+          padding: '24px',
+          backgroundColor: '#FFFFFF',
           '& .MuiTextField-root': { marginBottom: 0 },
         },
       },
@@ -368,8 +418,11 @@ const theme = createTheme({
     MuiDialogActions: {
       styleOverrides: {
         root: {
-          padding: '12px 24px 20px',
+          padding: '12px 24px',
           gap: 8,
+          backgroundColor: '#F6F7F7',
+          borderTop: '1px solid #E2E4E7',
+          justifyContent: 'flex-end',
         },
       },
     },
@@ -377,9 +430,9 @@ const theme = createTheme({
       styleOverrides: {
         root: { zIndex: 1300 },
         paper: {
-          borderRadius: 10,
-          boxShadow: '0 20px 60px rgba(0,0,0,0.15)',
-          border: '1px solid #EDE0D8',
+          borderRadius: '2px',
+          boxShadow: '0 8px 24px rgba(0,0,0,0.18)',
+          border: 'none',
           background: '#FFFFFF',
         },
       },
@@ -388,22 +441,42 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           '& .MuiOutlinedInput-root': {
-            borderRadius: 6,
+            borderRadius: '2px',
             backgroundColor: '#FFFFFF',
+            fontSize: '0.875rem',
+            height: '36px',
             '& fieldset': {
-              borderColor: '#E0D4CC',
-              borderWidth: '1.5px',
+              borderColor: '#CDD0D4',
+              borderWidth: '1px',
             },
             '&:hover fieldset': {
-              borderColor: 'rgba(190,89,83,0.4)',
+              borderColor: '#A7AAAD',
             },
             '&.Mui-focused fieldset': {
               borderColor: '#BE5953',
-              borderWidth: '2px',
+              borderWidth: '1px',
+              boxShadow: '0 0 0 2px rgba(190,89,83,0.15)',
+            },
+            '&.MuiInputBase-multiline': {
+              height: 'auto',
+              minHeight: '100px',
             },
           },
-          '& .MuiInputLabel-root.Mui-focused': {
-            color: '#BE5953',
+          '& .MuiInputLabel-root': {
+            fontSize: '0.75rem',
+            fontWeight: 600,
+            color: '#1D2327',
+            transform: 'none',
+            position: 'static',
+            '&.Mui-focused': {
+              color: '#1D2327',
+            },
+          },
+          '& .MuiFormHelperText-root': {
+            fontSize: '0.75rem',
+            color: '#787C82',
+            marginTop: '4px',
+            '&.Mui-error': { color: '#D63638' },
           },
         },
       },
@@ -411,7 +484,8 @@ const theme = createTheme({
     MuiSelect: {
       styleOverrides: {
         outlined: {
-          borderRadius: 6,
+          borderRadius: '2px',
+          fontSize: '0.875rem',
         },
       },
       defaultProps: {
@@ -421,33 +495,33 @@ const theme = createTheme({
     MuiLinearProgress: {
       styleOverrides: {
         root: {
-          borderRadius: 3,
-          backgroundColor: 'rgba(190,89,83,0.1)',
-          height: 4,
+          borderRadius: '0',
+          backgroundColor: '#E2E4E7',
+          height: 3,
         },
-        bar: { borderRadius: 3 },
+        bar: { borderRadius: '0' },
       },
     },
     MuiBackdrop: {
       styleOverrides: {
         root: {
-          backgroundColor: 'rgba(45,41,38,0.45)',
-          backdropFilter: 'blur(4px)',
-          WebkitBackdropFilter: 'blur(4px)',
+          backgroundColor: 'rgba(0,0,0,0.5)',
+          backdropFilter: 'none',
+          WebkitBackdropFilter: 'none',
         },
       },
     },
     MuiTableHead: {
       styleOverrides: {
         root: {
-          backgroundColor: '#FDFAF8',
+          backgroundColor: '#F6F7F7',
           '& .MuiTableCell-root': {
             fontWeight: 700,
-            color: '#A89080',
-            fontSize: '0.66rem',
+            color: '#50575E',
+            fontSize: '0.75rem',
             textTransform: 'uppercase',
-            letterSpacing: '0.1em',
-            borderBottom: '1px solid #EDE0D8',
+            letterSpacing: '0.04em',
+            borderBottom: '1px solid #CDD0D4',
             paddingTop: 10,
             paddingBottom: 10,
           },
@@ -457,19 +531,23 @@ const theme = createTheme({
     MuiTableCell: {
       styleOverrides: {
         root: {
-          borderBottom: '1px solid #F5EDE4',
-          color: '#2D2926',
+          borderBottom: '1px solid #F0F0F1',
+          color: '#1D2327',
           fontSize: '0.875rem',
-          padding: '12px 16px',
+          padding: '0 16px',
+          height: '44px',
         },
       },
     },
     MuiTableRow: {
       styleOverrides: {
         root: {
-          transition: 'background-color 0.1s ease',
+          transition: 'background-color 150ms ease',
           '&:hover': {
-            backgroundColor: '#FDFAF8',
+            backgroundColor: '#F6F7F7',
+          },
+          '&.Mui-selected': {
+            backgroundColor: '#F0F6FC',
           },
           '&:last-child td': {
             borderBottom: 'none',
@@ -480,30 +558,56 @@ const theme = createTheme({
     MuiTab: {
       styleOverrides: {
         root: {
-          fontFamily: '"Lato", "Helvetica Neue", Arial, sans-serif',
+          fontFamily: '"Inter", sans-serif',
           fontWeight: 600,
           textTransform: 'none',
-          letterSpacing: '0.02em',
-          fontSize: '0.875rem',
-          minHeight: 44,
+          letterSpacing: '0',
+          fontSize: '0.8125rem',
+          minHeight: 40,
+          color: '#50575E',
+          '&.Mui-selected': {
+            color: '#BE5953',
+          },
         },
       },
     },
     MuiTabs: {
       styleOverrides: {
+        root: {
+          backgroundColor: '#F6F7F7',
+          borderBottom: '1px solid #E2E4E7',
+          minHeight: 40,
+        },
         indicator: {
           backgroundColor: '#BE5953',
           height: 2,
-          borderRadius: 1,
+          borderRadius: '0',
         },
       },
     },
     MuiSwitch: {
       styleOverrides: {
-        switchBase: {
-          '&.Mui-checked': {
-            color: '#BE5953',
-            '& + .MuiSwitch-track': { backgroundColor: '#BE5953' },
+        root: {
+          width: 36,
+          height: 20,
+          padding: 0,
+          '& .MuiSwitch-switchBase': {
+            padding: 2,
+            '&.Mui-checked': {
+              transform: 'translateX(16px)',
+              color: '#FFFFFF',
+              '& + .MuiSwitch-track': { backgroundColor: '#BE5953', opacity: 1 },
+            },
+          },
+          '& .MuiSwitch-thumb': {
+            width: 16,
+            height: 16,
+            borderRadius: '2px',
+          },
+          '& .MuiSwitch-track': {
+            borderRadius: '2px',
+            backgroundColor: '#CDD0D4',
+            opacity: 1,
           },
         },
       },
@@ -512,7 +616,23 @@ const theme = createTheme({
       styleOverrides: {
         label: {
           fontSize: '0.875rem',
-          color: '#2D2926',
+          color: '#1D2327',
+        },
+      },
+    },
+    MuiCheckbox: {
+      styleOverrides: {
+        root: {
+          borderRadius: '0',
+          color: '#CDD0D4',
+          '&.Mui-checked': { color: '#BE5953' },
+        },
+      },
+    },
+    MuiDivider: {
+      styleOverrides: {
+        root: {
+          borderColor: '#E2E4E7',
         },
       },
     },

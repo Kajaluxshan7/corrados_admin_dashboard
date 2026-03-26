@@ -72,7 +72,7 @@ export const Toast: React.FC<ToastProps> = ({
         sx={{
           minWidth: 300,
           maxWidth: 500,
-          borderRadius: 2,
+          borderRadius: '2px',
           fontWeight: 500,
           boxShadow: '0 8px 32px rgba(0, 0, 0, 0.15)',
           '& .MuiAlert-message': {

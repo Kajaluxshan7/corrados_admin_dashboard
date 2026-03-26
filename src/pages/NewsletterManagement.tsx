@@ -97,9 +97,9 @@ const thSx = {
   fontWeight: 700,
   letterSpacing: '0.06em',
   textTransform: 'uppercase' as const,
-  color: '#9B8B80',
-  bgcolor: '#FDFAF8',
-  borderBottom: '2px solid #E8E0D8',
+  color: '#787C82',
+  bgcolor: '#F6F7F7',
+  borderBottom: '2px solid #E2E4E7',
   py: 1.25,
   px: 2,
   whiteSpace: 'nowrap' as const,
@@ -107,8 +107,8 @@ const thSx = {
 
 const tdSx = {
   fontSize: '0.82rem',
-  color: '#1C1917',
-  borderBottom: '1px solid #F0EBE4',
+  color: '#1D2327',
+  borderBottom: '1px solid #F0F0F1',
   py: 1.25,
   px: 2,
 };
@@ -358,7 +358,7 @@ td{padding:6px 8px;vertical-align:middle;border-bottom:1px solid #f0e8df}td.num{
 td.email{font-weight:600;color:#111;word-break:break-all;max-width:180px}td.mono{font-family:'Courier New',monospace;font-weight:700;color:#1565c0;font-size:9px;letter-spacing:1px}
 .badge{display:inline-block;padding:2px 6px;border-radius:8px;font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:0.3px;white-space:nowrap}
 .badge.active{background:#e8f5e9;color:#2e7d32}.badge.inactive{background:#fff3e0;color:#bf360c}
-.badge.sent{background:#e3f2fd;color:#1565c0}.badge.claimed{background:#e8f5e9;color:#2e7d32}.badge.pending{background:#F5EDE4;color:#757575}
+.badge.sent{background:#e3f2fd;color:#1565c0}.badge.claimed{background:#e8f5e9;color:#2e7d32}.badge.pending{background:#F0F0F1;color:#757575}
 @media print{body{padding:96px 0 48px 0}}
 </style></head><body>
 <div class="page-header"><div class="header-inner">
@@ -401,10 +401,10 @@ td.email{font-weight:600;color:#111;word-break:break-all;max-width:180px}td.mono
 
   const statCards = [
     { label: 'Total Subscribers', value: stats.total, color: '#BE5953', icon: <GroupIcon sx={{ fontSize: 18 }} /> },
-    { label: 'Active', value: stats.active, color: '#2C5530', icon: <CheckCircleIcon sx={{ fontSize: 18 }} /> },
+    { label: 'Active', value: stats.active, color: '#00A32A', icon: <CheckCircleIcon sx={{ fontSize: 18 }} /> },
     { label: 'Unsubscribed', value: stats.unsubscribed, color: '#757575', icon: <CancelIcon sx={{ fontSize: 18 }} /> },
-    { label: 'Promo Sent', value: stats.promoSent, color: '#243A7D', icon: <SentPromoIcon sx={{ fontSize: 18 }} /> },
-    { label: 'Pending Promo', value: stats.promoPending, color: '#C9A96E', icon: <PendingPromoIcon sx={{ fontSize: 18 }} /> },
+    { label: 'Promo Sent', value: stats.promoSent, color: '#0073AA', icon: <SentPromoIcon sx={{ fontSize: 18 }} /> },
+    { label: 'Pending Promo', value: stats.promoPending, color: '#DBA617', icon: <PendingPromoIcon sx={{ fontSize: 18 }} /> },
   ];
 
   // ─── Render ───────────────────────────────────────────────────────────────
@@ -423,7 +423,7 @@ td.email{font-weight:600;color:#111;word-break:break-all;max-width:180px}td.mono
                 size="small"
                 startIcon={<PrintIcon sx={{ fontSize: '15px !important' }} />}
                 onClick={handlePrintSelected}
-                sx={{ bgcolor: '#1D1917', '&:hover': { bgcolor: '#BE5953' }, borderRadius: '5px', textTransform: 'none', fontWeight: 600, fontSize: '0.8rem', boxShadow: 'none' }}
+                sx={{ bgcolor: '#1D2327', '&:hover': { bgcolor: '#BE5953' }, borderRadius: '2px', textTransform: 'none', fontWeight: 600, fontSize: '0.8rem', boxShadow: 'none' }}
               >
                 Print ({selectedSubscribers.size})
               </Button>
@@ -434,12 +434,12 @@ td.email{font-weight:600;color:#111;word-break:break-all;max-width:180px}td.mono
               startIcon={<CopyIcon sx={{ fontSize: '15px !important' }} />}
               onClick={handleCopyEmails}
               disabled={stats.active === 0}
-              sx={{ borderColor: '#E8E0D8', color: '#6B5C52', '&:hover': { borderColor: '#BE5953', color: '#BE5953', bgcolor: 'rgba(190,89,83,0.04)' }, borderRadius: '5px', textTransform: 'none', fontWeight: 600, fontSize: '0.8rem' }}
+              sx={{ borderColor: '#E2E4E7', color: '#50575E', '&:hover': { borderColor: '#BE5953', color: '#BE5953', bgcolor: 'rgba(0,0,0,0.03)' }, borderRadius: '2px', textTransform: 'none', fontWeight: 600, fontSize: '0.8rem' }}
             >
               Copy Emails
             </Button>
             <Tooltip title="Refresh">
-              <IconButton onClick={fetchAll} size="small" sx={{ border: '1px solid #E8E0D8', borderRadius: '5px', color: '#9B8B80', '&:hover': { color: '#BE5953', borderColor: '#BE5953' } }}>
+              <IconButton onClick={fetchAll} size="small" sx={{ border: '1px solid #E2E4E7', borderRadius: '2px', color: '#787C82', '&:hover': { color: '#BE5953', borderColor: '#BE5953' } }}>
                 <RefreshIcon sx={{ fontSize: 17 }} />
               </IconButton>
             </Tooltip>
@@ -450,19 +450,19 @@ td.email{font-weight:600;color:#111;word-break:break-all;max-width:180px}td.mono
       {/* Stat cards */}
       <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 2, mb: 3 }}>
         {statCards.map((s) => (
-          <Box key={s.label} sx={{ bgcolor: '#FFFFFF', border: '1px solid #E8E0D8', borderLeft: `4px solid ${s.color}`, borderRadius: '6px', p: 2 }}>
+          <Box key={s.label} sx={{ bgcolor: '#FFFFFF', border: '1px solid #E2E4E7', borderLeft: `4px solid ${s.color}`, borderRadius: '2px', p: 2 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 0.5 }}>
-              <Typography sx={{ fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#9B8B80' }}>{s.label}</Typography>
+              <Typography sx={{ fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#787C82' }}>{s.label}</Typography>
               <Box sx={{ color: s.color, opacity: 0.7 }}>{s.icon}</Box>
             </Box>
-            <Typography sx={{ fontSize: '1.625rem', fontWeight: 800, color: '#1C1917', letterSpacing: '-0.03em', lineHeight: 1 }}>{s.value}</Typography>
+            <Typography sx={{ fontSize: '1.625rem', fontWeight: 800, color: '#1D2327', letterSpacing: '-0.03em', lineHeight: 1 }}>{s.value}</Typography>
           </Box>
         ))}
       </Box>
 
       {/* Social footer info */}
-      <Box sx={{ bgcolor: '#FFFFFF', border: '1px solid #E8E0D8', borderRadius: '6px', px: 2.5, py: 1.5, mb: 2.5, display: 'flex', alignItems: 'center', gap: 1.5 }}>
-        <Typography sx={{ fontSize: '0.75rem', fontWeight: 600, color: '#9B8B80', mr: 0.5 }}>Email footer links:</Typography>
+      <Box sx={{ bgcolor: '#FFFFFF', border: '1px solid #E2E4E7', borderRadius: '2px', px: 2.5, py: 1.5, mb: 2.5, display: 'flex', alignItems: 'center', gap: 1.5 }}>
+        <Typography sx={{ fontSize: '0.75rem', fontWeight: 600, color: '#787C82', mr: 0.5 }}>Email footer links:</Typography>
         {[
           { href: 'https://www.facebook.com/corradosrestaurant', bg: '#1877F2', icon: <FaFacebookF size={12} />, title: 'Facebook' },
           { href: 'https://www.instagram.com/corradosrestaurantngrill/', bg: '#E1306C', icon: <FaInstagram size={13} />, title: 'Instagram' },
@@ -470,18 +470,18 @@ td.email{font-weight:600;color:#111;word-break:break-all;max-width:180px}td.mono
         ].map(({ href, bg, icon, title }) => (
           <Tooltip key={title} title={title}>
             <Box component="a" href={href} target="_blank" rel="noopener noreferrer"
-              sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 26, height: 26, borderRadius: '5px', bgcolor: bg, color: '#fff', textDecoration: 'none', '&:hover': { opacity: 0.8 } }}>
+              sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 26, height: 26, borderRadius: '2px', bgcolor: bg, color: '#fff', textDecoration: 'none', '&:hover': { opacity: 0.8 } }}>
               {icon}
             </Box>
           </Tooltip>
         ))}
-        <Typography sx={{ fontSize: '0.72rem', color: '#9B8B80', ml: 0.5 }}>These links appear in every newsletter email sent to subscribers.</Typography>
+        <Typography sx={{ fontSize: '0.72rem', color: '#787C82', ml: 0.5 }}>These links appear in every newsletter email sent to subscribers.</Typography>
       </Box>
 
       {/* Table panel */}
-      <Box sx={{ bgcolor: '#FFFFFF', border: '1px solid #E8E0D8', borderRadius: '6px', overflow: 'hidden' }}>
+      <Box sx={{ bgcolor: '#FFFFFF', border: '1px solid #E2E4E7', borderRadius: '2px', overflow: 'hidden' }}>
         {/* Toolbar */}
-        <Box sx={{ px: 2.5, py: 2, borderBottom: '1px solid #F0EBE4', display: 'flex', alignItems: 'center', gap: 1.5, flexWrap: 'wrap', bgcolor: '#FDFAF8' }}>
+        <Box sx={{ px: 2.5, py: 2, borderBottom: '1px solid #F0F0F1', display: 'flex', alignItems: 'center', gap: 1.5, flexWrap: 'wrap', bgcolor: '#F6F7F7' }}>
           <FormControlLabel
             control={
               <Checkbox
@@ -493,7 +493,7 @@ td.email{font-weight:600;color:#111;word-break:break-all;max-width:180px}td.mono
                 sx={{ color: 'rgba(190,89,83,0.4)', '&.Mui-checked, &.MuiCheckbox-indeterminate': { color: '#BE5953' }, p: 0.5 }}
               />
             }
-            label={<Typography sx={{ fontSize: '0.75rem', color: '#9B8B80', fontWeight: 600 }}>{selectedSubscribers.size > 0 ? `${selectedSubscribers.size} selected` : 'Select page'}</Typography>}
+            label={<Typography sx={{ fontSize: '0.75rem', color: '#787C82', fontWeight: 600 }}>{selectedSubscribers.size > 0 ? `${selectedSubscribers.size} selected` : 'Select page'}</Typography>}
             sx={{ m: 0 }}
           />
           <TextField
@@ -501,8 +501,8 @@ td.email{font-weight:600;color:#111;word-break:break-all;max-width:180px}td.mono
             placeholder="Search by email..."
             value={searchTerm}
             onChange={(e) => handleSearchChange(e.target.value)}
-            slotProps={{ input: { startAdornment: <InputAdornment position="start"><SearchIcon sx={{ fontSize: 16, color: '#9B8B80' }} /></InputAdornment> } }}
-            sx={{ width: 240, '& .MuiOutlinedInput-root': { bgcolor: '#FFFFFF', borderRadius: '5px', fontSize: '0.82rem', '& fieldset': { borderColor: '#E8E0D8' }, '&:hover fieldset': { borderColor: '#BE5953' }, '&.Mui-focused fieldset': { borderColor: '#BE5953' } } }}
+            slotProps={{ input: { startAdornment: <InputAdornment position="start"><SearchIcon sx={{ fontSize: 16, color: '#787C82' }} /></InputAdornment> } }}
+            sx={{ width: 240, '& .MuiOutlinedInput-root': { bgcolor: '#FFFFFF', borderRadius: '2px', fontSize: '0.82rem', '& fieldset': { borderColor: '#E2E4E7' }, '&:hover fieldset': { borderColor: '#BE5953' }, '&.Mui-focused fieldset': { borderColor: '#BE5953' } } }}
           />
           <Box sx={{ display: 'flex', gap: 0.75, flexWrap: 'wrap' }}>
             {filterOptions.map(({ value, label, count }) => (
@@ -511,11 +511,11 @@ td.email{font-weight:600;color:#111;word-break:break-all;max-width:180px}td.mono
                 onClick={() => handleFilterChange(value)}
                 sx={{
                   display: 'inline-flex', alignItems: 'center', gap: 0.5,
-                  px: 1.5, py: 0.5, borderRadius: '4px', cursor: 'pointer', fontSize: '0.75rem', fontWeight: 600,
+                  px: 1.5, py: 0.5, borderRadius: '2px', cursor: 'pointer', fontSize: '0.75rem', fontWeight: 600,
                   border: '1px solid',
                   ...(filterStatus === value
-                    ? { bgcolor: '#1D1917', color: '#FFFFFF', borderColor: '#1D1917' }
-                    : { bgcolor: 'transparent', color: '#6B5C52', borderColor: '#E8E0D8', '&:hover': { borderColor: '#BE5953', color: '#BE5953' } }),
+                    ? { bgcolor: '#1D2327', color: '#FFFFFF', borderColor: '#1D2327' }
+                    : { bgcolor: 'transparent', color: '#50575E', borderColor: '#E2E4E7', '&:hover': { borderColor: '#BE5953', color: '#BE5953' } }),
                 }}
               >
                 {label}
@@ -525,7 +525,7 @@ td.email{font-weight:600;color:#111;word-break:break-all;max-width:180px}td.mono
               </Box>
             ))}
           </Box>
-          <Typography sx={{ fontSize: '0.78rem', color: '#9B8B80', ml: 'auto' }}>
+          <Typography sx={{ fontSize: '0.78rem', color: '#787C82', ml: 'auto' }}>
             {total > 0 ? `${total} subscriber${total !== 1 ? 's' : ''}` : 'No results'}
           </Typography>
         </Box>
@@ -549,13 +549,13 @@ td.email{font-weight:600;color:#111;word-break:break-all;max-width:180px}td.mono
               {!loading && subscribers.length === 0 ? (
                 <TableRow>
                   <TableCell colSpan={7} sx={{ py: 6, textAlign: 'center', border: 0 }}>
-                    <Box sx={{ width: 48, height: 48, borderRadius: '6px', bgcolor: 'rgba(190,89,83,0.08)', border: '1px solid rgba(190,89,83,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', mx: 'auto', mb: 1.5 }}>
+                    <Box sx={{ width: 48, height: 48, borderRadius: '2px', bgcolor: 'rgba(190,89,83,0.08)', border: '1px solid rgba(190,89,83,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', mx: 'auto', mb: 1.5 }}>
                       <EmailIcon sx={{ fontSize: 22, color: '#BE5953' }} />
                     </Box>
-                    <Typography sx={{ fontWeight: 600, fontSize: '0.9rem', color: '#1C1917', mb: 0.5 }}>
+                    <Typography sx={{ fontWeight: 600, fontSize: '0.9rem', color: '#1D2327', mb: 0.5 }}>
                       {debouncedSearch || filterStatus !== 'all' ? 'No matching subscribers' : 'No subscribers yet'}
                     </Typography>
-                    <Typography sx={{ fontSize: '0.8rem', color: '#9B8B80' }}>
+                    <Typography sx={{ fontSize: '0.8rem', color: '#787C82' }}>
                       {debouncedSearch || filterStatus !== 'all' ? 'Try adjusting your search or filter' : 'Subscribers will appear here when users sign up via the website'}
                     </Typography>
                   </TableCell>
@@ -568,20 +568,20 @@ td.email{font-weight:600;color:#111;word-break:break-all;max-width:180px}td.mono
 
                   let promoChip = null;
                   if (subscriber.promoClaimed) {
-                    promoChip = { label: 'Claimed', color: '#2C5530', bg: 'rgba(44,85,48,0.08)', border: 'rgba(44,85,48,0.2)' };
+                    promoChip = { label: 'Claimed', color: '#00A32A', bg: 'rgba(0,163,42,0.08)', border: 'rgba(0,163,42,0.2)' };
                   } else if (subscriber.promoCodeSent) {
-                    promoChip = { label: 'Sent', color: '#243A7D', bg: 'rgba(36,58,125,0.08)', border: 'rgba(36,58,125,0.2)' };
+                    promoChip = { label: 'Sent', color: '#0073AA', bg: 'rgba(0,115,170,0.08)', border: 'rgba(0,115,170,0.2)' };
                   } else if (subscriber.isActive) {
-                    promoChip = { label: 'Pending', color: '#C9A96E', bg: 'rgba(201,169,110,0.1)', border: 'rgba(201,169,110,0.25)' };
+                    promoChip = { label: 'Pending', color: '#DBA617', bg: 'rgba(219,166,23,0.1)', border: 'rgba(219,166,23,0.25)' };
                   }
 
                   return (
                     <TableRow
                       key={subscriber.id}
                       sx={{
-                        bgcolor: isSelected ? 'rgba(190,89,83,0.04)' : '#FFFFFF',
+                        bgcolor: isSelected ? 'rgba(0,0,0,0.03)' : '#FFFFFF',
                         opacity: subscriber.isActive ? 1 : 0.65,
-                        '&:hover': { bgcolor: isSelected ? 'rgba(190,89,83,0.06)' : '#FDFAF8' },
+                        '&:hover': { bgcolor: isSelected ? 'rgba(0,0,0,0.04)' : '#F6F7F7' },
                       }}
                     >
                       <TableCell sx={{ ...tdSx, width: 40 }} padding="checkbox">
@@ -594,17 +594,17 @@ td.email{font-weight:600;color:#111;word-break:break-all;max-width:180px}td.mono
                       </TableCell>
                       <TableCell sx={tdSx}>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25 }}>
-                          <Box sx={{ width: 32, height: 32, borderRadius: '50%', bgcolor: subscriber.isActive ? 'rgba(44,85,48,0.1)' : 'rgba(117,117,117,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                          <Box sx={{ width: 32, height: 32, borderRadius: '50%', bgcolor: subscriber.isActive ? 'rgba(0,163,42,0.1)' : 'rgba(117,117,117,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                             {subscriber.isActive
-                              ? <EmailIcon sx={{ fontSize: 15, color: '#2C5530' }} />
+                              ? <EmailIcon sx={{ fontSize: 15, color: '#00A32A' }} />
                               : <UnsubscribedIcon sx={{ fontSize: 15, color: '#757575' }} />}
                           </Box>
                           <Box>
-                            <Typography sx={{ fontSize: '0.82rem', fontWeight: 600, color: '#1C1917' }}>{subscriber.email}</Typography>
+                            <Typography sx={{ fontSize: '0.82rem', fontWeight: 600, color: '#1D2327' }}>{subscriber.email}</Typography>
                             {subscriber.promoCodeSent && subscriber.promoCode && (
                               <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mt: 0.25 }}>
-                                <PromoIcon sx={{ fontSize: 11, color: '#243A7D' }} />
-                                <Typography sx={{ fontSize: '0.7rem', color: '#243A7D', fontFamily: 'monospace', fontWeight: 700 }}>{subscriber.promoCode}</Typography>
+                                <PromoIcon sx={{ fontSize: 11, color: '#0073AA' }} />
+                                <Typography sx={{ fontSize: '0.7rem', color: '#0073AA', fontFamily: 'monospace', fontWeight: 700 }}>{subscriber.promoCode}</Typography>
                               </Box>
                             )}
                           </Box>
@@ -613,10 +613,10 @@ td.email{font-weight:600;color:#111;word-break:break-all;max-width:180px}td.mono
                       <TableCell sx={tdSx}>
                         <Box sx={{
                           display: 'inline-flex', alignItems: 'center', gap: 0.5,
-                          px: '6px', height: 22, borderRadius: '4px', fontSize: '0.72rem', fontWeight: 600, letterSpacing: '0.02em',
+                          px: '6px', height: 22, borderRadius: '2px', fontSize: '0.72rem', fontWeight: 600, letterSpacing: '0.02em',
                           border: '1px solid',
                           ...(subscriber.isActive
-                            ? { color: '#2C5530', bgcolor: 'rgba(44,85,48,0.08)', borderColor: 'rgba(44,85,48,0.2)' }
+                            ? { color: '#00A32A', bgcolor: 'rgba(0,163,42,0.08)', borderColor: 'rgba(0,163,42,0.2)' }
                             : { color: '#757575', bgcolor: 'rgba(117,117,117,0.08)', borderColor: 'rgba(117,117,117,0.2)' }),
                         }}>
                           {subscriber.isActive ? <CheckCircleIcon sx={{ fontSize: '0.85rem' }} /> : <CancelIcon sx={{ fontSize: '0.85rem' }} />}
@@ -625,22 +625,22 @@ td.email{font-weight:600;color:#111;word-break:break-all;max-width:180px}td.mono
                       </TableCell>
                       <TableCell sx={tdSx}>
                         {subscriber.promoCode
-                          ? <Typography sx={{ fontSize: '0.78rem', fontFamily: 'monospace', fontWeight: 700, color: '#243A7D', letterSpacing: '0.05em' }}>{subscriber.promoCode}</Typography>
-                          : <Typography sx={{ fontSize: '0.78rem', color: '#9B8B80' }}>—</Typography>}
+                          ? <Typography sx={{ fontSize: '0.78rem', fontFamily: 'monospace', fontWeight: 700, color: '#0073AA', letterSpacing: '0.05em' }}>{subscriber.promoCode}</Typography>
+                          : <Typography sx={{ fontSize: '0.78rem', color: '#787C82' }}>—</Typography>}
                       </TableCell>
                       <TableCell sx={tdSx}>
                         {promoChip && (
-                          <Box sx={{ display: 'inline-flex', alignItems: 'center', px: '6px', height: 22, borderRadius: '4px', fontSize: '0.72rem', fontWeight: 600, border: '1px solid', color: promoChip.color, bgcolor: promoChip.bg, borderColor: promoChip.border }}>
+                          <Box sx={{ display: 'inline-flex', alignItems: 'center', px: '6px', height: 22, borderRadius: '2px', fontSize: '0.72rem', fontWeight: 600, border: '1px solid', color: promoChip.color, bgcolor: promoChip.bg, borderColor: promoChip.border }}>
                             {promoChip.label}
                           </Box>
                         )}
                       </TableCell>
                       <TableCell sx={tdSx}>
-                        <Typography sx={{ fontSize: '0.78rem', color: '#6B5C52' }}>
+                        <Typography sx={{ fontSize: '0.78rem', color: '#50575E' }}>
                           {moment(subscriber.subscribedAt).tz('America/Toronto').format('MMM D, YYYY')}
                         </Typography>
                         {subscriber.unsubscribedAt && !subscriber.isActive && (
-                          <Typography sx={{ fontSize: '0.72rem', color: '#9B8B80' }}>
+                          <Typography sx={{ fontSize: '0.72rem', color: '#787C82' }}>
                             Unsub {moment(subscriber.unsubscribedAt).tz('America/Toronto').format('MMM D, YYYY')}
                           </Typography>
                         )}
@@ -655,7 +655,7 @@ td.email{font-weight:600;color:#111;word-break:break-all;max-width:180px}td.mono
                                 onClick={() => handleSendPromo(subscriber)}
                                 disabled={sendingPromo[subscriber.id]}
                                 startIcon={sendingPromo[subscriber.id] ? <CircularProgress size={11} color="inherit" /> : <SendIcon sx={{ fontSize: '13px !important' }} />}
-                                sx={{ fontSize: '0.72rem', fontWeight: 600, borderRadius: '4px', textTransform: 'none', borderColor: '#E8E0D8', color: '#6B5C52', '&:hover': { borderColor: '#243A7D', color: '#243A7D', bgcolor: 'rgba(36,58,125,0.04)' }, minWidth: 0, px: 1.25, py: 0.25 }}
+                                sx={{ fontSize: '0.72rem', fontWeight: 600, borderRadius: '2px', textTransform: 'none', borderColor: '#E2E4E7', color: '#50575E', '&:hover': { borderColor: '#0073AA', color: '#0073AA', bgcolor: 'rgba(36,58,125,0.04)' }, minWidth: 0, px: 1.25, py: 0.25 }}
                               >
                                 Send Promo
                               </Button>
@@ -669,7 +669,7 @@ td.email{font-weight:600;color:#111;word-break:break-all;max-width:180px}td.mono
                                 onClick={() => handleMarkClaimed(subscriber)}
                                 disabled={claimingPromo[subscriber.id]}
                                 startIcon={claimingPromo[subscriber.id] ? <CircularProgress size={11} color="inherit" /> : <ClaimedIcon sx={{ fontSize: '13px !important' }} />}
-                                sx={{ fontSize: '0.72rem', fontWeight: 600, borderRadius: '4px', textTransform: 'none', borderColor: '#E8E0D8', color: '#6B5C52', '&:hover': { borderColor: '#2C5530', color: '#2C5530', bgcolor: 'rgba(44,85,48,0.04)' }, minWidth: 0, px: 1.25, py: 0.25 }}
+                                sx={{ fontSize: '0.72rem', fontWeight: 600, borderRadius: '2px', textTransform: 'none', borderColor: '#E2E4E7', color: '#50575E', '&:hover': { borderColor: '#00A32A', color: '#00A32A', bgcolor: 'rgba(44,85,48,0.04)' }, minWidth: 0, px: 1.25, py: 0.25 }}
                               >
                                 Claimed
                               </Button>
@@ -679,7 +679,7 @@ td.email{font-weight:600;color:#111;word-break:break-all;max-width:180px}td.mono
                             <IconButton
                               size="small"
                               onClick={() => { setSubscriberToDelete(subscriber); setDeleteDialogOpen(true); }}
-                              sx={{ color: '#9B8B80', '&:hover': { color: '#BE5953', bgcolor: 'rgba(190,89,83,0.08)' }, borderRadius: '4px' }}
+                              sx={{ color: '#787C82', '&:hover': { color: '#BE5953', bgcolor: 'rgba(190,89,83,0.08)' }, borderRadius: '2px' }}
                             >
                               <DeleteIcon sx={{ fontSize: 16 }} />
                             </IconButton>
@@ -695,7 +695,7 @@ td.email{font-weight:600;color:#111;word-break:break-all;max-width:180px}td.mono
         </TableContainer>
 
         {total > 0 && (
-          <Box sx={{ borderTop: '1px solid #F0EBE4', display: 'flex', justifyContent: 'flex-end' }}>
+          <Box sx={{ borderTop: '1px solid #F0F0F1', display: 'flex', justifyContent: 'flex-end' }}>
             <TablePagination
               component="div"
               count={total}
@@ -706,7 +706,7 @@ td.email{font-weight:600;color:#111;word-break:break-all;max-width:180px}td.mono
               rowsPerPageOptions={[10, 20, 50, 100]}
               labelRowsPerPage="Per page:"
               sx={{
-                '& .MuiTablePagination-selectLabel, & .MuiTablePagination-displayedRows': { color: '#9B8B80', fontSize: '0.78rem' },
+                '& .MuiTablePagination-selectLabel, & .MuiTablePagination-displayedRows': { color: '#787C82', fontSize: '0.78rem' },
                 '& .MuiTablePagination-select': { color: '#BE5953', fontWeight: 600 },
                 '& .MuiIconButton-root': { color: '#BE5953' },
                 '& .MuiIconButton-root.Mui-disabled': { color: 'rgba(0,0,0,0.26)' },
@@ -720,29 +720,29 @@ td.email{font-weight:600;color:#111;word-break:break-all;max-width:180px}td.mono
       <Dialog
         open={deleteDialogOpen}
         onClose={() => setDeleteDialogOpen(false)}
-        slotProps={{ paper: { sx: { borderRadius: '8px', maxWidth: 420, width: '100%' } } }}
+        slotProps={{ paper: { sx: { borderRadius: '2px', maxWidth: 420, width: '100%' } } }}
       >
         <DialogTitle sx={{ p: 0 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, px: 3, py: 2.5, borderBottom: '1px solid #F0EBE4', bgcolor: '#FDFAF8' }}>
-            <Box sx={{ width: 36, height: 36, borderRadius: '6px', bgcolor: 'rgba(190,89,83,0.1)', border: '1px solid rgba(190,89,83,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, px: 3, py: 2.5, borderBottom: '1px solid #F0F0F1', bgcolor: '#F6F7F7' }}>
+            <Box sx={{ width: 36, height: 36, borderRadius: '2px', bgcolor: 'rgba(190,89,83,0.1)', border: '1px solid rgba(190,89,83,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <DeleteIcon sx={{ fontSize: 17, color: '#BE5953' }} />
             </Box>
             <Box>
-              <Typography sx={{ fontWeight: 700, fontSize: '0.95rem', color: '#1C1917', lineHeight: 1.2 }}>Remove Subscriber</Typography>
-              <Typography sx={{ fontSize: '0.75rem', color: '#9B8B80' }}>This action cannot be undone</Typography>
+              <Typography sx={{ fontWeight: 700, fontSize: '0.95rem', color: '#1D2327', lineHeight: 1.2 }}>Remove Subscriber</Typography>
+              <Typography sx={{ fontSize: '0.75rem', color: '#787C82' }}>This action cannot be undone</Typography>
             </Box>
           </Box>
         </DialogTitle>
         <DialogContent sx={{ px: 3, pt: 2.5, pb: 1 }}>
-          <Typography sx={{ fontSize: '0.875rem', color: '#6B5C52' }}>
-            Are you sure you want to permanently remove <strong style={{ color: '#1C1917' }}>{subscriberToDelete?.email}</strong> from the newsletter?
+          <Typography sx={{ fontSize: '0.875rem', color: '#50575E' }}>
+            Are you sure you want to permanently remove <strong style={{ color: '#1D2327' }}>{subscriberToDelete?.email}</strong> from the newsletter?
           </Typography>
         </DialogContent>
         <DialogActions sx={{ px: 3, pb: 2.5, gap: 1 }}>
-          <Button onClick={() => setDeleteDialogOpen(false)} variant="outlined" sx={{ borderColor: '#E8E0D8', color: '#6B5C52', '&:hover': { borderColor: '#9B8B80' }, borderRadius: '5px', textTransform: 'none', fontWeight: 600, fontSize: '0.82rem' }}>
+          <Button onClick={() => setDeleteDialogOpen(false)} variant="outlined" sx={{ borderColor: '#E2E4E7', color: '#50575E', '&:hover': { borderColor: '#787C82' }, borderRadius: '2px', textTransform: 'none', fontWeight: 600, fontSize: '0.82rem' }}>
             Cancel
           </Button>
-          <Button onClick={handleDelete} variant="contained" sx={{ bgcolor: '#BE5953', '&:hover': { bgcolor: '#A84E48' }, borderRadius: '5px', textTransform: 'none', fontWeight: 700, fontSize: '0.82rem', boxShadow: 'none' }}>
+          <Button onClick={handleDelete} variant="contained" sx={{ bgcolor: '#BE5953', '&:hover': { bgcolor: '#A84E48' }, borderRadius: '2px', textTransform: 'none', fontWeight: 700, fontSize: '0.82rem', boxShadow: 'none' }}>
             Remove
           </Button>
         </DialogActions>

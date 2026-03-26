@@ -91,17 +91,17 @@ interface Todo {
 
 const PRIORITY_CONFIG = {
   urgent: { color: '#BE5953', bg: 'rgba(190,89,83,0.08)', label: 'Urgent' },
-  high:   { color: '#B07A2A', bg: 'rgba(201,169,110,0.1)',  label: 'High'   },
-  medium: { color: '#243A7D', bg: 'rgba(36,58,125,0.08)',  label: 'Medium' },
-  low:    { color: '#2C5530', bg: 'rgba(44,85,48,0.08)',   label: 'Low'    },
+  high:   { color: '#B07A2A', bg: 'rgba(219,166,23,0.1)',  label: 'High'   },
+  medium: { color: '#0073AA', bg: 'rgba(0,115,170,0.08)',  label: 'Medium' },
+  low:    { color: '#00A32A', bg: 'rgba(0,163,42,0.08)',   label: 'Low'    },
 };
 
 const ACTIVITY_ICONS: Record<string, { icon: React.ElementType; color: string }> = {
   menu:    { icon: RestaurantIcon,    color: '#BE5953' },
-  user:    { icon: PeopleIcon,        color: '#C9A96E' },
-  event:   { icon: EventIcon,         color: '#243A7D' },
-  special: { icon: SpecialsIcon,      color: '#2C5530' },
-  system:  { icon: CheckCircleIcon,   color: '#9B8B80' },
+  user:    { icon: PeopleIcon,        color: '#DBA617' },
+  event:   { icon: EventIcon,         color: '#0073AA' },
+  special: { icon: SpecialsIcon,      color: '#00A32A' },
+  system:  { icon: CheckCircleIcon,   color: '#787C82' },
 };
 
 const getGreeting = () => {
@@ -121,16 +121,16 @@ const PanelHeader: React.FC<{
     sx={{
       px: 2.5,
       py: 1.75,
-      borderBottom: '1px solid #F0EBE4',
+      borderBottom: '1px solid #F0F0F1',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
-      bgcolor: '#FDFAF8',
+      bgcolor: '#F6F7F7',
     }}
   >
     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25 }}>
       <Box sx={{ width: 3, height: 16, bgcolor: accent, borderRadius: '2px', flexShrink: 0 }} />
-      <Typography sx={{ fontWeight: 700, fontSize: '0.875rem', color: '#1C1917' }}>
+      <Typography sx={{ fontWeight: 700, fontSize: '0.875rem', color: '#1D2327' }}>
         {title}
       </Typography>
     </Box>
@@ -181,7 +181,7 @@ const Dashboard: React.FC = () => {
           todos: s.todos.total,
           completedTodos: s.todos.completed,
         });
-        const catColors = ['#BE5953', '#C9A96E', '#2C5530', '#243A7D'];
+        const catColors = ['#BE5953', '#DBA617', '#00A32A', '#0073AA'];
         setMenuCategoryData(
           s.menu.categories.map((c: { name: string; itemCount: number }, i: number) => ({
             name: c.name,
@@ -232,7 +232,7 @@ const Dashboard: React.FC = () => {
       });
       const catRes = await api.get('/menu/categories');
       const cats = catRes.status === 200 ? catRes.data : [];
-      const catColors = ['#BE5953', '#C9A96E', '#2C5530', '#243A7D'];
+      const catColors = ['#BE5953', '#DBA617', '#00A32A', '#0073AA'];
       setMenuCategoryData(cats.map((c: { name: string; menuItems: MenuItem[] }, i: number) => ({ name: c.name, value: c.menuItems?.length || 0, color: catColors[i % catColors.length] })));
       const acts: RecentActivity[] = [];
       if (menuItems.length) {
@@ -323,18 +323,18 @@ const Dashboard: React.FC = () => {
 
   const statsCards = [
     { title: 'Menu Items',     value: stats.activeMenuItems, total: stats.menuItems, icon: RestaurantIcon, color: '#BE5953', path: '/menu'     },
-    { title: 'Categories',     value: menuCategoryData.length, total: menuCategoryData.length, icon: CategoryIcon, color: '#C9A96E', path: '/menu' },
-    { title: 'Upcoming Events',value: stats.events,           total: stats.events,    icon: EventIcon,      color: '#243A7D', path: '/events'   },
-    { title: 'Active Specials', value: stats.specials,        total: stats.specials,  icon: SpecialsIcon,   color: '#2C5530', path: '/specials' },
-    { title: 'Active Users',   value: stats.activeUsers,      total: stats.users,     icon: PeopleIcon,     color: '#9B8B80', path: '/users'    },
+    { title: 'Categories',     value: menuCategoryData.length, total: menuCategoryData.length, icon: CategoryIcon, color: '#DBA617', path: '/menu' },
+    { title: 'Upcoming Events',value: stats.events,           total: stats.events,    icon: EventIcon,      color: '#0073AA', path: '/events'   },
+    { title: 'Active Specials', value: stats.specials,        total: stats.specials,  icon: SpecialsIcon,   color: '#00A32A', path: '/specials' },
+    { title: 'Active Users',   value: stats.activeUsers,      total: stats.users,     icon: PeopleIcon,     color: '#787C82', path: '/users'    },
   ];
 
   const quickLinks = [
     { label: 'Add Menu Item',  icon: RestaurantIcon, path: '/menu',       color: '#BE5953' },
-    { label: 'Add Event',      icon: EventIcon,      path: '/events',     color: '#243A7D' },
-    { label: 'Add Special',    icon: SpecialsIcon,   path: '/specials',   color: '#2C5530' },
-    { label: 'Manage Users',   icon: PeopleIcon,     path: '/users',      color: '#C9A96E' },
-    { label: 'Newsletter',     icon: NotificationsIcon, path: '/newsletter', color: '#9B8B80' },
+    { label: 'Add Event',      icon: EventIcon,      path: '/events',     color: '#0073AA' },
+    { label: 'Add Special',    icon: SpecialsIcon,   path: '/specials',   color: '#00A32A' },
+    { label: 'Manage Users',   icon: PeopleIcon,     path: '/users',      color: '#DBA617' },
+    { label: 'Newsletter',     icon: NotificationsIcon, path: '/newsletter', color: '#787C82' },
   ];
 
   const todoPct = stats.todos > 0 ? Math.round((stats.completedTodos / stats.todos) * 100) : 0;
@@ -342,18 +342,18 @@ const Dashboard: React.FC = () => {
   if (loading) {
     return (
       <Box>
-        <Skeleton variant="rounded" height={80} sx={{ mb: 3, borderRadius: '6px' }} />
+        <Skeleton variant="rounded" height={80} sx={{ mb: 3, borderRadius: '2px' }} />
         <Grid container spacing={2} sx={{ mb: 3 }}>
           {[...Array(5)].map((_, i) => (
             <Grid size={{ xs: 6, sm: 4, md: 2.4 }} key={i}>
-              <Skeleton variant="rounded" height={90} sx={{ borderRadius: '6px' }} />
+              <Skeleton variant="rounded" height={90} sx={{ borderRadius: '2px' }} />
             </Grid>
           ))}
         </Grid>
         <Grid container spacing={2}>
           {[0, 1].map((i) => (
             <Grid size={{ xs: 12, lg: 6 }} key={i}>
-              <Skeleton variant="rounded" height={360} sx={{ borderRadius: '6px' }} />
+              <Skeleton variant="rounded" height={360} sx={{ borderRadius: '2px' }} />
             </Grid>
           ))}
         </Grid>
@@ -370,7 +370,7 @@ const Dashboard: React.FC = () => {
         icon={<CalendarIcon />}
         action={
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <Typography sx={{ fontSize: '0.8rem', color: '#9B8B80' }}>
+            <Typography sx={{ fontSize: '0.8rem', color: '#787C82' }}>
               {moment().tz('America/Toronto').format('dddd, MMMM D, YYYY')}
             </Typography>
             <Chip
@@ -380,7 +380,7 @@ const Dashboard: React.FC = () => {
                 bgcolor: 'rgba(190,89,83,0.08)',
                 color: '#BE5953',
                 border: '1px solid rgba(190,89,83,0.2)',
-                borderRadius: '4px',
+                borderRadius: '2px',
                 fontWeight: 600,
                 fontSize: '0.72rem',
                 height: 22,
@@ -401,9 +401,9 @@ const Dashboard: React.FC = () => {
                 onClick={() => navigate(card.path)}
                 sx={{
                   bgcolor: '#FFFFFF',
-                  border: '1px solid #E8E0D8',
+                  border: '1px solid #E2E4E7',
                   borderLeft: `4px solid ${card.color}`,
-                  borderRadius: '6px',
+                  borderRadius: '2px',
                   p: 2,
                   cursor: 'pointer',
                   transition: 'box-shadow 0.15s',
@@ -411,19 +411,19 @@ const Dashboard: React.FC = () => {
                 }}
               >
                 <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', mb: 1 }}>
-                  <Typography sx={{ fontSize: '0.68rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#9B8B80' }}>
+                  <Typography sx={{ fontSize: '0.68rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#787C82' }}>
                     {card.title}
                   </Typography>
-                  <Box sx={{ width: 28, height: 28, borderRadius: '6px', bgcolor: `${card.color}12`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <Box sx={{ width: 28, height: 28, borderRadius: '2px', bgcolor: `${card.color}12`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                     <Icon sx={{ fontSize: 14, color: card.color }} />
                   </Box>
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 0.75 }}>
-                  <Typography sx={{ fontSize: '1.75rem', fontWeight: 800, color: '#1C1917', lineHeight: 1, letterSpacing: '-0.03em' }}>
+                  <Typography sx={{ fontSize: '1.75rem', fontWeight: 800, color: '#1D2327', lineHeight: 1, letterSpacing: '-0.03em' }}>
                     {card.value.toLocaleString()}
                   </Typography>
                   {card.value !== card.total && card.total > 0 && (
-                    <Typography sx={{ fontSize: '0.75rem', color: '#9B8B80' }}>/ {card.total}</Typography>
+                    <Typography sx={{ fontSize: '0.75rem', color: '#787C82' }}>/ {card.total}</Typography>
                   )}
                 </Box>
                 {progress < 100 && (
@@ -433,9 +433,9 @@ const Dashboard: React.FC = () => {
                     sx={{
                       mt: 1.25,
                       height: 3,
-                      borderRadius: 2,
+                      borderRadius: '2px',
                       bgcolor: `${card.color}18`,
-                      '& .MuiLinearProgress-bar': { bgcolor: card.color, borderRadius: 2 },
+                      '& .MuiLinearProgress-bar': { bgcolor: card.color, borderRadius: '2px' },
                     }}
                   />
                 )}
@@ -450,8 +450,8 @@ const Dashboard: React.FC = () => {
         sx={{
           mb: 3,
           bgcolor: '#FFFFFF',
-          border: '1px solid #E8E0D8',
-          borderRadius: '6px',
+          border: '1px solid #E2E4E7',
+          borderRadius: '2px',
           overflow: 'hidden',
         }}
       >
@@ -464,12 +464,12 @@ const Dashboard: React.FC = () => {
               startIcon={<Icon sx={{ fontSize: '15px !important' }} />}
               onClick={() => navigate(path)}
               sx={{
-                borderColor: '#E8E0D8',
-                color: '#5C524D',
+                borderColor: '#E2E4E7',
+                color: '#50575E',
                 fontSize: '0.8rem',
                 fontWeight: 600,
                 textTransform: 'none',
-                borderRadius: '5px',
+                borderRadius: '2px',
                 px: 2,
                 py: 0.75,
                 '&:hover': { borderColor: color, color, bgcolor: `${color}08` },
@@ -486,7 +486,7 @@ const Dashboard: React.FC = () => {
 
         {/* Recent Activity + Menu Breakdown */}
         <Grid size={{ xs: 12, lg: 6 }}>
-          <Box sx={{ bgcolor: '#FFFFFF', border: '1px solid #E8E0D8', borderRadius: '6px', overflow: 'hidden', height: '100%' }}>
+          <Box sx={{ bgcolor: '#FFFFFF', border: '1px solid #E2E4E7', borderRadius: '2px', overflow: 'hidden', height: '100%' }}>
             <PanelHeader title="Recent Activity" accent="#BE5953" />
             <Box sx={{ p: 2.5 }}>
               {recentActivities.length > 0 ? (
@@ -498,7 +498,7 @@ const Dashboard: React.FC = () => {
                     return (
                       <Box key={act.id} sx={{ display: 'flex', gap: 1.5, position: 'relative' }}>
                         {!isLast && (
-                          <Box sx={{ position: 'absolute', left: 14, top: 28, bottom: 0, width: 1, bgcolor: '#F0EBE4' }} />
+                          <Box sx={{ position: 'absolute', left: 14, top: 28, bottom: 0, width: 1, bgcolor: '#F0F0F1' }} />
                         )}
                         <Box
                           sx={{
@@ -513,10 +513,10 @@ const Dashboard: React.FC = () => {
                           <Icon sx={{ fontSize: 13, color: cfg.color }} />
                         </Box>
                         <Box sx={{ flex: 1, pb: isLast ? 0 : 2 }}>
-                          <Typography sx={{ fontSize: '0.845rem', fontWeight: 500, color: '#1C1917', lineHeight: 1.4 }}>
+                          <Typography sx={{ fontSize: '0.845rem', fontWeight: 500, color: '#1D2327', lineHeight: 1.4 }}>
                             {act.message}
                           </Typography>
-                          <Typography sx={{ fontSize: '0.72rem', color: '#9B8B80', mt: 0.25 }}>
+                          <Typography sx={{ fontSize: '0.72rem', color: '#787C82', mt: 0.25 }}>
                             {moment(act.timestamp).fromNow()}
                           </Typography>
                         </Box>
@@ -525,7 +525,7 @@ const Dashboard: React.FC = () => {
                   })}
                 </Box>
               ) : (
-                <Typography sx={{ color: '#9B8B80', fontSize: '0.845rem', py: 3, textAlign: 'center' }}>
+                <Typography sx={{ color: '#787C82', fontSize: '0.845rem', py: 3, textAlign: 'center' }}>
                   No recent activity
                 </Typography>
               )}
@@ -533,8 +533,8 @@ const Dashboard: React.FC = () => {
 
             {menuCategoryData.length > 0 && (
               <>
-                <Divider sx={{ borderColor: '#F0EBE4' }} />
-                <PanelHeader title="Menu Breakdown" accent="#C9A96E" />
+                <Divider sx={{ borderColor: '#F0F0F1' }} />
+                <PanelHeader title="Menu Breakdown" accent="#DBA617" />
                 <Box sx={{ p: 2.5, display: 'flex', flexDirection: 'column', gap: 1.5 }}>
                   {menuCategoryData.map((cat) => {
                     const total = menuCategoryData.reduce((s, c) => s + c.value, 0);
@@ -542,7 +542,7 @@ const Dashboard: React.FC = () => {
                     return (
                       <Box key={cat.name}>
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
-                          <Typography sx={{ fontSize: '0.82rem', fontWeight: 600, color: '#1C1917' }}>{cat.name}</Typography>
+                          <Typography sx={{ fontSize: '0.82rem', fontWeight: 600, color: '#1D2327' }}>{cat.name}</Typography>
                           <Typography sx={{ fontSize: '0.78rem', fontWeight: 700, color: cat.color }}>
                             {cat.value} items
                           </Typography>
@@ -552,9 +552,9 @@ const Dashboard: React.FC = () => {
                           value={pct}
                           sx={{
                             height: 5,
-                            borderRadius: 3,
+                            borderRadius: '2px',
                             bgcolor: `${cat.color}15`,
-                            '& .MuiLinearProgress-bar': { bgcolor: cat.color, borderRadius: 3 },
+                            '& .MuiLinearProgress-bar': { bgcolor: cat.color, borderRadius: '2px' },
                           }}
                         />
                       </Box>
@@ -568,10 +568,10 @@ const Dashboard: React.FC = () => {
 
         {/* Tasks */}
         <Grid size={{ xs: 12, lg: 6 }}>
-          <Box sx={{ bgcolor: '#FFFFFF', border: '1px solid #E8E0D8', borderRadius: '6px', overflow: 'hidden', height: '100%' }}>
+          <Box sx={{ bgcolor: '#FFFFFF', border: '1px solid #E2E4E7', borderRadius: '2px', overflow: 'hidden', height: '100%' }}>
             <PanelHeader
               title="Tasks"
-              accent="#2C5530"
+              accent="#00A32A"
               action={
                 <Button
                   size="small"
@@ -579,9 +579,9 @@ const Dashboard: React.FC = () => {
                   onClick={openCreate}
                   variant="contained"
                   sx={{
-                    bgcolor: '#1D1917',
+                    bgcolor: '#1D2327',
                     '&:hover': { bgcolor: '#BE5953' },
-                    borderRadius: '4px',
+                    borderRadius: '2px',
                     fontSize: '0.75rem',
                     fontWeight: 600,
                     textTransform: 'none',
@@ -599,18 +599,18 @@ const Dashboard: React.FC = () => {
             <Box sx={{ px: 2.5, pt: 2, pb: 1.5 }}>
               <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
                 {[
-                  { label: 'Total',   value: stats.todos,                          color: '#1C1917', bg: '#F5F0EB' },
-                  { label: 'Done',    value: stats.completedTodos,                 color: '#2C5530', bg: 'rgba(44,85,48,0.08)' },
-                  { label: 'Pending', value: stats.todos - stats.completedTodos,   color: '#B07A2A', bg: 'rgba(201,169,110,0.1)' },
+                  { label: 'Total',   value: stats.todos,                          color: '#1D2327', bg: '#F5F0EB' },
+                  { label: 'Done',    value: stats.completedTodos,                 color: '#00A32A', bg: 'rgba(0,163,42,0.08)' },
+                  { label: 'Pending', value: stats.todos - stats.completedTodos,   color: '#B07A2A', bg: 'rgba(219,166,23,0.1)' },
                 ].map(({ label, value, color, bg }) => (
-                  <Box key={label} sx={{ flex: 1, p: 1.5, borderRadius: '5px', bgcolor: bg, border: '1px solid #E8E0D8', textAlign: 'center' }}>
+                  <Box key={label} sx={{ flex: 1, p: 1.5, borderRadius: '2px', bgcolor: bg, border: '1px solid #E2E4E7', textAlign: 'center' }}>
                     <Typography sx={{ fontSize: '1.4rem', fontWeight: 800, color, lineHeight: 1, letterSpacing: '-0.03em' }}>{value}</Typography>
                     <Typography sx={{ fontSize: '0.65rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color, opacity: 0.7, mt: 0.25 }}>{label}</Typography>
                   </Box>
                 ))}
               </Box>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
-                <Typography sx={{ fontSize: '0.7rem', fontWeight: 600, color: '#9B8B80', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                <Typography sx={{ fontSize: '0.7rem', fontWeight: 600, color: '#787C82', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
                   Completion
                 </Typography>
                 <Typography sx={{ fontSize: '0.75rem', fontWeight: 700, color: '#BE5953' }}>
@@ -622,14 +622,14 @@ const Dashboard: React.FC = () => {
                 value={todoPct}
                 sx={{
                   height: 4,
-                  borderRadius: 2,
+                  borderRadius: '2px',
                   bgcolor: 'rgba(190,89,83,0.1)',
-                  '& .MuiLinearProgress-bar': { bgcolor: '#BE5953', borderRadius: 2 },
+                  '& .MuiLinearProgress-bar': { bgcolor: '#BE5953', borderRadius: '2px' },
                 }}
               />
             </Box>
 
-            <Divider sx={{ borderColor: '#F0EBE4' }} />
+            <Divider sx={{ borderColor: '#F0F0F1' }} />
 
             <List disablePadding sx={{ maxHeight: 340, overflow: 'auto', px: 2, py: 1.5 }}>
               {todos.length > 0 ? (
@@ -644,12 +644,12 @@ const Dashboard: React.FC = () => {
                         disablePadding
                         sx={{
                           mb: 0.75,
-                          borderRadius: '5px',
-                          border: '1px solid #E8E0D8',
-                          bgcolor: '#FDFAF8',
+                          borderRadius: '2px',
+                          border: '1px solid #E2E4E7',
+                          bgcolor: '#F6F7F7',
                           px: 1.25,
                           py: 0.75,
-                          '&:hover': { borderColor: 'rgba(190,89,83,0.25)', bgcolor: '#FAF5F0' },
+                          '&:hover': { borderColor: 'rgba(190,89,83,0.25)', bgcolor: '#F0F0F1' },
                           '&:last-child': { mb: 0 },
                         }}
                       >
@@ -664,10 +664,10 @@ const Dashboard: React.FC = () => {
                         <ListItemText
                           primary={
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.875 }}>
-                              <Typography sx={{ fontSize: '0.83rem', fontWeight: 600, color: '#1C1917' }}>
+                              <Typography sx={{ fontSize: '0.83rem', fontWeight: 600, color: '#1D2327' }}>
                                 {todo.title}
                               </Typography>
-                              <Box sx={{ px: 0.625, py: 0.125, borderRadius: '3px', bgcolor: pri.bg }}>
+                              <Box sx={{ px: 0.625, py: 0.125, borderRadius: '2px', bgcolor: pri.bg }}>
                                 <Typography sx={{ fontSize: '0.6rem', fontWeight: 700, color: pri.color, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
                                   {pri.label}
                                 </Typography>
@@ -677,8 +677,8 @@ const Dashboard: React.FC = () => {
                           secondary={
                             todo.dueDate ? (
                               <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mt: 0.25 }}>
-                                <ScheduleIcon sx={{ fontSize: 10, color: '#9B8B80' }} />
-                                <Typography sx={{ fontSize: '0.7rem', color: '#9B8B80' }}>
+                                <ScheduleIcon sx={{ fontSize: 10, color: '#787C82' }} />
+                                <Typography sx={{ fontSize: '0.7rem', color: '#787C82' }}>
                                   {moment(todo.dueDate).format('MMM D, YYYY')}
                                 </Typography>
                               </Box>
@@ -689,7 +689,7 @@ const Dashboard: React.FC = () => {
                           <IconButton size="small" onClick={() => openEdit(todo)} sx={{ p: 0.375, color: '#D4C4B8', '&:hover': { color: '#BE5953' } }}>
                             <EditIcon sx={{ fontSize: 13 }} />
                           </IconButton>
-                          <IconButton size="small" onClick={() => setDeleteConfirmId(todo.id)} sx={{ p: 0.375, color: '#D4C4B8', '&:hover': { color: '#EF4444' } }}>
+                          <IconButton size="small" onClick={() => setDeleteConfirmId(todo.id)} sx={{ p: 0.375, color: '#D4C4B8', '&:hover': { color: '#D63638' } }}>
                             <DeleteIcon sx={{ fontSize: 13 }} />
                           </IconButton>
                         </Box>
@@ -698,7 +698,7 @@ const Dashboard: React.FC = () => {
                   })
               ) : (
                 <Box sx={{ textAlign: 'center', py: 4 }}>
-                  <Typography sx={{ color: '#9B8B80', fontSize: '0.845rem' }}>
+                  <Typography sx={{ color: '#787C82', fontSize: '0.845rem' }}>
                     No tasks yet — create your first task above.
                   </Typography>
                 </Box>
@@ -714,24 +714,24 @@ const Dashboard: React.FC = () => {
         onClose={() => setDeleteConfirmId(null)}
         maxWidth="xs"
         fullWidth
-        slotProps={{ paper: { sx: { borderRadius: '8px', border: '1px solid #E8E0D8' } } }}
+        slotProps={{ paper: { sx: { borderRadius: '2px', border: '1px solid #E2E4E7' } } }}
       >
-        <DialogTitle sx={{ display: 'flex', alignItems: 'center', gap: 1.5, pt: 2.5, pb: 1, fontSize: '0.95rem', fontWeight: 700, color: '#1C1917' }}>
-          <Box sx={{ width: 32, height: 32, borderRadius: '6px', bgcolor: 'rgba(239,68,68,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <WarningIcon sx={{ fontSize: 16, color: '#EF4444' }} />
+        <DialogTitle sx={{ display: 'flex', alignItems: 'center', gap: 1.5, pt: 2.5, pb: 1, fontSize: '0.95rem', fontWeight: 700, color: '#1D2327' }}>
+          <Box sx={{ width: 32, height: 32, borderRadius: '2px', bgcolor: 'rgba(214,54,56,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <WarningIcon sx={{ fontSize: 16, color: '#D63638' }} />
           </Box>
           Delete Task
         </DialogTitle>
         <DialogContent sx={{ pb: 1 }}>
-          <Typography sx={{ fontSize: '0.875rem', color: '#6B5C52' }}>
+          <Typography sx={{ fontSize: '0.875rem', color: '#50575E' }}>
             Are you sure you want to delete this task? This cannot be undone.
           </Typography>
         </DialogContent>
         <DialogActions sx={{ px: 2.5, pb: 2.5, gap: 1 }}>
-          <Button onClick={() => setDeleteConfirmId(null)} variant="outlined" sx={{ borderColor: '#E8E0D8', color: '#6B5C52', borderRadius: '5px', fontWeight: 600, textTransform: 'none', fontSize: '0.845rem', '&:hover': { borderColor: '#BE5953', color: '#BE5953', bgcolor: 'transparent' } }}>
+          <Button onClick={() => setDeleteConfirmId(null)} variant="outlined" sx={{ borderColor: '#E2E4E7', color: '#50575E', borderRadius: '2px', fontWeight: 600, textTransform: 'none', fontSize: '0.845rem', '&:hover': { borderColor: '#BE5953', color: '#BE5953', bgcolor: 'transparent' } }}>
             Cancel
           </Button>
-          <Button variant="contained" onClick={handleConfirmDelete} sx={{ bgcolor: '#EF4444', '&:hover': { bgcolor: '#DC2626' }, borderRadius: '5px', fontWeight: 700, textTransform: 'none', fontSize: '0.845rem', boxShadow: 'none' }}>
+          <Button variant="contained" onClick={handleConfirmDelete} sx={{ bgcolor: '#D63638', '&:hover': { bgcolor: '#A62527' }, borderRadius: '2px', fontWeight: 700, textTransform: 'none', fontSize: '0.845rem', boxShadow: 'none' }}>
             Delete
           </Button>
         </DialogActions>
@@ -743,9 +743,9 @@ const Dashboard: React.FC = () => {
         onClose={() => setTodoDialog(false)}
         maxWidth="sm"
         fullWidth
-        slotProps={{ paper: { sx: { borderRadius: '8px', border: '1px solid #E8E0D8' } } }}
+        slotProps={{ paper: { sx: { borderRadius: '2px', border: '1px solid #E2E4E7' } } }}
       >
-        <DialogTitle sx={{ fontWeight: 700, fontSize: '1rem', color: '#1C1917', borderBottom: '1px solid #F0EBE4', pb: 2 }}>
+        <DialogTitle sx={{ fontWeight: 700, fontSize: '1rem', color: '#1D2327', borderBottom: '1px solid #F0F0F1', pb: 2 }}>
           {selectedTodo ? 'Edit Task' : 'Create New Task'}
         </DialogTitle>
         <DialogContent sx={{ pt: '16px !important' }}>
@@ -813,18 +813,18 @@ const Dashboard: React.FC = () => {
             </Grid>
           </Grid>
         </DialogContent>
-        <DialogActions sx={{ px: 2.5, pb: 2.5, gap: 1, borderTop: '1px solid #F0EBE4', pt: 2 }}>
+        <DialogActions sx={{ px: 2.5, pb: 2.5, gap: 1, borderTop: '1px solid #F0F0F1', pt: 2 }}>
           <Button
             onClick={() => setTodoDialog(false)}
             variant="outlined"
-            sx={{ borderColor: '#E8E0D8', color: '#6B5C52', borderRadius: '5px', fontWeight: 600, textTransform: 'none', fontSize: '0.845rem', '&:hover': { borderColor: '#BE5953', color: '#BE5953', bgcolor: 'transparent' } }}
+            sx={{ borderColor: '#E2E4E7', color: '#50575E', borderRadius: '2px', fontWeight: 600, textTransform: 'none', fontSize: '0.845rem', '&:hover': { borderColor: '#BE5953', color: '#BE5953', bgcolor: 'transparent' } }}
           >
             Cancel
           </Button>
           <Button
             variant="contained"
             onClick={handleSaveTodo}
-            sx={{ bgcolor: '#BE5953', '&:hover': { bgcolor: '#A84E48' }, borderRadius: '5px', fontWeight: 700, textTransform: 'none', fontSize: '0.845rem', boxShadow: 'none' }}
+            sx={{ bgcolor: '#BE5953', '&:hover': { bgcolor: '#A84E48' }, borderRadius: '2px', fontWeight: 700, textTransform: 'none', fontSize: '0.845rem', boxShadow: 'none' }}
           >
             {selectedTodo ? 'Update' : 'Create Task'}
           </Button>

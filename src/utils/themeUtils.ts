@@ -43,7 +43,7 @@ export const gradients = {
   error: `linear-gradient(135deg, ${STANDARD_COLORS.status.error.light} 0%, ${STANDARD_COLORS.status.error.main} 100%)`,
   warning: `linear-gradient(135deg, ${STANDARD_COLORS.status.warning.light} 0%, ${STANDARD_COLORS.status.warning.main} 100%)`,
   info: `linear-gradient(135deg, ${STANDARD_COLORS.status.info.light} 0%, ${STANDARD_COLORS.status.info.main} 100%)`,
-  background: `linear-gradient(135deg, #FDF8F4 0%, #FFFBF7 25%, #F5EDE4 50%, #FFE8D1 75%, #FDF8F4 100%)`,
+  background: `#F0F0F1`,
   card: `linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 248, 240, 0.95) 100%)`,
 };
 

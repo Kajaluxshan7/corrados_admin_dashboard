@@ -258,10 +258,10 @@ export default function PrimaryCategoriesTab({
 
       <Dialog open={deleteConfirmId !== null} onClose={() => setDeleteConfirmId(null)} maxWidth="xs" fullWidth>
         <DialogTitle sx={{ display: 'flex', alignItems: 'center', gap: 1.5, px: 3, py: 2.5, borderBottom: '1px solid rgba(190, 89, 83, 0.1)' }}>
-          <Box sx={{ width: 36, height: 36, borderRadius: 2, background: 'rgba(239,68,68,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#EF4444' }}>
+          <Box sx={{ width: 36, height: 36, borderRadius: '2px', background: 'rgba(239,68,68,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#D63638' }}>
             <WarningIcon fontSize="small" />
           </Box>
-          <Typography sx={{ fontWeight: 700, fontSize: '1.05rem', color: '#2D2926' }}>
+          <Typography sx={{ fontWeight: 700, fontSize: '1.05rem', color: '#1D2327' }}>
             Delete Primary Category
           </Typography>
         </DialogTitle>
@@ -271,13 +271,13 @@ export default function PrimaryCategoriesTab({
           </Typography>
         </DialogContent>
         <DialogActions sx={{ px: 3, pb: 3, gap: 1.5 }}>
-          <Button onClick={() => setDeleteConfirmId(null)} variant="outlined" sx={{ borderRadius: 2, fontWeight: 600, px: 3 }}>
+          <Button onClick={() => setDeleteConfirmId(null)} variant="outlined" sx={{ borderRadius: '2px', fontWeight: 600, px: 3 }}>
             Cancel
           </Button>
           <Button
             onClick={() => deleteConfirmId && handleDelete(deleteConfirmId)}
             variant="contained"
-            sx={{ borderRadius: 2, fontWeight: 600, px: 3, bgcolor: '#EF4444', '&:hover': { bgcolor: '#DC2626' } }}
+            sx={{ borderRadius: '2px', fontWeight: 600, px: 3, bgcolor: '#D63638', '&:hover': { bgcolor: '#B32D2E' } }}
           >
             Delete
           </Button>

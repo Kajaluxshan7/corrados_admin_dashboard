@@ -401,7 +401,7 @@ const SpecialsManagement: React.FC = () => {
           height: '100%',
           display: 'flex',
           flexDirection: 'column',
-          borderRadius: 2.5,
+          borderRadius: '2px',
           backgroundColor: '#FFFFFF',
           boxShadow: '0 4px 16px rgba(0, 0, 0, 0.04)',
           border: '1px solid',
@@ -511,7 +511,7 @@ const SpecialsManagement: React.FC = () => {
                 gap: 0.5,
                 px: 1.5,
                 py: 0.5,
-                borderRadius: 2,
+                borderRadius: '2px',
                 bgcolor: 'rgba(0,0,0,0.6)',
                 color: 'white',
                 fontSize: '0.75rem',
@@ -575,7 +575,7 @@ const SpecialsManagement: React.FC = () => {
                     special.specialCategory === SpecialCategoryValues.LATE_NIGHT
                       ? 'secondary.light'
                       : 'primary.light',
-                  borderRadius: 2,
+                  borderRadius: '2px',
                   color:
                     special.specialCategory === SpecialCategoryValues.LATE_NIGHT
                       ? 'secondary.contrastText'
@@ -601,7 +601,7 @@ const SpecialsManagement: React.FC = () => {
                   gap: 1,
                   p: 1.5,
                   bgcolor: 'secondary.light',
-                  borderRadius: 2,
+                  borderRadius: '2px',
                   color: 'secondary.contrastText',
                 }}
               >
@@ -639,7 +639,7 @@ const SpecialsManagement: React.FC = () => {
             sx={{
               textTransform: 'none',
               fontWeight: 500,
-              borderRadius: 2,
+              borderRadius: '2px',
             }}
           >
             {special.isActive ? 'Deactivate' : 'Activate'}
@@ -769,9 +769,9 @@ const SpecialsManagement: React.FC = () => {
                 color: 'white',
                 fontWeight: 600,
                 px: 3,
-                borderRadius: 2,
+                borderRadius: '2px',
                 boxShadow: '0 6px 20px rgba(190, 89, 83, 0.3)',
-                '&:hover': { backgroundColor: '#8E3830' },
+                '&:hover': { backgroundColor: '#9A413C' },
               }}
             >
               {`Add ${getSpecialDefaultsForActiveTab(activeTab).label}`}
@@ -793,7 +793,7 @@ const SpecialsManagement: React.FC = () => {
                 label: 'Active',
                 value: specialsStats.active,
                 icon: <ActiveIcon fontSize="small" />,
-                color: '#2C5530',
+                color: '#00A32A',
               },
               {
                 label: 'Inactive',
@@ -805,7 +805,7 @@ const SpecialsManagement: React.FC = () => {
                 label: 'Daily Specials',
                 value: specialsStats.daily,
                 icon: <DailyIcon fontSize="small" />,
-                color: '#243A7D',
+                color: '#0073AA',
               },
               {
                 label: 'Game Time',
@@ -817,7 +817,7 @@ const SpecialsManagement: React.FC = () => {
                 label: 'Seasonal',
                 value: specialsStats.seasonal,
                 icon: <SeasonalIcon fontSize="small" />,
-                color: '#C9A96E',
+                color: '#DBA617',
               },
             ] as StatItem[]
           }
@@ -830,7 +830,7 @@ const SpecialsManagement: React.FC = () => {
             maxWidth: 1400,
             mx: 'auto',
             backgroundColor: '#FFFFFF',
-            borderRadius: 2.5,
+            borderRadius: '2px',
             boxShadow: '0 4px 16px rgba(0, 0, 0, 0.04)',
             overflow: 'visible',
             border: '1px solid rgba(190, 89, 83, 0.08)',
@@ -854,7 +854,7 @@ const SpecialsManagement: React.FC = () => {
               mb: 3,
               mt: 2,
               background: 'rgba(255, 255, 255, 0.8)',
-              borderRadius: 2,
+              borderRadius: '2px',
               p: 1,
               border: '1px solid rgba(190, 89, 83, 0.1)',
               boxShadow: 'none',
@@ -867,13 +867,13 @@ const SpecialsManagement: React.FC = () => {
               scrollButtons="auto"
               sx={{
                 '& .MuiTab-root': {
-                  color: '#5C524D',
+                  color: '#50575E',
                   fontWeight: 700,
                   fontSize: '1rem',
                   textTransform: 'none',
                   minHeight: 60,
                   px: 4,
-                  borderRadius: 2.5,
+                  borderRadius: '2px',
                   margin: '4px',
                   transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                   position: 'relative',
@@ -926,7 +926,7 @@ const SpecialsManagement: React.FC = () => {
                       py: 8,
                       px: 4,
                       bgcolor: 'grey.50',
-                      borderRadius: 3,
+                      borderRadius: '2px',
                       border: '2px dashed',
                       borderColor: 'grey.300',
                     }}
@@ -965,7 +965,7 @@ const SpecialsManagement: React.FC = () => {
                       py: 8,
                       px: 4,
                       bgcolor: 'grey.50',
-                      borderRadius: 3,
+                      borderRadius: '2px',
                       border: '2px dashed',
                       borderColor: 'grey.300',
                     }}
@@ -1003,7 +1003,7 @@ const SpecialsManagement: React.FC = () => {
                       textAlign: 'center',
                       py: 8,
                       backgroundColor: 'background.default',
-                      borderRadius: 3,
+                      borderRadius: '2px',
                       border: '2px dashed',
                       borderColor: 'divider',
                     }}
@@ -1041,7 +1041,7 @@ const SpecialsManagement: React.FC = () => {
                       textAlign: 'center',
                       py: 8,
                       backgroundColor: 'background.default',
-                      borderRadius: 3,
+                      borderRadius: '2px',
                       border: '2px dashed',
                       borderColor: 'divider',
                     }}
@@ -1078,7 +1078,7 @@ const SpecialsManagement: React.FC = () => {
                       textAlign: 'center',
                       py: 8,
                       backgroundColor: 'background.default',
-                      borderRadius: 3,
+                      borderRadius: '2px',
                       border: '2px dashed',
                       borderColor: 'divider',
                     }}
@@ -1117,7 +1117,7 @@ const SpecialsManagement: React.FC = () => {
                       py: 8,
                       px: 4,
                       bgcolor: 'grey.50',
-                      borderRadius: 3,
+                      borderRadius: '2px',
                       border: '2px dashed',
                       borderColor: 'grey.300',
                     }}
@@ -1152,7 +1152,7 @@ const SpecialsManagement: React.FC = () => {
             fullWidth
             sx={{
               '& .MuiDialog-paper': {
-                borderRadius: 3,
+                borderRadius: '2px',
                 boxShadow: '0 8px 24px rgba(190, 89, 83, 0.2)',
                 overflow: 'visible',
                 border: '1px solid #E8DDD0',
@@ -1171,14 +1171,14 @@ const SpecialsManagement: React.FC = () => {
             >
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
                 <Box sx={{
-                  width: 36, height: 36, borderRadius: 2,
+                  width: 36, height: 36, borderRadius: '2px',
                   background: 'rgba(190, 89, 83, 0.1)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   color: '#BE5953',
                 }}>
                   <SpecialIcon fontSize="small" />
                 </Box>
-                <Typography sx={{ fontWeight: 700, fontSize: '1.1rem', color: '#2D2926' }}>
+                <Typography sx={{ fontWeight: 700, fontSize: '1.1rem', color: '#1D2327' }}>
                   {editingSpecial ? 'Edit Special' : 'Create New Special'}
                 </Typography>
               </Box>
@@ -1425,7 +1425,7 @@ const SpecialsManagement: React.FC = () => {
                             width: 100,
                             height: 100,
                             objectFit: 'cover',
-                            borderRadius: 1,
+                            borderRadius: '2px',
                             border: '2px solid #BE5953',
                           }}
                         />
@@ -1458,8 +1458,8 @@ const SpecialsManagement: React.FC = () => {
                             width: 100,
                             height: 100,
                             objectFit: 'cover',
-                            borderRadius: 1,
-                            border: '2px dashed #2C5530',
+                            borderRadius: '2px',
+                            border: '2px dashed #00A32A',
                           }}
                         />
                         <IconButton
@@ -1519,7 +1519,7 @@ const SpecialsManagement: React.FC = () => {
                   fontWeight: 500,
                   px: 3,
                   py: 1.5,
-                  borderRadius: 2,
+                  borderRadius: '2px',
                 }}
               >
                 Cancel
@@ -1529,16 +1529,16 @@ const SpecialsManagement: React.FC = () => {
                 variant="contained"
                 sx={{
                   background:
-                    'linear-gradient(135deg, #BE5953 0%, #C9A96E 100%)',
+                    'linear-gradient(135deg, #BE5953 0%, #DBA617 100%)',
                   textTransform: 'none',
                   fontWeight: 600,
                   px: 4,
                   py: 1.5,
-                  borderRadius: 2,
+                  borderRadius: '2px',
                   boxShadow: '0 2px 8px rgba(190, 89, 83, 0.22)',
                   '&:hover': {
                     background:
-                      'linear-gradient(135deg, #8E3830 0%, #B5661A 100%)',
+                      'linear-gradient(135deg, #9A413C 0%, #B5661A 100%)',
                     boxShadow: '0 4px 12px rgba(190, 89, 83, 0.3)',
                   },
                 }}
@@ -1551,10 +1551,10 @@ const SpecialsManagement: React.FC = () => {
           {/* Delete Confirmation Dialog */}
           <Dialog open={deleteConfirmId !== null} onClose={() => setDeleteConfirmId(null)} maxWidth="xs" fullWidth>
             <DialogTitle sx={{ display: 'flex', alignItems: 'center', gap: 1.5, px: 3, py: 2.5, borderBottom: '1px solid rgba(190, 89, 83, 0.1)' }}>
-              <Box sx={{ width: 36, height: 36, borderRadius: 2, background: 'rgba(239,68,68,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#EF4444' }}>
+              <Box sx={{ width: 36, height: 36, borderRadius: '2px', background: 'rgba(239,68,68,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#D63638' }}>
                 <WarningIcon fontSize="small" />
               </Box>
-              <Typography sx={{ fontWeight: 700, fontSize: '1.05rem', color: '#2D2926' }}>
+              <Typography sx={{ fontWeight: 700, fontSize: '1.05rem', color: '#1D2327' }}>
                 Delete Special
               </Typography>
             </DialogTitle>
@@ -1564,13 +1564,13 @@ const SpecialsManagement: React.FC = () => {
               </Typography>
             </DialogContent>
             <DialogActions sx={{ px: 3, pb: 3, gap: 1.5 }}>
-              <Button onClick={() => setDeleteConfirmId(null)} variant="outlined" sx={{ borderRadius: 2, fontWeight: 600, px: 3 }}>
+              <Button onClick={() => setDeleteConfirmId(null)} variant="outlined" sx={{ borderRadius: '2px', fontWeight: 600, px: 3 }}>
                 Cancel
               </Button>
               <Button
                 onClick={() => deleteConfirmId !== null && handleDelete(deleteConfirmId)}
                 variant="contained"
-                sx={{ borderRadius: 2, fontWeight: 600, px: 3, bgcolor: '#EF4444', '&:hover': { bgcolor: '#DC2626' } }}
+                sx={{ borderRadius: '2px', fontWeight: 600, px: 3, bgcolor: '#D63638', '&:hover': { bgcolor: '#A62527' } }}
               >
                 Delete
               </Button>

@@ -30,7 +30,7 @@ export const EnhancedDataGrid: React.FC<EnhancedDataGridProps> = ({
   return (
     <Paper
       sx={{
-        borderRadius: 2.5,
+        borderRadius: '2px',
         border: '1px solid',
         borderColor: 'rgba(190, 89, 83, 0.08)',
         overflow: 'hidden',

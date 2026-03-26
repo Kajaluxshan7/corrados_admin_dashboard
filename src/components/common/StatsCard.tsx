@@ -31,78 +31,49 @@ export const StatsCard: React.FC<StatsCardProps> = ({
       onClick={onClick}
       sx={{
         height: '100%',
-        border: '1px solid #EDE0D8',
-        borderRadius: '10px',
+        border: '1px solid #E2E4E7',
+        borderRadius: '2px',
         backgroundColor: '#FFFFFF',
-        boxShadow: '0 1px 6px rgba(0,0,0,0.04)',
-        transition: 'box-shadow 0.2s ease, transform 0.2s ease',
+        boxShadow: '0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.05)',
         cursor: onClick ? 'pointer' : 'default',
         position: 'relative',
         overflow: 'hidden',
-        '&::before': {
-          content: '""',
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          height: 3,
-          backgroundColor: color,
-          borderRadius: '10px 10px 0 0',
-        },
-        '&:hover': onClick
-          ? {
-              boxShadow: '0 6px 20px rgba(0,0,0,0.09)',
-              transform: 'translateY(-2px)',
-            }
-          : {},
+        transition: 'border-color 150ms ease',
+        '&:hover': onClick ? { borderColor: '#CDD0D4' } : {},
       }}
     >
-      <CardContent sx={{ p: 2.5, pt: 3 }}>
+      <CardContent sx={{ p: '16px', '&:last-child': { pb: '16px' } }}>
         {/* Header */}
-        <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', mb: 1.5 }}>
+        <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', mb: '12px' }}>
           <Typography
             sx={{
-              fontSize: '0.68rem',
-              fontWeight: 700,
-              letterSpacing: '0.1em',
+              fontSize: '0.6875rem',
+              fontWeight: 600,
+              letterSpacing: '0.04em',
               textTransform: 'uppercase',
-              color: '#A89080',
+              color: '#787C82',
             }}
           >
             {title}
           </Typography>
-          <Box
-            sx={{
-              width: 34,
-              height: 34,
-              borderRadius: '8px',
-              backgroundColor: `${color}12`,
-              border: `1px solid ${color}22`,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              flexShrink: 0,
-            }}
-          >
-            <Icon sx={{ fontSize: 17, color }} />
-          </Box>
+          <Icon sx={{ fontSize: 24, color: '#CDD0D4' }} />
         </Box>
 
         {/* Value */}
-        <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 1, mb: 0.25 }}>
+        <Box sx={{ display: 'flex', alignItems: 'baseline', gap: '8px', mb: '2px' }}>
           <Typography
             sx={{
-              fontFamily: '"Playfair Display", "Georgia", serif',
+              fontFamily: '"Inter", sans-serif',
               fontWeight: 700,
-              color: '#2D2926',
-              fontSize: { xs: '1.75rem', sm: '2rem' },
+              color: '#1D2327',
+              fontSize: '1.75rem',
               lineHeight: 1,
             }}
           >
             {value.toLocaleString()}
           </Typography>
           {total !== undefined && total > 0 && value !== total && (
-            <Typography sx={{ color: '#C4BBB5', fontSize: '0.78rem', fontWeight: 500 }}>
+            <Typography sx={{ color: '#A7AAAD', fontSize: '0.8125rem', fontWeight: 400 }}>
               / {total.toLocaleString()}
             </Typography>
           )}
@@ -111,18 +82,18 @@ export const StatsCard: React.FC<StatsCardProps> = ({
               sx={{
                 display: 'inline-flex',
                 alignItems: 'center',
-                px: 0.75,
-                py: 0.2,
-                borderRadius: '4px',
-                backgroundColor: trend.isPositive ? 'rgba(44,85,48,0.1)' : 'rgba(190,89,83,0.09)',
-                border: `1px solid ${trend.isPositive ? 'rgba(44,85,48,0.2)' : 'rgba(190,89,83,0.2)'}`,
+                px: '6px',
+                py: '2px',
+                borderRadius: '2px',
+                backgroundColor: trend.isPositive ? '#EEF7EE' : '#FCEEEE',
+                border: `1px solid ${trend.isPositive ? '#B3DFBB' : '#E9A8A8'}`,
               }}
             >
               <Typography
                 sx={{
-                  color: trend.isPositive ? '#2C5530' : '#BE5953',
+                  color: trend.isPositive ? '#00A32A' : '#D63638',
                   fontWeight: 700,
-                  fontSize: '0.7rem',
+                  fontSize: '0.75rem',
                 }}
               >
                 {trend.isPositive ? '↑' : '↓'} {Math.abs(trend.value)}%
@@ -133,21 +104,21 @@ export const StatsCard: React.FC<StatsCardProps> = ({
 
         {/* Progress Bar */}
         {progress !== undefined && progress < 100 && (
-          <Box sx={{ mt: 1.5 }}>
+          <Box sx={{ mt: '12px' }}>
             <LinearProgress
               variant="determinate"
               value={progress}
               sx={{
                 height: 3,
-                borderRadius: 2,
-                backgroundColor: `${color}18`,
+                borderRadius: 0,
+                backgroundColor: '#E2E4E7',
                 '& .MuiLinearProgress-bar': {
-                  borderRadius: 2,
+                  borderRadius: 0,
                   backgroundColor: color,
                 },
               }}
             />
-            <Typography sx={{ fontSize: '0.68rem', fontWeight: 600, color, mt: 0.5 }}>
+            <Typography sx={{ fontSize: '0.6875rem', fontWeight: 600, color: '#787C82', mt: '4px' }}>
               {Math.round(progress)}% active
             </Typography>
           </Box>

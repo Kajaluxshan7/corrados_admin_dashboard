@@ -17,7 +17,6 @@ import {
   Menu,
   MenuItem,
   Tooltip,
-  Chip,
 } from '@mui/material';
 import {
   Menu as MenuIcon,
@@ -29,7 +28,6 @@ import {
   Star as SpecialsIcon,
   Event as EventIcon,
   Schedule as ScheduleIcon,
-  AccessTime as AccessTimeIcon,
   PhotoLibrary as StoriesIcon,
   Category as MeasurementsIcon,
   Email as NewsletterIcon,
@@ -43,21 +41,8 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import moment from 'moment-timezone';
 
-const SIDEBAR_WIDTH = 248;
-const SIDEBAR_COLLAPSED = 64;
-
-// ─── Design tokens ─────────────────────────────────────────────
-const S = {
-  bg: '#1D1917',
-  bgHover: 'rgba(255,255,255,0.05)',
-  bgActive: 'rgba(190,89,83,0.18)',
-  borderActive: '#BE5953',
-  textDefault: '#A89080',
-  textActive: '#FFFFFF',
-  textMuted: '#5C4A40',
-  divider: 'rgba(255,255,255,0.06)',
-  groupLabel: '#6B5047',
-};
+const SIDEBAR_WIDTH = 220;
+const SIDEBAR_COLLAPSED = 36;
 
 const navigationGroups = [
   {
@@ -105,7 +90,7 @@ const DashboardLayout: React.FC = () => {
 
   useEffect(() => {
     const update = () =>
-      setCurrentTime(moment().tz('America/Toronto').format('h:mm A · ddd MMM D'));
+      setCurrentTime(moment().tz('America/Toronto').format('h:mm A'));
     update();
     const id = setInterval(update, 1000);
     return () => clearInterval(id);
@@ -117,106 +102,94 @@ const DashboardLayout: React.FC = () => {
   const getInitials = () =>
     `${user?.firstName?.charAt(0) ?? ''}${user?.lastName?.charAt(0) ?? ''}`;
 
-  // ─── Sidebar content ─────────────────────────────────────────
+  // Build breadcrumb
+  const breadcrumb = currentPage ? `Dashboard › ${currentPage.name}` : 'Dashboard';
+
   const sidebarContent = (isMobile = false) => (
-    <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', bgcolor: S.bg }}>
+    <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', bgcolor: '#1D2327' }}>
 
       {/* Logo row */}
       <Box
         sx={{
-          height: 60,
+          height: 46,
           display: 'flex',
           alignItems: 'center',
-          px: collapsed && !isMobile ? 0 : 2,
+          px: collapsed && !isMobile ? 0 : '12px',
           justifyContent: collapsed && !isMobile ? 'center' : 'space-between',
-          borderBottom: `1px solid ${S.divider}`,
           flexShrink: 0,
         }}
       >
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, overflow: 'hidden' }}>
-          <Box
-            sx={{
-              width: 34,
-              height: 34,
-              borderRadius: '8px',
-              bgcolor: 'rgba(190,89,83,0.2)',
-              border: '1px solid rgba(190,89,83,0.35)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              flexShrink: 0,
-              overflow: 'hidden',
-            }}
-          >
+        {(!collapsed || isMobile) && (
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, overflow: 'hidden' }}>
             <Box
               component="img"
               src="/corrados-logo.png"
               alt="C"
-              sx={{ height: 24, width: 'auto', objectFit: 'contain' }}
+              sx={{ height: 22, width: 'auto', objectFit: 'contain' }}
+              onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
+                e.currentTarget.style.display = 'none';
+              }}
             />
-          </Box>
-          {(!collapsed || isMobile) && (
             <Box>
               <Typography
                 sx={{
-                  fontFamily: '"Playfair Display", Georgia, serif',
+                  fontFamily: '"Inter", sans-serif',
                   fontWeight: 700,
-                  fontSize: '0.95rem',
-                  color: '#F5EDE4',
-                  lineHeight: 1.15,
-                  letterSpacing: '-0.01em',
+                  fontSize: '0.9375rem',
+                  color: '#FFFFFF',
+                  lineHeight: 1.2,
                 }}
               >
                 Corrado's
               </Typography>
               <Typography
                 sx={{
-                  fontSize: '0.58rem',
-                  fontWeight: 700,
-                  letterSpacing: '0.16em',
+                  fontSize: '0.625rem',
+                  fontWeight: 600,
+                  letterSpacing: '0.08em',
                   textTransform: 'uppercase',
-                  color: S.groupLabel,
+                  color: '#72777C',
                   lineHeight: 1,
                 }}
               >
                 Admin Portal
               </Typography>
             </Box>
-          )}
-        </Box>
+          </Box>
+        )}
         {(!collapsed || isMobile) && !isMobile && (
           <IconButton
             onClick={() => setCollapsed(true)}
             size="small"
-            sx={{ color: S.textMuted, '&:hover': { color: S.textDefault, bgcolor: S.bgHover } }}
+            sx={{ color: '#72777C', '&:hover': { color: '#FFFFFF', bgcolor: 'rgba(255,255,255,0.07)' }, borderRadius: '2px' }}
           >
-            <ChevronLeftIcon sx={{ fontSize: 17 }} />
+            <ChevronLeftIcon sx={{ fontSize: 16 }} />
           </IconButton>
         )}
       </Box>
 
       {/* Navigation */}
-      <Box sx={{ flex: 1, overflowY: 'auto', overflowX: 'hidden', py: 1.5, px: collapsed && !isMobile ? 0.75 : 1 }}>
+      <Box sx={{ flex: 1, overflowY: 'auto', overflowX: 'hidden', py: '6px', px: collapsed && !isMobile ? '0' : '0' }}>
         {navigationGroups.map((group, gi) => (
-          <Box key={group.label} sx={{ mb: 0.5 }}>
+          <Box key={group.label}>
             {(!collapsed || isMobile) ? (
               <Typography
                 sx={{
-                  px: 1.25,
-                  pt: gi > 0 ? 1.75 : 0.5,
-                  pb: 0.5,
-                  fontSize: '0.6rem',
-                  fontWeight: 800,
-                  letterSpacing: '0.15em',
+                  px: '12px',
+                  pt: gi > 0 ? '16px' : '8px',
+                  pb: '4px',
+                  fontSize: '0.6875rem',
+                  fontWeight: 600,
+                  letterSpacing: '0.08em',
                   textTransform: 'uppercase',
-                  color: S.groupLabel,
+                  color: '#72777C',
                   display: 'block',
                 }}
               >
                 {group.label}
               </Typography>
             ) : (
-              gi > 0 && <Divider sx={{ my: 1, borderColor: S.divider }} />
+              gi > 0 && <Divider sx={{ my: '8px', borderColor: 'rgba(255,255,255,0.06)' }} />
             )}
             <List disablePadding>
               {group.items.map((item) => {
@@ -228,51 +201,40 @@ const DashboardLayout: React.FC = () => {
                     selected={isActive}
                     onClick={() => { navigate(item.path); setMobileOpen(false); }}
                     sx={{
-                      borderRadius: '6px',
+                      borderRadius: '0',
                       minHeight: 36,
-                      px: collapsed && !isMobile ? 0 : 1.25,
-                      py: 0.625,
-                      mb: 0.125,
+                      px: collapsed && !isMobile ? 0 : '12px',
+                      py: 0,
                       justifyContent: collapsed && !isMobile ? 'center' : 'flex-start',
-                      position: 'relative',
-                      transition: 'background 0.15s',
+                      transition: 'background-color 100ms ease',
                       '&.Mui-selected': {
-                        bgcolor: S.bgActive,
-                        '&::before': {
-                          content: '""',
-                          position: 'absolute',
-                          left: 0,
-                          top: '15%',
-                          bottom: '15%',
-                          width: 3,
-                          borderRadius: '0 3px 3px 0',
-                          bgcolor: S.borderActive,
-                        },
-                        '& .MuiListItemIcon-root': { color: '#F5EDE4' },
+                        bgcolor: '#BE5953',
+                        '& .MuiListItemIcon-root': { color: '#FFFFFF' },
                         '& .MuiListItemText-primary': { color: '#FFFFFF', fontWeight: 700 },
-                        '&:hover': { bgcolor: 'rgba(190,89,83,0.24)' },
+                        '&:hover': { bgcolor: '#9A413C' },
                       },
-                      '&:hover:not(.Mui-selected)': { bgcolor: S.bgHover },
+                      '&:hover:not(.Mui-selected)': { bgcolor: 'rgba(255,255,255,0.07)', '& .MuiListItemText-primary': { color: '#FFFFFF' } },
                     }}
                   >
                     <ListItemIcon
                       sx={{
-                        minWidth: collapsed && !isMobile ? 0 : 30,
-                        color: isActive ? '#F5EDE4' : S.textDefault,
+                        minWidth: collapsed && !isMobile ? 0 : 28,
+                        color: isActive ? '#FFFFFF' : '#72777C',
                         justifyContent: 'center',
                       }}
                     >
-                      <Icon sx={{ fontSize: 17 }} />
+                      <Icon sx={{ fontSize: 18 }} />
                     </ListItemIcon>
                     {(!collapsed || isMobile) && (
                       <ListItemText
                         primary={item.name}
                         slotProps={{
                           primary: {
-                            fontSize: '0.845rem',
-                            fontWeight: isActive ? 700 : 500,
-                            color: isActive ? '#FFFFFF' : S.textDefault,
-                            letterSpacing: '-0.005em',
+                            sx: {
+                              fontSize: '0.8125rem',
+                              fontWeight: isActive ? 600 : 500,
+                              color: isActive ? '#FFFFFF' : '#A7AAAD',
+                            },
                           },
                         }}
                       />
@@ -295,20 +257,20 @@ const DashboardLayout: React.FC = () => {
 
       {/* Expand toggle when collapsed */}
       {collapsed && !isMobile && (
-        <Box sx={{ px: 0.75, pb: 0.5 }}>
+        <Box sx={{ pb: '4px' }}>
           <Tooltip title="Expand sidebar" placement="right">
             <IconButton
               onClick={() => setCollapsed(false)}
               size="small"
               sx={{
                 width: '100%',
-                borderRadius: '6px',
-                py: 0.75,
-                color: S.textMuted,
-                '&:hover': { color: S.textDefault, bgcolor: S.bgHover },
+                borderRadius: '0',
+                py: '8px',
+                color: '#72777C',
+                '&:hover': { color: '#FFFFFF', bgcolor: 'rgba(255,255,255,0.07)' },
               }}
             >
-              <ChevronRightIcon sx={{ fontSize: 17 }} />
+              <ChevronRightIcon sx={{ fontSize: 16 }} />
             </IconButton>
           </Tooltip>
         </Box>
@@ -317,15 +279,14 @@ const DashboardLayout: React.FC = () => {
       {/* User footer */}
       <Box
         sx={{
-          px: collapsed && !isMobile ? 0.75 : 1.5,
-          py: 1.5,
-          borderTop: `1px solid ${S.divider}`,
+          px: collapsed && !isMobile ? 0 : '12px',
+          py: '12px',
+          borderTop: '1px solid rgba(255,255,255,0.06)',
           display: 'flex',
           alignItems: 'center',
-          gap: 1.25,
+          gap: '10px',
           justifyContent: collapsed && !isMobile ? 'center' : 'flex-start',
           flexShrink: 0,
-          bgcolor: 'rgba(0,0,0,0.15)',
         }}
       >
         {collapsed && !isMobile ? (
@@ -333,8 +294,8 @@ const DashboardLayout: React.FC = () => {
             <Avatar
               onClick={logout}
               sx={{
-                width: 30, height: 30, bgcolor: '#BE5953',
-                fontSize: '0.7rem', fontWeight: 700,
+                width: 28, height: 28, bgcolor: '#BE5953', borderRadius: '2px',
+                fontSize: '0.6875rem', fontWeight: 700,
                 cursor: 'pointer', '&:hover': { opacity: 0.85 },
               }}
             >
@@ -344,20 +305,20 @@ const DashboardLayout: React.FC = () => {
         ) : (
           <>
             <Avatar
-              sx={{ width: 30, height: 30, bgcolor: '#BE5953', fontSize: '0.7rem', fontWeight: 700, flexShrink: 0 }}
+              sx={{ width: 28, height: 28, bgcolor: '#BE5953', borderRadius: '2px', fontSize: '0.6875rem', fontWeight: 700, flexShrink: 0 }}
             >
               {getInitials()}
             </Avatar>
             <Box sx={{ flex: 1, minWidth: 0 }}>
               <Typography
                 noWrap
-                sx={{ fontSize: '0.8rem', fontWeight: 700, color: '#D4C4B8', lineHeight: 1.3 }}
+                sx={{ fontSize: '0.8125rem', fontWeight: 500, color: '#CDCFD2', lineHeight: 1.3 }}
               >
                 {user?.firstName} {user?.lastName}
               </Typography>
               <Typography
                 noWrap
-                sx={{ fontSize: '0.68rem', color: S.groupLabel, display: 'block' }}
+                sx={{ fontSize: '0.6875rem', color: '#72777C', display: 'block' }}
               >
                 {user?.role === 'super_admin' ? 'Super Admin' : 'Admin'}
               </Typography>
@@ -366,7 +327,7 @@ const DashboardLayout: React.FC = () => {
               <IconButton
                 size="small"
                 onClick={logout}
-                sx={{ color: S.textMuted, '&:hover': { color: '#EF4444', bgcolor: 'rgba(239,68,68,0.1)' } }}
+                sx={{ color: '#72777C', borderRadius: '2px', '&:hover': { color: '#D63638', bgcolor: 'rgba(214,54,56,0.1)' } }}
               >
                 <LogoutIcon sx={{ fontSize: 15 }} />
               </IconButton>
@@ -378,7 +339,7 @@ const DashboardLayout: React.FC = () => {
   );
 
   return (
-    <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: '#F0EBE4' }}>
+    <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: '#F0F0F1' }}>
 
       {/* ── Top bar ─────────────────────────────────────────── */}
       <AppBar
@@ -387,115 +348,78 @@ const DashboardLayout: React.FC = () => {
         sx={{
           left: { xs: 0, sm: `${drawerWidth}px` },
           width: { xs: '100%', sm: `calc(100% - ${drawerWidth}px)` },
-          bgcolor: '#FFFFFF',
-          color: '#1C1917',
-          borderBottom: '1px solid #E8E0D8',
+          bgcolor: '#1D2327',
+          color: '#FFFFFF',
+          borderBottom: 'none',
           boxShadow: 'none',
+          height: 46,
           transition: 'left 0.2s ease, width 0.2s ease',
           zIndex: (t) => t.zIndex.drawer - 1,
         }}
       >
-        <Toolbar sx={{ minHeight: { xs: 56, sm: 60 }, px: { xs: 2, sm: 2.5 }, gap: 1 }}>
+        <Toolbar
+          sx={{
+            minHeight: '46px !important',
+            height: 46,
+            px: { xs: '16px', sm: '20px' },
+            gap: '8px',
+          }}
+        >
           {/* Mobile hamburger */}
           <IconButton
             edge="start"
             onClick={() => setMobileOpen(!mobileOpen)}
-            sx={{ display: { sm: 'none' }, color: '#BE5953', mr: 0.5 }}
+            sx={{ display: { sm: 'none' }, color: '#FFFFFF', mr: '4px', borderRadius: '2px' }}
           >
-            <MenuIcon />
+            <MenuIcon sx={{ fontSize: 20 }} />
           </IconButton>
 
-          {/* Page title */}
-          {currentPage && (
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25 }}>
-              <Box
-                sx={{
-                  width: 28, height: 28, borderRadius: '6px',
-                  bgcolor: 'rgba(190,89,83,0.1)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  color: '#BE5953',
-                }}
-              >
-                <currentPage.icon sx={{ fontSize: 15 }} />
-              </Box>
-              <Box>
-                <Typography
-                  sx={{ fontWeight: 700, fontSize: '0.9rem', color: '#1C1917', lineHeight: 1.2 }}
-                >
-                  {currentPage.name}
-                </Typography>
-                <Typography sx={{ fontSize: '0.67rem', color: '#9B8B80', lineHeight: 1 }}>
-                  Corrado's Admin Dashboard
-                </Typography>
-              </Box>
-            </Box>
-          )}
+          {/* Breadcrumb */}
+          <Typography
+            sx={{ fontSize: '0.8125rem', color: '#A7AAAD', display: { xs: 'none', sm: 'block' } }}
+          >
+            {breadcrumb}
+          </Typography>
 
           <Box sx={{ flexGrow: 1 }} />
 
           {/* Right actions */}
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             {/* Clock */}
-            <Box
+            <Typography
               sx={{
-                display: { xs: 'none', md: 'flex' },
-                alignItems: 'center', gap: 0.75,
-                px: 1.25, py: 0.5,
-                borderRadius: '5px',
-                border: '1px solid #EDE0D8',
-                bgcolor: '#FDFAF8',
+                display: { xs: 'none', md: 'block' },
+                fontSize: '0.75rem',
+                color: '#72777C',
               }}
             >
-              <AccessTimeIcon sx={{ fontSize: 12, color: '#BE5953' }} />
-              <Typography sx={{ fontSize: '0.775rem', fontWeight: 600, color: '#5C524D', letterSpacing: '0.02em' }}>
-                {currentTime}
-              </Typography>
-            </Box>
-
-            {/* Role badge */}
-            {user?.role && (
-              <Chip
-                label={user.role === 'super_admin' ? 'Super Admin' : 'Admin'}
-                size="small"
-                sx={{
-                  display: { xs: 'none', lg: 'flex' },
-                  height: 22,
-                  fontSize: '0.65rem',
-                  fontWeight: 700,
-                  letterSpacing: '0.05em',
-                  bgcolor: user.role === 'super_admin' ? 'rgba(36,58,125,0.08)' : 'rgba(190,89,83,0.08)',
-                  color: user.role === 'super_admin' ? '#243A7D' : '#8E3830',
-                  border: `1px solid ${user.role === 'super_admin' ? 'rgba(36,58,125,0.2)' : 'rgba(190,89,83,0.2)'}`,
-                  borderRadius: '4px',
-                }}
-              />
-            )}
+              {currentTime}
+            </Typography>
 
             {/* Profile button */}
             <Box
               onClick={(e) => setAnchorEl(e.currentTarget)}
               sx={{
-                display: 'flex', alignItems: 'center', gap: 0.75,
-                px: 0.75, py: 0.5,
-                borderRadius: '7px',
-                border: '1px solid #EDE0D8',
+                display: 'flex', alignItems: 'center', gap: '6px',
+                px: '6px', py: '4px',
+                borderRadius: '2px',
                 cursor: 'pointer',
-                transition: 'all 0.15s',
-                '&:hover': { bgcolor: '#FDF8F4', borderColor: '#D4C4B8' },
+                transition: 'background-color 100ms ease',
+                '&:hover': { bgcolor: 'rgba(255,255,255,0.07)' },
               }}
             >
               <Avatar
                 sx={{
-                  width: 28, height: 28, bgcolor: '#1D1917',
-                  fontSize: '0.7rem', fontWeight: 700,
+                  width: 26, height: 26, bgcolor: '#BE5953', borderRadius: '2px',
+                  fontSize: '0.6875rem', fontWeight: 700,
                 }}
               >
                 {getInitials()}
               </Avatar>
-              <Typography sx={{ fontSize: '0.8rem', fontWeight: 600, color: '#1C1917', display: { xs: 'none', sm: 'block' } }}>
+              <Typography sx={{ fontSize: '0.8125rem', fontWeight: 500, color: '#CDCFD2', display: { xs: 'none', sm: 'block' } }}>
                 {user?.firstName}
               </Typography>
-              <ArrowDownIcon sx={{ fontSize: 15, color: '#9B8B80', display: { xs: 'none', sm: 'block' } }} />
+              <ArrowDownIcon sx={{ fontSize: 14, color: '#72777C', display: { xs: 'none', sm: 'block' } }} />
             </Box>
           </Box>
         </Toolbar>
@@ -511,11 +435,11 @@ const DashboardLayout: React.FC = () => {
           paper: {
             elevation: 0,
             sx: {
-              mt: 1,
-              borderRadius: '8px',
+              mt: '4px',
+              borderRadius: '2px',
               minWidth: 220,
-              border: '1px solid #EDE0D8',
-              boxShadow: '0 4px 24px rgba(0,0,0,0.1)',
+              border: '1px solid #E2E4E7',
+              boxShadow: '0 4px 16px rgba(0,0,0,0.12)',
               bgcolor: '#FFFFFF',
             },
           },
@@ -523,26 +447,26 @@ const DashboardLayout: React.FC = () => {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <Box sx={{ px: 2, py: 1.5, borderBottom: '1px solid #F0EBE4' }}>
-          <Typography sx={{ fontWeight: 700, fontSize: '0.875rem', color: '#1C1917' }}>
+        <Box sx={{ px: '16px', py: '12px', borderBottom: '1px solid #E2E4E7' }}>
+          <Typography sx={{ fontWeight: 600, fontSize: '0.875rem', color: '#1D2327' }}>
             {user?.firstName} {user?.lastName}
           </Typography>
-          <Typography sx={{ fontSize: '0.75rem', color: '#9B8B80' }}>{user?.email}</Typography>
+          <Typography sx={{ fontSize: '0.75rem', color: '#787C82' }}>{user?.email}</Typography>
         </Box>
-        <Box sx={{ py: 0.5 }}>
+        <Box sx={{ py: '4px' }}>
           <MenuItem
             onClick={() => navigate('/settings')}
-            sx={{ px: 2, py: 0.875, fontSize: '0.845rem', color: '#5C524D', '&:hover': { bgcolor: '#FDF8F4', color: '#BE5953' } }}
+            sx={{ px: '16px', py: '8px', fontSize: '0.875rem', color: '#1D2327', '&:hover': { bgcolor: '#F6F7F7' } }}
           >
-            <SettingsIcon sx={{ mr: 1.5, fontSize: 16, color: '#BE5953' }} />
+            <SettingsIcon sx={{ mr: '12px', fontSize: 16, color: '#787C82' }} />
             Profile & Settings
           </MenuItem>
-          <Divider sx={{ borderColor: '#F0EBE4', my: 0.5 }} />
+          <Divider sx={{ borderColor: '#E2E4E7', my: '4px' }} />
           <MenuItem
             onClick={logout}
-            sx={{ px: 2, py: 0.875, fontSize: '0.845rem', color: '#EF4444', '&:hover': { bgcolor: 'rgba(239,68,68,0.06)' } }}
+            sx={{ px: '16px', py: '8px', fontSize: '0.875rem', color: '#D63638', '&:hover': { bgcolor: 'rgba(214,54,56,0.06)' } }}
           >
-            <LogoutIcon sx={{ mr: 1.5, fontSize: 16 }} />
+            <LogoutIcon sx={{ mr: '12px', fontSize: 16 }} />
             Sign Out
           </MenuItem>
         </Box>
@@ -560,9 +484,9 @@ const DashboardLayout: React.FC = () => {
             display: { xs: 'block', sm: 'none' },
             '& .MuiDrawer-paper': {
               width: SIDEBAR_WIDTH,
-              bgcolor: S.bg,
+              bgcolor: '#1D2327',
               borderRight: 'none',
-              boxShadow: '4px 0 32px rgba(0,0,0,0.3)',
+              boxShadow: '4px 0 24px rgba(0,0,0,0.3)',
             },
           }}
         >
@@ -576,9 +500,9 @@ const DashboardLayout: React.FC = () => {
             display: { xs: 'none', sm: 'block' },
             '& .MuiDrawer-paper': {
               width: drawerWidth,
-              bgcolor: S.bg,
+              bgcolor: '#1D2327',
               borderRight: 'none',
-              boxShadow: '2px 0 16px rgba(0,0,0,0.2)',
+              boxShadow: 'none',
               overflow: 'hidden',
               transition: 'width 0.2s ease',
             },
@@ -599,30 +523,31 @@ const DashboardLayout: React.FC = () => {
           transition: 'width 0.2s ease',
           display: 'flex',
           flexDirection: 'column',
-          bgcolor: '#F0EBE4',
+          bgcolor: '#F0F0F1',
         }}
       >
-        <Toolbar sx={{ minHeight: { xs: 56, sm: 60 }, flexShrink: 0 }} />
+        {/* Spacer for fixed AppBar */}
+        <Box sx={{ height: 46, flexShrink: 0 }} />
 
-        <Box sx={{ flexGrow: 1, p: { xs: 2, sm: 2.5, md: 3 } }}>
+        <Box sx={{ flexGrow: 1, p: { xs: '16px', sm: '20px', md: '24px' } }}>
           <Outlet />
         </Box>
 
         <Box
           sx={{
-            px: 3,
-            py: 1.5,
-            borderTop: '1px solid #E8E0D8',
-            bgcolor: 'rgba(255,255,255,0.5)',
+            px: '24px',
+            py: '12px',
+            borderTop: '1px solid #E2E4E7',
+            bgcolor: '#FFFFFF',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
           }}
         >
-          <Typography sx={{ fontSize: '0.7rem', color: '#B0A8A2' }}>
+          <Typography sx={{ fontSize: '0.6875rem', color: '#A7AAAD' }}>
             © {new Date().getFullYear()} Corrado's Restaurant &amp; Bar · Whitby, ON
           </Typography>
-          <Typography sx={{ fontSize: '0.7rem', color: '#B0A8A2' }}>
+          <Typography sx={{ fontSize: '0.6875rem', color: '#A7AAAD' }}>
             Admin v1.0
           </Typography>
         </Box>

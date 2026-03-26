@@ -22,7 +22,7 @@ interface SummaryStatsProps {
 const StatCard: React.FC<{ stat: StatItem }> = ({ stat }) => {
   const accent = stat.color || '#BE5953';
   const trendColor =
-    stat.trend === 'up' ? '#2C5530' : stat.trend === 'down' ? '#BE5953' : '#9B8B80';
+    stat.trend === 'up' ? '#00A32A' : stat.trend === 'down' ? '#BE5953' : '#787C82';
   const TrendIcon =
     stat.trend === 'up' ? TrendingUp : stat.trend === 'down' ? TrendingDown : TrendingFlat;
 
@@ -30,9 +30,9 @@ const StatCard: React.FC<{ stat: StatItem }> = ({ stat }) => {
     <Box
       sx={{
         bgcolor: '#FFFFFF',
-        border: '1px solid #E8E0D8',
+        border: '1px solid #E2E4E7',
         borderLeft: `4px solid ${accent}`,
-        borderRadius: '6px',
+        borderRadius: '2px',
         p: 2,
         display: 'flex',
         alignItems: 'center',
@@ -47,7 +47,7 @@ const StatCard: React.FC<{ stat: StatItem }> = ({ stat }) => {
           sx={{
             width: 40,
             height: 40,
-            borderRadius: '8px',
+            borderRadius: '2px',
             bgcolor: `${accent}12`,
             display: 'flex',
             alignItems: 'center',
@@ -67,7 +67,7 @@ const StatCard: React.FC<{ stat: StatItem }> = ({ stat }) => {
             fontWeight: 700,
             textTransform: 'uppercase',
             letterSpacing: '0.08em',
-            color: '#9B8B80',
+            color: '#787C82',
             mb: 0.375,
             whiteSpace: 'nowrap',
             overflow: 'hidden',
@@ -81,7 +81,7 @@ const StatCard: React.FC<{ stat: StatItem }> = ({ stat }) => {
             sx={{
               fontSize: '1.625rem',
               fontWeight: 800,
-              color: '#1C1917',
+              color: '#1D2327',
               lineHeight: 1,
               letterSpacing: '-0.03em',
             }}
@@ -89,7 +89,7 @@ const StatCard: React.FC<{ stat: StatItem }> = ({ stat }) => {
             {stat.value}
           </Typography>
           {stat.suffix && (
-            <Typography sx={{ fontSize: '0.8rem', color: '#9B8B80', fontWeight: 500 }}>
+            <Typography sx={{ fontSize: '0.8rem', color: '#787C82', fontWeight: 500 }}>
               {stat.suffix}
             </Typography>
           )}
@@ -134,8 +134,8 @@ export const SummaryStats: React.FC<SummaryStatsProps> = ({
           mb: 3,
           p: 2,
           bgcolor: '#FFFFFF',
-          border: '1px solid #E8E0D8',
-          borderRadius: '6px',
+          border: '1px solid #E2E4E7',
+          borderRadius: '2px',
         }}
       >
         {stats.map((stat, i) => (
@@ -147,7 +147,7 @@ export const SummaryStats: React.FC<SummaryStatsProps> = ({
               gap: 0.75,
               px: 1.5,
               py: 0.75,
-              borderRadius: '5px',
+              borderRadius: '2px',
               bgcolor: stat.color ? `${stat.color}0D` : 'rgba(190,89,83,0.06)',
               border: `1px solid ${stat.color ? `${stat.color}20` : 'rgba(190,89,83,0.12)'}`,
             }}
@@ -157,10 +157,10 @@ export const SummaryStats: React.FC<SummaryStatsProps> = ({
                 {stat.icon}
               </Box>
             )}
-            <Typography sx={{ fontSize: '0.75rem', fontWeight: 700, color: stat.color || '#1C1917' }}>
+            <Typography sx={{ fontSize: '0.75rem', fontWeight: 700, color: stat.color || '#1D2327' }}>
               {stat.value}
             </Typography>
-            <Typography sx={{ fontSize: '0.7rem', color: '#9B8B80' }}>
+            <Typography sx={{ fontSize: '0.7rem', color: '#787C82' }}>
               {stat.label}
             </Typography>
           </Box>

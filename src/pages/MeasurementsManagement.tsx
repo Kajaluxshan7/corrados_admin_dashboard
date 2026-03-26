@@ -79,13 +79,13 @@ const MeasurementsManagement: React.FC = () => {
         label: 'Active',
         value: active,
         icon: <ActiveIcon fontSize="small" />,
-        color: '#2C5530',
+        color: '#00A32A',
       },
       {
         label: 'Inactive',
         value: inactive,
         icon: <InactiveIcon fontSize="small" />,
-        color: '#A89080',
+        color: '#787C82',
       },
     ];
   }, [measurementTypes]);
@@ -228,9 +228,9 @@ const MeasurementsManagement: React.FC = () => {
               color: '#fff',
               fontWeight: 600,
               px: 3,
-              borderRadius: 2,
+              borderRadius: '2px',
               boxShadow: '0 4px 14px rgba(190, 89, 83, 0.3)',
-              '&:hover': { backgroundColor: '#8E3830' },
+              '&:hover': { backgroundColor: '#9A413C' },
             }}
           >
             Add Measurement
@@ -244,7 +244,7 @@ const MeasurementsManagement: React.FC = () => {
       {/* Unit Cards List */}
       <Box
         sx={{
-          borderRadius: 3,
+          borderRadius: '2px',
           background: '#FFFFFF',
           border: '1px solid rgba(190,89,83,0.08)',
           boxShadow: '0 4px 20px rgba(0,0,0,0.04)',
@@ -263,7 +263,7 @@ const MeasurementsManagement: React.FC = () => {
           }}
         >
           {['Unit Name', 'Description', 'Order', 'Status', 'Actions'].map((h) => (
-            <Typography key={h} sx={{ fontSize: '0.72rem', fontWeight: 700, color: '#5C524D', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+            <Typography key={h} sx={{ fontSize: '0.72rem', fontWeight: 700, color: '#50575E', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
               {h}
             </Typography>
           ))}
@@ -272,7 +272,7 @@ const MeasurementsManagement: React.FC = () => {
         {loading ? (
           <Box sx={{ p: 2 }}>
             {[...Array(4)].map((_, i) => (
-              <Box key={i} sx={{ display: 'flex', gap: 2, alignItems: 'center', py: 2, px: 1, borderBottom: '1px solid rgba(190,89,83,0.06)' }}>
+              <Box key={i} sx={{ display: 'flex', gap: 2, alignItems: 'center', py: 2, px: 1, borderBottom: '1px solid rgba(0,0,0,0.04)' }}>
                 <Skeleton variant="rounded" width={44} height={44} sx={{ flexShrink: 0 }} />
                 <Box sx={{ flex: 1 }}>
                   <Skeleton variant="text" width="40%" height={22} />
@@ -294,14 +294,14 @@ const MeasurementsManagement: React.FC = () => {
             }}>
               <MeasureIcon sx={{ fontSize: 40, color: 'rgba(190,89,83,0.4)' }} />
             </Box>
-            <Typography variant="h6" sx={{ fontWeight: 700, color: '#2D2926', mb: 1 }}>
+            <Typography variant="h6" sx={{ fontWeight: 700, color: '#1D2327', mb: 1 }}>
               No Measurement Types Yet
             </Typography>
-            <Typography variant="body2" sx={{ color: '#5C524D', mb: 3 }}>
+            <Typography variant="body2" sx={{ color: '#50575E', mb: 3 }}>
               Add your first measurement unit to start sizing menu items
             </Typography>
             <Button variant="outlined" startIcon={<AddIcon />} onClick={openCreate}
-              sx={{ borderColor: '#BE5953', color: '#BE5953', borderRadius: 2, fontWeight: 600, '&:hover': { background: 'rgba(190,89,83,0.06)' } }}>
+              sx={{ borderColor: '#BE5953', color: '#BE5953', borderRadius: '2px', fontWeight: 600, '&:hover': { background: 'rgba(0,0,0,0.04)' } }}>
               Add Measurement Type
             </Button>
           </Box>
@@ -327,7 +327,7 @@ const MeasurementsManagement: React.FC = () => {
               {/* Name */}
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
                 <Box sx={{
-                  width: 40, height: 40, borderRadius: 2,
+                  width: 40, height: 40, borderRadius: '2px',
                   background: m.isActive !== false ? 'rgba(190,89,83,0.1)' : 'rgba(0,0,0,0.04)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   color: m.isActive !== false ? '#BE5953' : '#9E9E9E',
@@ -335,7 +335,7 @@ const MeasurementsManagement: React.FC = () => {
                 }}>
                   <MeasureIcon sx={{ fontSize: '1.1rem' }} />
                 </Box>
-                <Typography sx={{ fontWeight: 700, color: '#2D2926', fontSize: '0.938rem' }}>
+                <Typography sx={{ fontWeight: 700, color: '#1D2327', fontSize: '0.938rem' }}>
                   {m.name}
                 </Typography>
               </Box>
@@ -351,7 +351,7 @@ const MeasurementsManagement: React.FC = () => {
               {/* Order */}
               <Box>
                 <Chip label={`#${(m.sortOrder ?? 0) + 1}`} size="small"
-                  sx={{ fontSize: '0.75rem', fontWeight: 700, bgcolor: 'rgba(190,89,83,0.08)', color: '#5C524D', border: 'none' }} />
+                  sx={{ fontSize: '0.75rem', fontWeight: 700, bgcolor: 'rgba(190,89,83,0.08)', color: '#50575E', border: 'none' }} />
               </Box>
 
               {/* Status */}
@@ -361,8 +361,8 @@ const MeasurementsManagement: React.FC = () => {
                   size="small"
                   sx={{
                     fontSize: '0.72rem', fontWeight: 700,
-                    bgcolor: m.isActive !== false ? 'rgba(44,85,48,0.1)' : 'rgba(0,0,0,0.06)',
-                    color: m.isActive !== false ? '#2C5530' : '#A89080',
+                    bgcolor: m.isActive !== false ? 'rgba(0,163,42,0.1)' : 'rgba(0,0,0,0.06)',
+                    color: m.isActive !== false ? '#00A32A' : '#787C82',
                   }}
                 />
               </Box>
@@ -394,10 +394,10 @@ const MeasurementsManagement: React.FC = () => {
           px: 3, py: 2.5, borderBottom: '1px solid rgba(190,89,83,0.1)',
         }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-            <Box sx={{ width: 36, height: 36, borderRadius: 2, background: 'rgba(190,89,83,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#BE5953' }}>
+            <Box sx={{ width: 36, height: 36, borderRadius: '2px', background: 'rgba(190,89,83,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#BE5953' }}>
               <MeasureIcon fontSize="small" />
             </Box>
-            <Typography sx={{ fontWeight: 700, fontSize: '1.05rem', color: '#2D2926' }}>
+            <Typography sx={{ fontWeight: 700, fontSize: '1.05rem', color: '#1D2327' }}>
               {selected ? 'Edit' : 'New'} Measurement Type
             </Typography>
           </Box>
@@ -427,18 +427,18 @@ const MeasurementsManagement: React.FC = () => {
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                   <Typography sx={{ fontWeight: 500 }}>Active</Typography>
                   <Chip label={form.isActive ? 'Visible' : 'Hidden'} size="small"
-                    sx={{ height: 20, fontSize: '0.7rem', bgcolor: form.isActive ? 'rgba(44,85,48,0.12)' : 'rgba(0,0,0,0.06)', color: form.isActive ? '#2C5530' : '#A89080' }} />
+                    sx={{ height: 20, fontSize: '0.7rem', bgcolor: form.isActive ? 'rgba(44,85,48,0.12)' : 'rgba(0,0,0,0.06)', color: form.isActive ? '#00A32A' : '#787C82' }} />
                 </Box>
               }
             />
           </Box>
         </DialogContent>
         <DialogActions sx={{ px: 3, pb: 3, pt: 2, gap: 1.5 }}>
-          <Button onClick={() => setDialogOpen(false)} variant="outlined" sx={{ borderRadius: 2, fontWeight: 600, px: 3 }}>
+          <Button onClick={() => setDialogOpen(false)} variant="outlined" sx={{ borderRadius: '2px', fontWeight: 600, px: 3 }}>
             Cancel
           </Button>
           <Button onClick={save} variant="contained" disabled={loading || !form.name.trim()}
-            sx={{ borderRadius: 2, fontWeight: 600, px: 3, backgroundColor: '#BE5953', '&:hover': { backgroundColor: '#8E3830' } }}>
+            sx={{ borderRadius: '2px', fontWeight: 600, px: 3, backgroundColor: '#BE5953', '&:hover': { backgroundColor: '#9A413C' } }}>
             {loading ? 'Saving…' : selected ? 'Update' : 'Create'}
           </Button>
         </DialogActions>
@@ -447,10 +447,10 @@ const MeasurementsManagement: React.FC = () => {
       {/* Delete Confirmation Dialog */}
       <Dialog open={deleteDialogOpen} onClose={() => { setDeleteDialogOpen(false); setMeasurementToDelete(null); }} maxWidth="xs" fullWidth>
         <DialogTitle sx={{ display: 'flex', alignItems: 'center', gap: 1.5, px: 3, py: 2.5, borderBottom: '1px solid rgba(190,89,83,0.1)' }}>
-          <Box sx={{ width: 36, height: 36, borderRadius: 2, background: 'rgba(239,68,68,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#EF4444' }}>
+          <Box sx={{ width: 36, height: 36, borderRadius: '2px', background: 'rgba(239,68,68,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#D63638' }}>
             <WarningIcon fontSize="small" />
           </Box>
-          <Typography sx={{ fontWeight: 700, fontSize: '1.05rem', color: '#2D2926' }}>
+          <Typography sx={{ fontWeight: 700, fontSize: '1.05rem', color: '#1D2327' }}>
             Delete Measurement Type
           </Typography>
         </DialogTitle>
@@ -460,11 +460,11 @@ const MeasurementsManagement: React.FC = () => {
           </Typography>
         </DialogContent>
         <DialogActions sx={{ px: 3, pb: 3, gap: 1.5 }}>
-          <Button onClick={() => { setDeleteDialogOpen(false); setMeasurementToDelete(null); }} variant="outlined" sx={{ borderRadius: 2, fontWeight: 600, px: 3 }}>
+          <Button onClick={() => { setDeleteDialogOpen(false); setMeasurementToDelete(null); }} variant="outlined" sx={{ borderRadius: '2px', fontWeight: 600, px: 3 }}>
             Cancel
           </Button>
           <Button onClick={confirmDelete} variant="contained"
-            sx={{ borderRadius: 2, fontWeight: 600, px: 3, bgcolor: '#EF4444', '&:hover': { bgcolor: '#DC2626' } }}>
+            sx={{ borderRadius: '2px', fontWeight: 600, px: 3, bgcolor: '#D63638', '&:hover': { bgcolor: '#A62527' } }}>
             Delete
           </Button>
         </DialogActions>
@@ -476,7 +476,7 @@ const MeasurementsManagement: React.FC = () => {
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         sx={{ zIndex: 99999, position: 'fixed' }}>
         <Alert onClose={() => setSnackbar({ ...snackbar, open: false })} severity={snackbar.severity}
-          variant="filled" sx={{ borderRadius: 2, boxShadow: '0 4px 16px rgba(0,0,0,0.15)' }}>
+          variant="filled" sx={{ borderRadius: '2px', boxShadow: '0 4px 16px rgba(0,0,0,0.15)' }}>
           {snackbar.message}
         </Alert>
       </Snackbar>

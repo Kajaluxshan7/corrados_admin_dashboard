@@ -585,9 +585,9 @@ const StoriesManagement: React.FC = () => {
               color: 'white',
               fontWeight: 600,
               px: 3,
-              borderRadius: 2,
+              borderRadius: '2px',
               boxShadow: '0 6px 20px rgba(190, 89, 83, 0.3)',
-              '&:hover': { backgroundColor: '#8E3830' },
+              '&:hover': { backgroundColor: '#9A413C' },
             }}
           >
             Add Category
@@ -609,13 +609,13 @@ const StoriesManagement: React.FC = () => {
               label: 'Active Categories',
               value: storiesStats.activeCategories,
               icon: <ActiveIcon fontSize="small" />,
-              color: '#2C5530',
+              color: '#00A32A',
             },
             {
               label: 'Total Stories',
               value: storiesStats.totalStories,
               icon: <StoriesIcon fontSize="small" />,
-              color: '#243A7D',
+              color: '#0073AA',
             },
             {
               label: 'Active Stories',
@@ -651,9 +651,9 @@ const StoriesManagement: React.FC = () => {
         sx={{
           p: 2,
           mb: 3,
-          borderRadius: 2.5,
+          borderRadius: '2px',
           border: '1px solid rgba(190, 89, 83, 0.08)',
-          background: 'linear-gradient(180deg, #FFFBF7 0%, #FFFFFF 100%)',
+          background: '#FFFFFF',
           boxShadow: '0 4px 16px rgba(0, 0, 0, 0.04)',
         }}
       >
@@ -679,7 +679,7 @@ const StoriesManagement: React.FC = () => {
               sx={{
                 '& .MuiOutlinedInput-root': {
                   backgroundColor: 'white',
-                  borderRadius: 2,
+                  borderRadius: '2px',
                   '& fieldset': { borderColor: 'rgba(190, 89, 83, 0.2)' },
                   '&:hover fieldset': { borderColor: '#BE5953' },
                   '&.Mui-focused fieldset': { borderColor: '#BE5953' },
@@ -694,7 +694,7 @@ const StoriesManagement: React.FC = () => {
               sx={{
                 '& .MuiOutlinedInput-root': {
                   backgroundColor: 'white',
-                  borderRadius: 2,
+                  borderRadius: '2px',
                   '& fieldset': { borderColor: 'rgba(190, 89, 83, 0.2)' },
                   '&:hover fieldset': { borderColor: '#BE5953' },
                   '&.Mui-focused fieldset': { borderColor: '#BE5953' },
@@ -719,7 +719,7 @@ const StoriesManagement: React.FC = () => {
                 </MenuItem>
                 <MenuItem value="active">
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <ActiveIcon sx={{ fontSize: 18, color: '#2C5530' }} />
+                    <ActiveIcon sx={{ fontSize: 18, color: '#00A32A' }} />
                     Active Only
                   </Box>
                 </MenuItem>
@@ -819,14 +819,14 @@ const StoriesManagement: React.FC = () => {
                     statusFilter === 'active'
                       ? 'rgba(44,85,48,0.12)'
                       : 'rgba(244, 67, 54, 0.12)',
-                  color: statusFilter === 'active' ? '#2C5530' : '#F44336',
+                  color: statusFilter === 'active' ? '#00A32A' : '#F44336',
                   '& .MuiChip-deleteIcon': {
-                    color: statusFilter === 'active' ? '#2C5530' : '#F44336',
+                    color: statusFilter === 'active' ? '#00A32A' : '#F44336',
                   },
                 }}
               />
             )}
-            <Typography variant="caption" sx={{ color: '#5C524D', ml: 1 }}>
+            <Typography variant="caption" sx={{ color: '#50575E', ml: 1 }}>
               ({filteredCategories.length} of {categories.length} categories)
             </Typography>
           </Box>
@@ -840,7 +840,7 @@ const StoriesManagement: React.FC = () => {
             sx={{
               p: 6,
               textAlign: 'center',
-              borderRadius: 2.5,
+              borderRadius: '2px',
               border: '2px dashed rgba(190, 89, 83, 0.3)',
               background: 'rgba(255, 251, 247, 0.5)',
             }}
@@ -873,7 +873,7 @@ const StoriesManagement: React.FC = () => {
               <Card
                 key={category.id}
                 sx={{
-                  borderRadius: 2.5,
+                  borderRadius: '2px',
                   boxShadow: '0 4px 16px rgba(0, 0, 0, 0.04)',
                   border: '1px solid rgba(190, 89, 83, 0.08)',
                   background: '#FFFFFF',
@@ -911,9 +911,9 @@ const StoriesManagement: React.FC = () => {
                         sx={{
                           width: 48,
                           height: 48,
-                          borderRadius: 2,
+                          borderRadius: '2px',
                           background:
-                            'linear-gradient(135deg, #BE5953 0%, #8E3830 100%)',
+                            'linear-gradient(135deg, #BE5953 0%, #9A413C 100%)',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
@@ -932,7 +932,7 @@ const StoriesManagement: React.FC = () => {
                             width: 20,
                             height: 20,
                             borderRadius: '50%',
-                            bgcolor: '#2D2926',
+                            bgcolor: '#1D2327',
                             color: 'white',
                             fontSize: '0.65rem',
                             fontWeight: 700,
@@ -958,7 +958,7 @@ const StoriesManagement: React.FC = () => {
                             variant="h6"
                             sx={{
                               fontWeight: 700,
-                              color: '#2D2926',
+                              color: '#1D2327',
                               overflow: 'hidden',
                               textOverflow: 'ellipsis',
                               whiteSpace: 'nowrap',
@@ -995,7 +995,7 @@ const StoriesManagement: React.FC = () => {
                               <Typography
                                 variant="caption"
                                 sx={{
-                                  color: '#5C524D',
+                                  color: '#50575E',
                                   overflow: 'hidden',
                                   textOverflow: 'ellipsis',
                                   whiteSpace: 'nowrap',
@@ -1027,7 +1027,7 @@ const StoriesManagement: React.FC = () => {
                           display: 'flex',
                           alignItems: 'center',
                           bgcolor: 'rgba(107, 78, 61, 0.06)',
-                          borderRadius: 1.5,
+                          borderRadius: '2px',
                           p: 0.25,
                         }}
                       >
@@ -1084,11 +1084,11 @@ const StoriesManagement: React.FC = () => {
                           }
                           sx={{
                             '& .MuiSwitch-switchBase.Mui-checked': {
-                              color: '#2C5530',
+                              color: '#00A32A',
                             },
                             '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track':
                               {
-                                backgroundColor: '#2C5530',
+                                backgroundColor: '#00A32A',
                               },
                           }}
                         />
@@ -1162,7 +1162,7 @@ const StoriesManagement: React.FC = () => {
                           sx={{
                             fontSize: '0.8rem',
                             fontWeight: 700,
-                            color: '#5C524D',
+                            color: '#50575E',
                             textTransform: 'uppercase',
                             letterSpacing: '0.05em',
                           }}
@@ -1180,7 +1180,7 @@ const StoriesManagement: React.FC = () => {
                           startIcon={<AddIcon />}
                           onClick={() => handleOpenCategoryDialog(category)}
                           sx={{
-                            borderRadius: 2,
+                            borderRadius: '2px',
                             fontSize: '0.78rem',
                             fontWeight: 600,
                             py: 0.5,
@@ -1189,7 +1189,7 @@ const StoriesManagement: React.FC = () => {
                             color: '#BE5953',
                             '&:hover': {
                               borderColor: '#BE5953',
-                              bgcolor: 'rgba(190,89,83,0.05)',
+                              bgcolor: 'rgba(0,0,0,0.03)',
                             },
                           }}
                         >
@@ -1209,7 +1209,7 @@ const StoriesManagement: React.FC = () => {
                                   position: 'relative',
                                   width: 130,
                                   height: 130,
-                                  borderRadius: 2,
+                                  borderRadius: '2px',
                                   overflow: 'hidden',
                                   border: '1px solid rgba(190,89,83,0.15)',
                                   boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
@@ -1266,7 +1266,7 @@ const StoriesManagement: React.FC = () => {
                                           bgcolor: 'rgba(239,68,68,0.9)',
                                           color: 'white',
                                           p: 0.5,
-                                          '&:hover': { bgcolor: '#EF4444' },
+                                          '&:hover': { bgcolor: '#D63638' },
                                         }}
                                       >
                                         <DeleteIcon
@@ -1296,7 +1296,7 @@ const StoriesManagement: React.FC = () => {
                                             disabled={storyIndex === 0}
                                             sx={{
                                               bgcolor: 'rgba(255,255,255,0.85)',
-                                              color: '#2D2926',
+                                              color: '#1D2327',
                                               p: 0.4,
                                             }}
                                           >
@@ -1323,7 +1323,7 @@ const StoriesManagement: React.FC = () => {
                                             }
                                             sx={{
                                               bgcolor: 'rgba(255,255,255,0.85)',
-                                              color: '#2D2926',
+                                              color: '#1D2327',
                                               p: 0.4,
                                             }}
                                           >
@@ -1358,7 +1358,7 @@ const StoriesManagement: React.FC = () => {
                                     fontWeight: 700,
                                     px: 0.75,
                                     py: 0.2,
-                                    borderRadius: 1,
+                                    borderRadius: '2px',
                                   }}
                                 >
                                   #{storyIndex + 1}
@@ -1373,7 +1373,7 @@ const StoriesManagement: React.FC = () => {
                             textAlign: 'center',
                             py: 5,
                             bgcolor: 'rgba(255,251,247,0.5)',
-                            borderRadius: 2,
+                            borderRadius: '2px',
                             border: '2px dashed rgba(190,89,83,0.2)',
                           }}
                         >
@@ -1397,11 +1397,11 @@ const StoriesManagement: React.FC = () => {
                             startIcon={<AddIcon />}
                             onClick={() => handleOpenCategoryDialog(category)}
                             sx={{
-                              borderRadius: 2,
+                              borderRadius: '2px',
                               borderColor: '#BE5953',
                               color: '#BE5953',
                               fontWeight: 600,
-                              '&:hover': { bgcolor: 'rgba(190,89,83,0.06)' },
+                              '&:hover': { bgcolor: 'rgba(0,0,0,0.04)' },
                             }}
                           >
                             Add Images
@@ -1454,7 +1454,7 @@ const StoriesManagement: React.FC = () => {
               sx={{
                 maxWidth: '90vw',
                 maxHeight: '80vh',
-                borderRadius: 2,
+                borderRadius: '2px',
                 boxShadow: '0 16px 64px rgba(0, 0, 0, 0.3)',
               }}
             />
@@ -1485,7 +1485,7 @@ const StoriesManagement: React.FC = () => {
               sx={{
                 width: 36,
                 height: 36,
-                borderRadius: 2,
+                borderRadius: '2px',
                 background: 'rgba(190,89,83,0.1)',
                 display: 'flex',
                 alignItems: 'center',
@@ -1496,7 +1496,7 @@ const StoriesManagement: React.FC = () => {
               <CategoryIcon fontSize="small" />
             </Box>
             <Typography
-              sx={{ fontWeight: 700, fontSize: '1.05rem', color: '#2D2926' }}
+              sx={{ fontWeight: 700, fontSize: '1.05rem', color: '#1D2327' }}
             >
               {editingCategoryId ? 'Edit Category' : 'Create Category'}
             </Typography>
@@ -1550,9 +1550,9 @@ const StoriesManagement: React.FC = () => {
                     })
                   }
                   sx={{
-                    '& .MuiSwitch-switchBase.Mui-checked': { color: '#2C5530' },
+                    '& .MuiSwitch-switchBase.Mui-checked': { color: '#00A32A' },
                     '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-                      backgroundColor: '#2C5530',
+                      backgroundColor: '#00A32A',
                     },
                   }}
                 />
@@ -1569,7 +1569,7 @@ const StoriesManagement: React.FC = () => {
                       bgcolor: categoryForm.isActive
                         ? 'rgba(44,85,48,0.12)'
                         : 'rgba(0,0,0,0.06)',
-                      color: categoryForm.isActive ? '#2C5530' : '#757575',
+                      color: categoryForm.isActive ? '#00A32A' : '#757575',
                     }}
                   />
                 </Box>
@@ -1591,12 +1591,12 @@ const StoriesManagement: React.FC = () => {
                     sx={{
                       fontWeight: 700,
                       fontSize: '0.875rem',
-                      color: '#2D2926',
+                      color: '#1D2327',
                     }}
                   >
                     Images
                   </Typography>
-                  <Typography sx={{ fontSize: '0.78rem', color: '#5C524D' }}>
+                  <Typography sx={{ fontSize: '0.78rem', color: '#50575E' }}>
                     {(selectedCategory.stories?.length || 0) -
                       storiesToDelete.length}{' '}
                     current
@@ -1615,7 +1615,7 @@ const StoriesManagement: React.FC = () => {
                         sx={{
                           fontSize: '0.75rem',
                           fontWeight: 600,
-                          color: '#5C524D',
+                          color: '#50575E',
                           textTransform: 'uppercase',
                           letterSpacing: '0.04em',
                           mb: 1.5,
@@ -1637,10 +1637,10 @@ const StoriesManagement: React.FC = () => {
                                 position: 'relative',
                                 width: 88,
                                 height: 88,
-                                borderRadius: 1.5,
+                                borderRadius: '2px',
                                 overflow: 'hidden',
                                 border: isMarkedForDeletion
-                                  ? '2px solid #EF4444'
+                                  ? '2px solid #D63638'
                                   : '1px solid rgba(190,89,83,0.2)',
                                 opacity: isMarkedForDeletion ? 0.45 : 1,
                                 filter: isMarkedForDeletion
@@ -1672,7 +1672,7 @@ const StoriesManagement: React.FC = () => {
                                 >
                                   <Typography
                                     sx={{
-                                      color: '#EF4444',
+                                      color: '#D63638',
                                       fontWeight: 800,
                                       fontSize: '0.6rem',
                                       textTransform: 'uppercase',
@@ -1702,8 +1702,8 @@ const StoriesManagement: React.FC = () => {
                                   sx={{
                                     fontSize: '0.8rem',
                                     color: isMarkedForDeletion
-                                      ? '#2C5530'
-                                      : '#EF4444',
+                                      ? '#00A32A'
+                                      : '#D63638',
                                     transform: isMarkedForDeletion
                                       ? 'rotate(45deg)'
                                       : 'none',
@@ -1727,10 +1727,10 @@ const StoriesManagement: React.FC = () => {
                   onDragLeave={() => setIsDragging(false)}
                   onDrop={handleDrop}
                   sx={{
-                    borderRadius: 2.5,
+                    borderRadius: '2px',
                     border: `2px dashed ${isDragging ? '#BE5953' : 'rgba(190,89,83,0.3)'}`,
                     background: isDragging
-                      ? 'rgba(190,89,83,0.04)'
+                      ? 'rgba(0,0,0,0.03)'
                       : 'rgba(255,251,247,0.5)',
                     transition: 'all 0.2s ease',
                     p: 3,
@@ -1741,7 +1741,7 @@ const StoriesManagement: React.FC = () => {
                     sx={{
                       width: 48,
                       height: 48,
-                      borderRadius: 2,
+                      borderRadius: '2px',
                       bgcolor: 'rgba(190,89,83,0.1)',
                       display: 'flex',
                       alignItems: 'center',
@@ -1755,7 +1755,7 @@ const StoriesManagement: React.FC = () => {
                   <Typography
                     sx={{
                       fontWeight: 600,
-                      color: '#2D2926',
+                      color: '#1D2327',
                       fontSize: '0.9rem',
                       mb: 0.5,
                     }}
@@ -1763,7 +1763,7 @@ const StoriesManagement: React.FC = () => {
                     Drop images here or click to browse
                   </Typography>
                   <Typography
-                    sx={{ fontSize: '0.78rem', color: '#5C524D', mb: 2 }}
+                    sx={{ fontSize: '0.78rem', color: '#50575E', mb: 2 }}
                   >
                     Up to 50 images · Max 1 MB each · Each image = 1 story item
                   </Typography>
@@ -1782,12 +1782,12 @@ const StoriesManagement: React.FC = () => {
                       component="span"
                       size="small"
                       sx={{
-                        borderRadius: 2,
+                        borderRadius: '2px',
                         borderColor: '#BE5953',
                         color: '#BE5953',
                         fontWeight: 600,
                         px: 3,
-                        '&:hover': { bgcolor: 'rgba(190,89,83,0.06)' },
+                        '&:hover': { bgcolor: 'rgba(0,0,0,0.04)' },
                       }}
                     >
                       Browse Files
@@ -1810,7 +1810,7 @@ const StoriesManagement: React.FC = () => {
                         sx={{
                           fontSize: '0.75rem',
                           fontWeight: 600,
-                          color: '#2C5530',
+                          color: '#00A32A',
                           textTransform: 'uppercase',
                           letterSpacing: '0.04em',
                         }}
@@ -1824,7 +1824,7 @@ const StoriesManagement: React.FC = () => {
                           setImagePreviews([]);
                           setSelectedFiles([]);
                         }}
-                        sx={{ fontSize: '0.72rem', color: '#EF4444', p: 0.5 }}
+                        sx={{ fontSize: '0.72rem', color: '#D63638', p: 0.5 }}
                       >
                         Clear all
                       </Button>
@@ -1846,7 +1846,7 @@ const StoriesManagement: React.FC = () => {
                             position: 'relative',
                             width: 88,
                             height: 88,
-                            borderRadius: 1.5,
+                            borderRadius: '2px',
                             overflow: 'hidden',
                             border: '2px solid rgba(46,125,50,0.6)',
                           }}
@@ -1866,13 +1866,13 @@ const StoriesManagement: React.FC = () => {
                               position: 'absolute',
                               top: 3,
                               left: 3,
-                              bgcolor: '#2C5530',
+                              bgcolor: '#00A32A',
                               color: 'white',
                               fontSize: '0.5rem',
                               fontWeight: 700,
                               px: 0.5,
                               py: 0.1,
-                              borderRadius: 0.5,
+                              borderRadius: '2px',
                               textTransform: 'uppercase',
                             }}
                           >
@@ -1891,7 +1891,7 @@ const StoriesManagement: React.FC = () => {
                             }}
                           >
                             <CloseIcon
-                              sx={{ fontSize: '0.8rem', color: '#EF4444' }}
+                              sx={{ fontSize: '0.8rem', color: '#D63638' }}
                             />
                           </IconButton>
                         </Box>
@@ -1908,7 +1908,7 @@ const StoriesManagement: React.FC = () => {
           <Button
             onClick={() => setCategoryDialog(false)}
             variant="outlined"
-            sx={{ borderRadius: 2, fontWeight: 600, px: 3 }}
+            sx={{ borderRadius: '2px', fontWeight: 600, px: 3 }}
           >
             Cancel
           </Button>
@@ -1917,11 +1917,11 @@ const StoriesManagement: React.FC = () => {
             variant="contained"
             disabled={loading || !categoryForm.name.trim()}
             sx={{
-              borderRadius: 2,
+              borderRadius: '2px',
               fontWeight: 600,
               px: 3,
               backgroundColor: '#BE5953',
-              '&:hover': { backgroundColor: '#8E3830' },
+              '&:hover': { backgroundColor: '#9A413C' },
             }}
           >
             {loading ? 'Saving…' : editingCategoryId ? 'Update' : 'Create'}

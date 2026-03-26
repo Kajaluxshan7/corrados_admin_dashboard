@@ -85,11 +85,11 @@ const getRoleLabel = (role?: string) => {
 
 // ── Section heading inside a card ──────────────────────────────
 const SectionHeading = ({ icon, title }: { icon: React.ReactNode; title: string }) => (
-  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 3, pb: 2, borderBottom: '1px solid #EDE0D8' }}>
-    <Box sx={{ width: 32, height: 32, borderRadius: 1.5, backgroundColor: 'rgba(190,89,83,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#BE5953', flexShrink: 0 }}>
+  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 3, pb: 2, borderBottom: '1px solid #E2E4E7' }}>
+    <Box sx={{ width: 32, height: 32, borderRadius: '2px', backgroundColor: 'rgba(190,89,83,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#BE5953', flexShrink: 0 }}>
       {icon}
     </Box>
-    <Typography sx={{ fontFamily: '"Playfair Display", "Georgia", serif', fontWeight: 700, fontSize: '1rem', color: '#2D2926', letterSpacing: '-0.01em' }}>
+    <Typography sx={{ fontFamily: '"Inter", sans-serif', fontWeight: 700, fontSize: '1rem', color: '#1D2327', letterSpacing: '-0.01em' }}>
       {title}
     </Typography>
   </Box>
@@ -186,7 +186,7 @@ const Settings: React.FC = () => {
   })();
 
   const strengthLabel = ['', 'Weak', 'Fair', 'Good', 'Strong', 'Very Strong'][passwordStrength];
-  const strengthColor = ['', '#EF4444', '#C9A96E', '#243A7D', '#2C5530', '#2C5530'][passwordStrength];
+  const strengthColor = ['', '#D63638', '#DBA617', '#0073AA', '#00A32A', '#00A32A'][passwordStrength];
 
   return (
     <Box sx={{ p: 3, maxWidth: 780, mx: 'auto' }}>
@@ -200,55 +200,55 @@ const Settings: React.FC = () => {
       <Box
         sx={{
           mb: 3, p: 2.5,
-          borderRadius: 2.5,
-          background: 'linear-gradient(135deg, rgba(190,89,83,0.06) 0%, rgba(201,169,110,0.04) 100%)',
-          border: '1px solid rgba(190,89,83,0.12)',
+          borderRadius: '2px',
+          background: '#FFFFFF',
+          border: '1px solid #E2E4E7',
           display: 'flex', alignItems: 'center', gap: 2,
         }}
       >
         <Avatar
           sx={{
-            width: 60, height: 60, flexShrink: 0,
-            backgroundColor: 'rgba(190,89,83,0.15)',
-            color: '#BE5953',
+            width: 64, height: 64, flexShrink: 0,
+            backgroundColor: '#1D2327',
+            color: '#FFFFFF',
             fontSize: '1.375rem',
             fontWeight: 700,
-            border: '2px solid rgba(190,89,83,0.25)',
+            borderRadius: '2px',
           }}
         >
           {getInitials(profileForm.firstName, profileForm.lastName)}
         </Avatar>
         <Box sx={{ flex: 1, minWidth: 0 }}>
-          <Typography sx={{ fontFamily: '"Playfair Display", "Georgia", serif', fontWeight: 700, fontSize: '1.15rem', color: '#2D2926', lineHeight: 1.2 }}>
+          <Typography sx={{ fontFamily: '"Inter", sans-serif', fontWeight: 700, fontSize: '1.15rem', color: '#1D2327', lineHeight: 1.2 }}>
             {profileForm.firstName} {profileForm.lastName}
           </Typography>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mt: 0.5, flexWrap: 'wrap' }}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-              <EmailIcon sx={{ fontSize: 13, color: '#A89080' }} />
-              <Typography sx={{ fontSize: '0.8rem', color: '#5C524D' }}>{profileForm.email}</Typography>
+              <EmailIcon sx={{ fontSize: 13, color: '#787C82' }} />
+              <Typography sx={{ fontSize: '0.8rem', color: '#50575E' }}>{profileForm.email}</Typography>
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-              <RoleIcon sx={{ fontSize: 13, color: '#A89080' }} />
-              <Typography sx={{ fontSize: '0.8rem', color: '#5C524D' }}>{getRoleLabel(user?.role)}</Typography>
+              <RoleIcon sx={{ fontSize: 13, color: '#787C82' }} />
+              <Typography sx={{ fontSize: '0.8rem', color: '#50575E' }}>{getRoleLabel(user?.role)}</Typography>
             </Box>
           </Box>
         </Box>
       </Box>
 
       {/* Tab Navigation */}
-      <Box sx={{ borderRadius: 2.5, border: '1px solid #EDE0D8', overflow: 'hidden', backgroundColor: '#FFFFFF', boxShadow: '0 1px 6px rgba(0,0,0,0.04)' }}>
+      <Box sx={{ borderRadius: '2px', border: '1px solid #E2E4E7', overflow: 'hidden', backgroundColor: '#FFFFFF', boxShadow: '0 1px 6px rgba(0,0,0,0.04)' }}>
         <Tabs
           value={activeTab}
           onChange={(_, v) => setActiveTab(v)}
           sx={{
             px: 2, pt: 1,
-            borderBottom: '1px solid #EDE0D8',
+            borderBottom: '1px solid #E2E4E7',
             '& .MuiTab-root': {
               minHeight: 44, fontWeight: 600, fontSize: '0.875rem', textTransform: 'none',
-              color: '#5C524D', px: 2,
+              color: '#50575E', px: 2,
               '&.Mui-selected': { color: '#BE5953' },
             },
-            '& .MuiTabs-indicator': { backgroundColor: '#BE5953', height: 2, borderRadius: 1 },
+            '& .MuiTabs-indicator': { backgroundColor: '#BE5953', height: 2, borderRadius: '2px' },
           }}
         >
           <Tab icon={<PersonIcon sx={{ fontSize: 16 }} />} iconPosition="start" label="Profile" />
@@ -279,7 +279,7 @@ const Settings: React.FC = () => {
               <TextField
                 fullWidth label="Email Address" value={profileForm.email} disabled
                 helperText="Email address cannot be changed"
-                slotProps={{ input: { startAdornment: <InputAdornment position="start"><EmailIcon sx={{ fontSize: 18, color: '#B0A8A2' }} /></InputAdornment> } }}
+                slotProps={{ input: { startAdornment: <InputAdornment position="start"><EmailIcon sx={{ fontSize: 18, color: '#787C82' }} /></InputAdornment> } }}
               />
 
               {/* Phone */}
@@ -309,29 +309,29 @@ const Settings: React.FC = () => {
                   placeholder="Enter phone number"
                   helperText="Without country code"
                   onChange={(e) => { const v = e.target.value.replace(/[^\d\s\-()]/g, ''); setProfileForm({ ...profileForm, phoneNumber: v }); if (!isEditingProfile) setIsEditingProfile(true); }}
-                  slotProps={{ input: { startAdornment: <InputAdornment position="start"><PhoneIcon sx={{ fontSize: 18, color: '#B0A8A2' }} /></InputAdornment> } }}
+                  slotProps={{ input: { startAdornment: <InputAdornment position="start"><PhoneIcon sx={{ fontSize: 18, color: '#787C82' }} /></InputAdornment> } }}
                 />
               </Box>
             </Box>
 
-            <Divider sx={{ my: 3, borderColor: '#EDE0D8' }} />
+            <Divider sx={{ my: 3, borderColor: '#E2E4E7' }} />
 
             {/* Actions */}
             <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1.5 }}>
               {!isEditingProfile ? (
                 <Button variant="outlined" startIcon={<EditIcon />} onClick={() => setIsEditingProfile(true)}
-                  sx={{ borderRadius: 1.5, px: 3, fontWeight: 600 }}>
+                  sx={{ borderRadius: '2px', px: 3, fontWeight: 600 }}>
                   Edit Profile
                 </Button>
               ) : (
                 <>
                   <Button variant="outlined" startIcon={<CancelIcon />} onClick={handleCancelEdit}
-                    sx={{ borderRadius: 1.5, px: 2.5, fontWeight: 600, borderColor: '#EDE0D8', color: '#5C524D', '&:hover': { borderColor: '#BE5953', color: '#BE5953' } }}>
+                    sx={{ borderRadius: '2px', px: 2.5, fontWeight: 600, borderColor: '#E2E4E7', color: '#50575E', '&:hover': { borderColor: '#BE5953', color: '#BE5953' } }}>
                     Cancel
                   </Button>
                   <Button variant="contained" startIcon={<SaveIcon />} onClick={handleSaveProfile}
                     disabled={loading || !hasProfileChanges()}
-                    sx={{ borderRadius: 1.5, px: 3, fontWeight: 700, backgroundColor: '#BE5953', '&:hover': { backgroundColor: '#8E3830' } }}>
+                    sx={{ borderRadius: '2px', px: 3, fontWeight: 700, backgroundColor: '#BE5953', '&:hover': { backgroundColor: '#9A413C' } }}>
                     {loading ? 'Saving…' : 'Save Changes'}
                   </Button>
                 </>
@@ -347,7 +347,7 @@ const Settings: React.FC = () => {
 
             <Alert
               severity="info"
-              sx={{ mb: 3, borderRadius: 2, backgroundColor: 'rgba(36,58,125,0.06)', color: '#243A7D', '& .MuiAlert-icon': { color: '#243A7D' } }}
+              sx={{ mb: 3, borderRadius: '2px', backgroundColor: 'rgba(36,58,125,0.06)', color: '#0073AA', '& .MuiAlert-icon': { color: '#0073AA' } }}
             >
               Use a strong password with at least 8 characters including uppercase, numbers, and symbols.
             </Alert>
@@ -363,7 +363,7 @@ const Settings: React.FC = () => {
                 <Box>
                   <Box sx={{ display: 'flex', gap: 0.5, mb: 0.75 }}>
                     {[1, 2, 3, 4, 5].map((i) => (
-                      <Box key={i} sx={{ flex: 1, height: 4, borderRadius: 2, backgroundColor: i <= passwordStrength ? strengthColor : '#EDE0D8', transition: 'background-color 0.2s ease' }} />
+                      <Box key={i} sx={{ flex: 1, height: 4, borderRadius: '2px', backgroundColor: i <= passwordStrength ? strengthColor : '#E2E4E7', transition: 'background-color 0.2s ease' }} />
                     ))}
                   </Box>
                   <Typography sx={{ fontSize: '0.75rem', fontWeight: 600, color: strengthColor }}>
@@ -378,7 +378,7 @@ const Settings: React.FC = () => {
                 helperText={!!passwordForm.confirmPassword && passwordForm.newPassword !== passwordForm.confirmPassword ? 'Passwords do not match' : ''} />
             </Box>
 
-            <Divider sx={{ my: 3, borderColor: '#EDE0D8' }} />
+            <Divider sx={{ my: 3, borderColor: '#E2E4E7' }} />
 
             <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
               <Button
@@ -386,7 +386,7 @@ const Settings: React.FC = () => {
                 startIcon={<LockIcon />}
                 onClick={handleChangePassword}
                 disabled={passwordLoading || !passwordForm.currentPassword || !passwordForm.newPassword || !passwordForm.confirmPassword}
-                sx={{ borderRadius: 1.5, px: 3, fontWeight: 700, backgroundColor: '#8E3830', '&:hover': { backgroundColor: '#BE5953' } }}
+                sx={{ borderRadius: '2px', px: 3, fontWeight: 700 }}
               >
                 {passwordLoading ? 'Changing…' : 'Change Password'}
               </Button>
@@ -400,7 +400,7 @@ const Settings: React.FC = () => {
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         sx={{ zIndex: 99999 }}>
         <Alert onClose={() => setNotification({ ...notification, open: false })} severity={notification.type}
-          sx={{ borderRadius: 2, boxShadow: '0 4px 16px rgba(0,0,0,0.12)' }}>
+          sx={{ borderRadius: '2px', boxShadow: '0 4px 16px rgba(0,0,0,0.12)' }}>
           {notification.message}
         </Alert>
       </Snackbar>

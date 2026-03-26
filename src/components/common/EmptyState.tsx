@@ -30,8 +30,8 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
         px: 4,
         textAlign: 'center',
         bgcolor: '#FFFFFF',
-        border: '1px solid #E8E0D8',
-        borderRadius: '6px',
+        border: '1px solid #E2E4E7',
+        borderRadius: '2px',
       }}
     >
       <Box
@@ -53,7 +53,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
       </Box>
 
       <Typography
-        sx={{ fontWeight: 700, fontSize: '1rem', color: '#1C1917', mb: 0.75 }}
+        sx={{ fontWeight: 700, fontSize: '1rem', color: '#1D2327', mb: 0.75 }}
       >
         {title}
       </Typography>
@@ -62,7 +62,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
         <Typography
           sx={{
             fontSize: '0.845rem',
-            color: '#9B8B80',
+            color: '#787C82',
             maxWidth: 380,
             lineHeight: 1.5,
             mb: action ? 2.5 : 0,
@@ -80,7 +80,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
           sx={{
             bgcolor: '#BE5953',
             '&:hover': { bgcolor: '#A84E48' },
-            borderRadius: '5px',
+            borderRadius: '2px',
             fontWeight: 600,
             textTransform: 'none',
             fontSize: '0.845rem',

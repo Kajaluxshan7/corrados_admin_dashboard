@@ -59,7 +59,7 @@ export const FloatingActionButton: React.FC<FloatingActionButtonProps> = ({
             boxShadow: "0 8px 24px rgba(190, 89, 83, 0.35)",
             transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
             "&:hover": {
-              background: "linear-gradient(135deg, #8E3830 0%, #BE5953 100%)",
+              background: "linear-gradient(135deg, #9A413C 0%, #BE5953 100%)",
               transform: "scale(1.1) rotate(90deg)",
               boxShadow: "0 12px 32px rgba(190, 89, 83, 0.45)",
             },
@@ -90,7 +90,7 @@ export const FloatingActionButton: React.FC<FloatingActionButtonProps> = ({
               transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
               transitionDelay: `${index * 30}ms`,
               "&:hover": {
-                background: action.color || "#FDF8F4",
+                background: action.color || "#F6F7F7",
                 transform: "scale(1.15)",
                 boxShadow: "0 6px 16px rgba(0, 0, 0, 0.25)",
               },
@@ -117,7 +117,7 @@ export const FloatingActionButton: React.FC<FloatingActionButtonProps> = ({
               "0 8px 24px rgba(190, 89, 83, 0.35), 0 4px 12px rgba(190, 89, 83, 0.2)",
             transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
             "&:hover": {
-              background: "linear-gradient(135deg, #8E3830 0%, #BE5953 100%)",
+              background: "linear-gradient(135deg, #9A413C 0%, #BE5953 100%)",
               transform: "scale(1.15) rotate(90deg)",
               boxShadow:
                 "0 12px 32px rgba(190, 89, 83, 0.45), 0 6px 16px rgba(190, 89, 83, 0.25)",

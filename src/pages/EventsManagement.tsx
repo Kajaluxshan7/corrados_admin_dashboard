@@ -436,7 +436,7 @@ const EventsManagement: React.FC = () => {
       <Box
         sx={{
           p: 3,
-          background: 'linear-gradient(135deg, #FDF8F4 0%, #FFFBF7 100%)',
+          background: '#F6F7F7',
           minHeight: '100vh',
         }}
       >
@@ -453,7 +453,7 @@ const EventsManagement: React.FC = () => {
                 backgroundColor: '#BE5953',
                 color: 'white',
                 fontWeight: 600,
-                '&:hover': { backgroundColor: '#8E3830' },
+                '&:hover': { backgroundColor: '#9A413C' },
               }}
             >
               Add Event
@@ -475,13 +475,13 @@ const EventsManagement: React.FC = () => {
                 label: 'Upcoming',
                 value: eventStats.upcoming,
                 icon: <UpcomingIcon fontSize="small" />,
-                color: '#2C5530',
+                color: '#00A32A',
               },
               {
                 label: 'Ongoing',
                 value: eventStats.ongoing,
                 icon: <OngoingIcon fontSize="small" />,
-                color: '#243A7D',
+                color: '#0073AA',
               },
               {
                 label: 'Past Events',
@@ -511,7 +511,7 @@ const EventsManagement: React.FC = () => {
                   display: 'flex',
                   flexDirection: 'column',
                   position: 'relative',
-                  borderRadius: 2.5,
+                  borderRadius: '2px',
                   background: '#FFFFFF',
                   boxShadow: '0 4px 16px rgba(0, 0, 0, 0.04)',
                   border: `1px solid ${
@@ -594,7 +594,7 @@ const EventsManagement: React.FC = () => {
                       <Typography
                         variant="h6"
                         component="div"
-                        sx={{ fontWeight: 700, color: '#2D2926' }}
+                        sx={{ fontWeight: 700, color: '#1D2327' }}
                       >
                         {event.title}
                       </Typography>
@@ -634,7 +634,7 @@ const EventsManagement: React.FC = () => {
                         primary={
                           <Typography
                             variant="body2"
-                            sx={{ fontWeight: 600, color: '#2D2926' }}
+                            sx={{ fontWeight: 600, color: '#1D2327' }}
                           >
                             Display Period
                           </Typography>
@@ -664,7 +664,7 @@ const EventsManagement: React.FC = () => {
                         primary={
                           <Typography
                             variant="body2"
-                            sx={{ fontWeight: 600, color: '#2D2926' }}
+                            sx={{ fontWeight: 600, color: '#1D2327' }}
                           >
                             Event Time
                           </Typography>
@@ -716,7 +716,7 @@ const EventsManagement: React.FC = () => {
                     sx={{
                       color: '#BE5953',
                       fontWeight: 600,
-                      '&:hover': { backgroundColor: '#F5EDE4' },
+                      '&:hover': { backgroundColor: '#F0F0F1' },
                     }}
                   >
                     <EditIcon sx={{ fontSize: 16, mr: 0.5 }} />
@@ -750,7 +750,7 @@ const EventsManagement: React.FC = () => {
           }}
           maxWidth="md"
           fullWidth
-          slotProps={{ paper: { sx: { borderRadius: 2 } } }}
+          slotProps={{ paper: { sx: { borderRadius: '2px' } } }}
         >
           <DialogTitle>
             {selectedEvent ? 'Edit Event' : 'Create Event'}
@@ -972,7 +972,7 @@ const EventsManagement: React.FC = () => {
                       borderColor: '#BE5953',
                       color: '#BE5953',
                       '&:hover': {
-                        borderColor: '#8E3830',
+                        borderColor: '#9A413C',
                         backgroundColor: 'rgba(139, 69, 19, 0.1)',
                       },
                     }}
@@ -998,7 +998,7 @@ const EventsManagement: React.FC = () => {
                         <Box
                           sx={{
                             position: 'relative',
-                            borderRadius: 2,
+                            borderRadius: '2px',
                             overflow: 'hidden',
                             backgroundColor: 'white',
                             border: '1px solid rgba(190, 89, 83, 0.1)',
@@ -1041,7 +1041,7 @@ const EventsManagement: React.FC = () => {
                         <Box
                           sx={{
                             position: 'relative',
-                            borderRadius: 2,
+                            borderRadius: '2px',
                             overflow: 'hidden',
                             backgroundColor: 'white',
                             border: '2px dashed rgba(190,89,83,0.3)',
@@ -1137,7 +1137,7 @@ const EventsManagement: React.FC = () => {
                     />
                   }
                   label={
-                    <Typography sx={{ color: '#5C524D', fontWeight: 600 }}>
+                    <Typography sx={{ color: '#50575E', fontWeight: 600 }}>
                       Active Event
                     </Typography>
                   }
@@ -1158,7 +1158,7 @@ const EventsManagement: React.FC = () => {
               disabled={loading}
               sx={{
                 backgroundColor: '#BE5953',
-                '&:hover': { backgroundColor: '#8E3830' },
+                '&:hover': { backgroundColor: '#9A413C' },
                 fontWeight: 600,
               }}
             >
@@ -1170,10 +1170,10 @@ const EventsManagement: React.FC = () => {
         {/* Delete Confirmation Dialog */}
         <Dialog open={deleteConfirmId !== null} onClose={() => setDeleteConfirmId(null)} maxWidth="xs" fullWidth>
           <DialogTitle sx={{ display: 'flex', alignItems: 'center', gap: 1.5, px: 3, py: 2.5, borderBottom: '1px solid rgba(190, 89, 83, 0.1)' }}>
-            <Box sx={{ width: 36, height: 36, borderRadius: 2, background: 'rgba(239,68,68,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#EF4444' }}>
+            <Box sx={{ width: 36, height: 36, borderRadius: '2px', background: 'rgba(239,68,68,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#D63638' }}>
               <WarningIcon fontSize="small" />
             </Box>
-            <Typography sx={{ fontWeight: 700, fontSize: '1.05rem', color: '#2D2926' }}>
+            <Typography sx={{ fontWeight: 700, fontSize: '1.05rem', color: '#1D2327' }}>
               Delete Event
             </Typography>
           </DialogTitle>
@@ -1183,13 +1183,13 @@ const EventsManagement: React.FC = () => {
             </Typography>
           </DialogContent>
           <DialogActions sx={{ px: 3, pb: 3, gap: 1.5 }}>
-            <Button onClick={() => setDeleteConfirmId(null)} variant="outlined" sx={{ borderRadius: 2, fontWeight: 600, px: 3 }}>
+            <Button onClick={() => setDeleteConfirmId(null)} variant="outlined" sx={{ borderRadius: '2px', fontWeight: 600, px: 3 }}>
               Cancel
             </Button>
             <Button
               onClick={() => deleteConfirmId !== null && handleDelete(deleteConfirmId)}
               variant="contained"
-              sx={{ borderRadius: 2, fontWeight: 600, px: 3, bgcolor: '#EF4444', '&:hover': { bgcolor: '#DC2626' } }}
+              sx={{ borderRadius: '2px', fontWeight: 600, px: 3, bgcolor: '#D63638', '&:hover': { bgcolor: '#A62527' } }}
             >
               Delete
             </Button>
@@ -1243,7 +1243,7 @@ const EventsManagement: React.FC = () => {
                 sx={{
                   maxWidth: '90vw',
                   maxHeight: '80vh',
-                  borderRadius: 2,
+                  borderRadius: '2px',
                   boxShadow: '0 16px 64px rgba(0, 0, 0, 0.3)',
                 }}
               />

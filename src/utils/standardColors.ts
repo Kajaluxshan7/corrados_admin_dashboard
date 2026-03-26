@@ -1,106 +1,115 @@
 /**
  * Standard Colors for Corrado's Restaurant Admin Dashboard
- * Brand palette aligned with corrados_frontend theme
+ * WP Admin-aligned neutral palette with Corrado's terracotta brand color
  */
 
 export const STANDARD_COLORS = {
-  // Status Colors (Industry Standard)
+  // Status Colors
   status: {
     active: {
-      main: '#2C5530', // Olive green - brand secondary
-      light: '#EEF4EE',
-      dark: '#1A3A1E',
+      main: '#00A32A',
+      light: '#EEF7EE',
+      dark: '#007A1F',
+      border: '#B3DFBB',
       contrast: '#FFFFFF',
     },
     inactive: {
-      main: '#9E9E9E',
-      light: '#F5F5F5',
-      dark: '#616161',
+      main: '#50575E',
+      light: '#F0F0F1',
+      dark: '#1D2327',
+      border: '#CDD0D4',
       contrast: '#FFFFFF',
     },
     open: {
-      main: '#2C5530',
-      light: '#EEF4EE',
-      dark: '#1A3A1E',
+      main: '#00A32A',
+      light: '#EEF7EE',
+      dark: '#007A1F',
+      border: '#B3DFBB',
       contrast: '#FFFFFF',
     },
     closed: {
-      main: '#BE5953', // Terracotta - brand primary
-      light: '#FAF0EF',
-      dark: '#8E3830',
+      main: '#50575E',
+      light: '#F0F0F1',
+      dark: '#1D2327',
+      border: '#CDD0D4',
       contrast: '#FFFFFF',
     },
     pending: {
-      main: '#C9A96E', // Warm gold
-      light: '#FAF5EC',
-      dark: '#A88040',
-      contrast: '#2D2926',
+      main: '#996800',
+      light: '#FEF8EE',
+      dark: '#664400',
+      border: '#F5D567',
+      contrast: '#1D2327',
     },
     warning: {
-      main: '#C9A96E',
-      light: '#FAF5EC',
-      dark: '#A88040',
-      contrast: '#2D2926',
+      main: '#DBA617',
+      light: '#FEF8EE',
+      dark: '#996800',
+      border: '#F5D567',
+      contrast: '#1D2327',
     },
     error: {
-      main: '#BE5953',
-      light: '#FAF0EF',
-      dark: '#8E3830',
+      main: '#D63638',
+      light: '#FCEEEE',
+      dark: '#A62527',
+      border: '#E9A8A8',
       contrast: '#FFFFFF',
     },
     success: {
-      main: '#2C5530',
-      light: '#EEF4EE',
-      dark: '#1A3A1E',
+      main: '#00A32A',
+      light: '#EEF7EE',
+      dark: '#007A1F',
+      border: '#B3DFBB',
       contrast: '#FFFFFF',
     },
     info: {
-      main: '#243A7D', // Brand navy
-      light: '#EEF1FA',
-      dark: '#162558',
+      main: '#0073AA',
+      light: '#EEF5FA',
+      dark: '#005177',
+      border: '#99C8E0',
       contrast: '#FFFFFF',
     },
   },
 
-  // Brand Colors - Corrado's Restaurant
+  // Brand Colors
   brand: {
     primary: {
-      main: '#BE5953', // Terracotta red
-      light: '#D4817C',
-      dark: '#8E3830',
+      main: '#BE5953',
+      light: '#F5E9E8',
+      dark: '#9A413C',
+      border: '#D48680',
       contrast: '#FFFFFF',
     },
     secondary: {
-      main: '#2C5530', // Deep olive green
-      light: '#4A7A4F',
-      dark: '#1A3A1E',
+      main: '#50575E',
+      light: '#F6F7F7',
+      dark: '#1D2327',
       contrast: '#FFFFFF',
     },
-    gold: '#C9A96E',
-    sage: '#8B9D77',
-    navy: '#243A7D',
-    wine: '#722F37',
   },
 
-  // UI Colors - Warm Italian editorial theme
+  // UI Colors — WP Admin neutral palette
   ui: {
-    border: 'rgba(190, 89, 83, 0.1)',
-    divider: 'rgba(190, 89, 83, 0.08)',
-    background: '#FDF8F4',
+    border: '#E2E4E7',
+    borderBase: '#CDD0D4',
+    borderStrong: '#A7AAAD',
+    background: '#F0F0F1',
     surface: '#FFFFFF',
-    cream: '#F5EDE4',
-    hover: 'rgba(190, 89, 83, 0.06)',
-    cardBg: '#FFFFFF',
-    warmGray: '#EDE0D8',
+    hover: '#F6F7F7',
+    selected: '#F0F6FC',
+    subtle: '#FAFAFA',
+    sidebar: '#1D2327',
+    topbar: '#1D2327',
   },
 
   // Text Colors
   text: {
-    primary: '#2D2926',
-    secondary: '#5C524D',
-    disabled: '#B0A8A2',
-    hint: '#C4BBB5',
+    primary: '#1D2327',
+    secondary: '#50575E',
+    muted: '#787C82',
+    disabled: '#A7AAAD',
     inverse: '#FFFFFF',
+    inverseMuted: '#A7AAAD',
   },
 };
 
@@ -108,10 +117,10 @@ export const STANDARD_COLORS = {
 export const EVENT_TYPE_COLORS = {
   LIVE_MUSIC: STANDARD_COLORS.status.info.main,
   SPORTS_VIEWING: STANDARD_COLORS.status.success.main,
-  TRIVIA_NIGHT: STANDARD_COLORS.brand.gold,
+  TRIVIA_NIGHT: STANDARD_COLORS.status.warning.main,
   PRIVATE_PARTY: STANDARD_COLORS.brand.primary.main,
-  KARAOKE: STANDARD_COLORS.brand.wine,
-  SPECIAL_EVENT: STANDARD_COLORS.brand.navy,
+  KARAOKE: '#9A413C',
+  SPECIAL_EVENT: STANDARD_COLORS.status.info.main,
 };
 
 // Quick access helpers

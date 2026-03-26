@@ -1229,7 +1229,7 @@ const MenuManagement: React.FC = () => {
               width: 50,
               height: 50,
               objectFit: 'cover',
-              borderRadius: 2,
+              borderRadius: '2px',
               boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
             }}
           />
@@ -1242,7 +1242,7 @@ const MenuManagement: React.FC = () => {
               alignItems: 'center',
               justifyContent: 'center',
               bgcolor: 'rgba(190, 89, 83, 0.08)',
-              borderRadius: 2,
+              borderRadius: '2px',
               border: '1px dashed rgba(190, 89, 83, 0.3)',
             }}
           >
@@ -1264,7 +1264,7 @@ const MenuManagement: React.FC = () => {
               width: 10,
               height: 10,
               borderRadius: '50%',
-              bgcolor: params.row.isActive ? '#2C5530' : '#A89080',
+              bgcolor: params.row.isActive ? '#00A32A' : '#787C82',
               flexShrink: 0,
             }}
           />
@@ -1272,7 +1272,7 @@ const MenuManagement: React.FC = () => {
             sx={{
               fontSize: '0.9rem',
               fontWeight: 600,
-              color: '#2D2926',
+              color: '#1D2327',
             }}
           >
             {params.value}
@@ -1321,7 +1321,7 @@ const MenuManagement: React.FC = () => {
             fontSize: '0.85rem',
             px: 1.5,
             py: 0.5,
-            borderRadius: 1,
+            borderRadius: '2px',
             minWidth: 40,
             textAlign: 'center',
           }}
@@ -1356,7 +1356,7 @@ const MenuManagement: React.FC = () => {
                 }
                 disabled={params.row.sortOrder === 0}
                 sx={{
-                  color: '#5C524D',
+                  color: '#50575E',
                   '&:hover': {
                     bgcolor: 'rgba(190, 89, 83, 0.1)',
                     color: '#BE5953',
@@ -1377,7 +1377,7 @@ const MenuManagement: React.FC = () => {
                 }
                 disabled={params.row.sortOrder === primaryCategories.length - 1}
                 sx={{
-                  color: '#5C524D',
+                  color: '#50575E',
                   '&:hover': {
                     bgcolor: 'rgba(190, 89, 83, 0.1)',
                     color: '#BE5953',
@@ -1447,7 +1447,7 @@ const MenuManagement: React.FC = () => {
               width: 50,
               height: 50,
               objectFit: 'cover',
-              borderRadius: 2,
+              borderRadius: '2px',
               boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
             }}
           />
@@ -1460,7 +1460,7 @@ const MenuManagement: React.FC = () => {
               alignItems: 'center',
               justifyContent: 'center',
               bgcolor: 'rgba(190, 89, 83, 0.08)',
-              borderRadius: 2,
+              borderRadius: '2px',
               border: '1px dashed rgba(190, 89, 83, 0.3)',
             }}
           >
@@ -1482,7 +1482,7 @@ const MenuManagement: React.FC = () => {
               width: 10,
               height: 10,
               borderRadius: '50%',
-              bgcolor: params.row.isActive ? '#2C5530' : '#A89080',
+              bgcolor: params.row.isActive ? '#00A32A' : '#787C82',
               flexShrink: 0,
             }}
           />
@@ -1490,7 +1490,7 @@ const MenuManagement: React.FC = () => {
             sx={{
               fontSize: '0.9rem',
               fontWeight: 600,
-              color: '#2D2926',
+              color: '#1D2327',
             }}
           >
             {params.value}
@@ -1514,7 +1514,7 @@ const MenuManagement: React.FC = () => {
             bgcolor: 'rgba(190, 89, 83, 0.08)',
             px: 1.5,
             py: 0.5,
-            borderRadius: 1,
+            borderRadius: '2px',
           }}
         >
           {params.value}
@@ -1562,7 +1562,7 @@ const MenuManagement: React.FC = () => {
             fontSize: '0.85rem',
             px: 1.5,
             py: 0.5,
-            borderRadius: 1,
+            borderRadius: '2px',
             minWidth: 40,
             textAlign: 'center',
           }}
@@ -1595,7 +1595,7 @@ const MenuManagement: React.FC = () => {
                 onClick={() => handleMoveCategoryOrder(params.row.id, 'up')}
                 disabled={params.row.sortOrder === 0}
                 sx={{
-                  color: '#5C524D',
+                  color: '#50575E',
                   '&:hover': {
                     bgcolor: 'rgba(190, 89, 83, 0.1)',
                     color: '#BE5953',
@@ -1614,7 +1614,7 @@ const MenuManagement: React.FC = () => {
                 onClick={() => handleMoveCategoryOrder(params.row.id, 'down')}
                 disabled={params.row.sortOrder === categories.length - 1}
                 sx={{
-                  color: '#5C524D',
+                  color: '#50575E',
                   '&:hover': {
                     bgcolor: 'rgba(190, 89, 83, 0.1)',
                     color: '#BE5953',
@@ -1693,7 +1693,7 @@ const MenuManagement: React.FC = () => {
                 width: 50,
                 height: 50,
                 objectFit: 'cover',
-                borderRadius: 2,
+                borderRadius: '2px',
                 boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
               }}
             />
@@ -1729,7 +1729,7 @@ const MenuManagement: React.FC = () => {
               alignItems: 'center',
               justifyContent: 'center',
               bgcolor: 'rgba(190, 89, 83, 0.08)',
-              borderRadius: 2,
+              borderRadius: '2px',
               border: '1px dashed rgba(190, 89, 83, 0.3)',
             }}
           >
@@ -1752,7 +1752,7 @@ const MenuManagement: React.FC = () => {
               width: 10,
               height: 10,
               borderRadius: '50%',
-              bgcolor: params.row.isAvailable ? '#2C5530' : '#F44336',
+              bgcolor: params.row.isAvailable ? '#00A32A' : '#F44336',
               flexShrink: 0,
             }}
           />
@@ -1760,7 +1760,7 @@ const MenuManagement: React.FC = () => {
             sx={{
               fontSize: '0.9rem',
               fontWeight: 600,
-              color: '#2D2926',
+              color: '#1D2327',
             }}
           >
             {params.value}
@@ -1783,7 +1783,7 @@ const MenuManagement: React.FC = () => {
             bgcolor: 'rgba(190, 89, 83, 0.08)',
             px: 1.5,
             py: 0.5,
-            borderRadius: 1,
+            borderRadius: '2px',
           }}
         >
           {params.value || 'Uncategorized'}
@@ -1843,7 +1843,7 @@ const MenuManagement: React.FC = () => {
                       bgcolor: m.isAvailable
                         ? 'rgba(46, 125, 50, 0.1)'
                         : 'rgba(158, 158, 158, 0.1)',
-                      borderRadius: 1,
+                      borderRadius: '2px',
                       px: 1,
                       py: 0.25,
                     }}
@@ -1862,7 +1862,7 @@ const MenuManagement: React.FC = () => {
                       sx={{
                         fontSize: '0.8rem',
                         fontWeight: 700,
-                        color: m.isAvailable ? '#2C5530' : '#9E9E9E',
+                        color: m.isAvailable ? '#00A32A' : '#9E9E9E',
                       }}
                     >
                       ${Number(m.price).toFixed(2)}
@@ -1878,7 +1878,7 @@ const MenuManagement: React.FC = () => {
             sx={{
               fontWeight: 700,
               fontSize: '0.95rem',
-              color: '#2C5530',
+              color: '#00A32A',
             }}
           >
             {isNaN(price) ? '$0.00' : `$${price.toFixed(2)}`}
@@ -1896,7 +1896,7 @@ const MenuManagement: React.FC = () => {
       renderCell: (params) => {
         const tags = [];
         if (params.row.isVegetarian)
-          tags.push({ label: 'V', color: '#2C5530', title: 'Vegetarian' });
+          tags.push({ label: 'V', color: '#00A32A', title: 'Vegetarian' });
         if (params.row.isVegan)
           tags.push({ label: 'VE', color: '#8BC34A', title: 'Vegan' });
         if (params.row.isGlutenFree)
@@ -1906,7 +1906,7 @@ const MenuManagement: React.FC = () => {
 
         if (tags.length === 0) {
           return (
-            <Typography sx={{ fontSize: '0.8rem', color: '#A89080' }}>
+            <Typography sx={{ fontSize: '0.8rem', color: '#787C82' }}>
               -
             </Typography>
           );
@@ -1969,7 +1969,7 @@ const MenuManagement: React.FC = () => {
                 onClick={() => handleMoveItemOrder(params.row.id, 'up')}
                 disabled={params.row.sortOrder === 0}
                 sx={{
-                  color: '#5C524D',
+                  color: '#50575E',
                   '&:hover': {
                     bgcolor: 'rgba(190, 89, 83, 0.1)',
                     color: '#BE5953',
@@ -1993,7 +1993,7 @@ const MenuManagement: React.FC = () => {
                     .pop()?.id === params.row.id
                 }
                 sx={{
-                  color: '#5C524D',
+                  color: '#50575E',
                   '&:hover': {
                     bgcolor: 'rgba(190, 89, 83, 0.1)',
                     color: '#BE5953',
@@ -2074,7 +2074,7 @@ const MenuManagement: React.FC = () => {
               backgroundColor: '#BE5953',
               color: 'white',
               fontWeight: 600,
-              '&:hover': { backgroundColor: '#8E3830' },
+              '&:hover': { backgroundColor: '#9A413C' },
             }}
           >
             {activeTab === 0
@@ -2100,13 +2100,13 @@ const MenuManagement: React.FC = () => {
               label: 'Categories',
               value: categories.length,
               icon: <CategoryIcon fontSize="small" />,
-              color: '#243A7D',
+              color: '#0073AA',
             },
             {
               label: 'Menu Items',
               value: menuItems.length,
               icon: <RestaurantIcon fontSize="small" />,
-              color: '#2C5530',
+              color: '#00A32A',
             },
             {
               label: 'Active Items',
@@ -2130,7 +2130,7 @@ const MenuManagement: React.FC = () => {
       <Box
         sx={{
           mb: 3,
-          borderBottom: '2px solid #EDE0D8',
+          borderBottom: '2px solid #E2E4E7',
         }}
       >
         <Tabs
@@ -2139,7 +2139,7 @@ const MenuManagement: React.FC = () => {
           variant="fullWidth"
           sx={{
             '& .MuiTab-root': {
-              color: '#5C524D',
+              color: '#50575E',
               fontWeight: 600,
               fontSize: '0.875rem',
               textTransform: 'none',
@@ -2264,7 +2264,7 @@ const MenuManagement: React.FC = () => {
         sx={{
           width: '100%',
           mb: 3,
-          borderRadius: 2.5,
+          borderRadius: '2px',
           border: '1px solid rgba(190, 89, 83, 0.08)',
           boxShadow: '0 4px 16px rgba(0, 0, 0, 0.04)',
           overflow: 'hidden',
@@ -2276,7 +2276,7 @@ const MenuManagement: React.FC = () => {
           sx={{
             p: 2,
             pb: 1.5,
-            background: 'linear-gradient(180deg, #FFFBF7 0%, #FFFFFF 100%)',
+            background: '#FFFFFF',
           }}
         >
           <Grid container spacing={2} alignItems="center">
@@ -2311,14 +2311,14 @@ const MenuManagement: React.FC = () => {
                 sx={{
                   '& .MuiOutlinedInput-root': {
                     backgroundColor: 'white',
-                    borderRadius: 2,
+                    borderRadius: '2px',
                     transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                     '& fieldset': {
                       borderColor: 'rgba(190, 89, 83, 0.2)',
                       borderWidth: '1.5px',
                     },
                     '&:hover': {
-                      backgroundColor: '#FFFBF7',
+                      backgroundColor: '#F6F7F7',
                       '& fieldset': {
                         borderColor: '#BE5953',
                       },
@@ -2349,7 +2349,7 @@ const MenuManagement: React.FC = () => {
                   sx={{
                     '& .MuiOutlinedInput-root': {
                       backgroundColor: 'white',
-                      borderRadius: 2,
+                      borderRadius: '2px',
                       '& fieldset': {
                         borderColor: 'rgba(190, 89, 83, 0.2)',
                       },
@@ -2425,7 +2425,7 @@ const MenuManagement: React.FC = () => {
                     sx={{
                       '& .MuiOutlinedInput-root': {
                         backgroundColor: 'white',
-                        borderRadius: 2,
+                        borderRadius: '2px',
                         '& fieldset': {
                           borderColor: 'rgba(190, 89, 83, 0.2)',
                         },
@@ -2473,7 +2473,7 @@ const MenuManagement: React.FC = () => {
                               <Typography
                                 variant="caption"
                                 sx={{
-                                  color: '#5C524D',
+                                  color: '#50575E',
                                   ml: 0.5,
                                   fontSize: '0.7rem',
                                 }}
@@ -2495,7 +2495,7 @@ const MenuManagement: React.FC = () => {
                     sx={{
                       '& .MuiOutlinedInput-root': {
                         backgroundColor: 'white',
-                        borderRadius: 2,
+                        borderRadius: '2px',
                         '& fieldset': {
                           borderColor: 'rgba(190, 89, 83, 0.2)',
                         },
@@ -2531,7 +2531,7 @@ const MenuManagement: React.FC = () => {
                           sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
                         >
                           <CheckCircleIcon
-                            sx={{ fontSize: 18, color: '#2C5530' }}
+                            sx={{ fontSize: 18, color: '#00A32A' }}
                           />
                           Available Only
                         </Box>
@@ -2632,12 +2632,12 @@ const MenuManagement: React.FC = () => {
                         : 'rgba(244, 67, 54, 0.12)',
                     color:
                       filterAvailability === 'available'
-                        ? '#2C5530'
+                        ? '#00A32A'
                         : '#F44336',
                     '& .MuiChip-deleteIcon': {
                       color:
                         filterAvailability === 'available'
-                          ? '#2C5530'
+                          ? '#00A32A'
                           : '#F44336',
                       '&:hover': {
                         color:
@@ -2652,7 +2652,7 @@ const MenuManagement: React.FC = () => {
 
               <Typography
                 variant="caption"
-                sx={{ color: '#5C524D', alignSelf: 'center', ml: 1 }}
+                sx={{ color: '#50575E', alignSelf: 'center', ml: 1 }}
               >
                 (
                 {activeTab === 1
@@ -2669,7 +2669,7 @@ const MenuManagement: React.FC = () => {
             height: 600,
             width: '100%',
             backgroundColor: 'white',
-            borderRadius: 2,
+            borderRadius: '2px',
             overflow: 'hidden',
             boxShadow: '0 2px 12px rgba(0,0,0,0.04)',
           }}
@@ -2689,7 +2689,7 @@ const MenuManagement: React.FC = () => {
               disableRowSelectionOnClick
               sx={{
                 border: 'none',
-                borderRadius: 2,
+                borderRadius: '2px',
                 backgroundColor: '#FEFEFE',
                 '& .MuiDataGrid-columnHeaders': {
                   backgroundColor: 'rgba(190, 89, 83, 0.04)',
@@ -2701,7 +2701,7 @@ const MenuManagement: React.FC = () => {
                   },
                   '& .MuiDataGrid-columnSeparator': { display: 'none' },
                   '& .MuiDataGrid-columnHeaderTitle': {
-                    color: '#2D2926',
+                    color: '#1D2327',
                     fontWeight: 700,
                     fontSize: '0.8rem',
                     textTransform: 'uppercase',
@@ -2718,7 +2718,7 @@ const MenuManagement: React.FC = () => {
                   display: 'flex',
                   alignItems: 'center',
                   borderBottom: '1px solid rgba(190, 89, 83, 0.08)',
-                  color: '#2D2926',
+                  color: '#1D2327',
                   fontSize: '0.85rem',
                   padding: '8px 16px',
                   '&:focus': { outline: 'none' },
@@ -2753,7 +2753,7 @@ const MenuManagement: React.FC = () => {
               disableRowSelectionOnClick
               sx={{
                 border: 'none',
-                borderRadius: 2,
+                borderRadius: '2px',
                 backgroundColor: '#FEFEFE',
                 '& .MuiDataGrid-columnHeaders': {
                   backgroundColor: 'rgba(190, 89, 83, 0.04)',
@@ -2765,7 +2765,7 @@ const MenuManagement: React.FC = () => {
                   },
                   '& .MuiDataGrid-columnSeparator': { display: 'none' },
                   '& .MuiDataGrid-columnHeaderTitle': {
-                    color: '#2D2926',
+                    color: '#1D2327',
                     fontWeight: 700,
                     fontSize: '0.8rem',
                     textTransform: 'uppercase',
@@ -2782,7 +2782,7 @@ const MenuManagement: React.FC = () => {
                   display: 'flex',
                   alignItems: 'center',
                   borderBottom: '1px solid rgba(190, 89, 83, 0.08)',
-                  color: '#2D2926',
+                  color: '#1D2327',
                   fontSize: '0.85rem',
                   padding: '8px 16px',
                   '&:focus': { outline: 'none' },
@@ -2817,7 +2817,7 @@ const MenuManagement: React.FC = () => {
               disableRowSelectionOnClick
               sx={{
                 border: 'none',
-                borderRadius: 2,
+                borderRadius: '2px',
                 backgroundColor: '#FEFEFE',
                 '& .MuiDataGrid-columnHeaders': {
                   backgroundColor: 'rgba(190, 89, 83, 0.04)',
@@ -2829,7 +2829,7 @@ const MenuManagement: React.FC = () => {
                   },
                   '& .MuiDataGrid-columnSeparator': { display: 'none' },
                   '& .MuiDataGrid-columnHeaderTitle': {
-                    color: '#2D2926',
+                    color: '#1D2327',
                     fontWeight: 700,
                     fontSize: '0.8rem',
                     textTransform: 'uppercase',
@@ -2846,7 +2846,7 @@ const MenuManagement: React.FC = () => {
                   display: 'flex',
                   alignItems: 'center',
                   borderBottom: '1px solid rgba(190, 89, 83, 0.08)',
-                  color: '#2D2926',
+                  color: '#1D2327',
                   fontSize: '0.85rem',
                   padding: '8px 16px',
                   '&:focus': { outline: 'none' },
@@ -2882,7 +2882,7 @@ const MenuManagement: React.FC = () => {
         maxWidth="sm"
         fullWidth
         TransitionComponent={Zoom}
-        slotProps={{ paper: { sx: { borderRadius: 2.5, boxShadow: '0 12px 40px rgba(0, 0, 0, 0.12)' } } }}
+        slotProps={{ paper: { sx: { borderRadius: '2px', boxShadow: '0 12px 40px rgba(0, 0, 0, 0.12)' } } }}
       >
         <DialogTitle
           sx={{
@@ -2960,7 +2960,7 @@ const MenuManagement: React.FC = () => {
                               width: 100,
                               height: 100,
                               border: '1px solid #E8E3DC',
-                              borderRadius: 1,
+                              borderRadius: '2px',
                             }}
                           >
                             <Box
@@ -2971,7 +2971,7 @@ const MenuManagement: React.FC = () => {
                                 width: '100%',
                                 height: '100%',
                                 objectFit: 'cover',
-                                borderRadius: '4px',
+                                borderRadius: '2px',
                               }}
                             />
                             <IconButton
@@ -2995,7 +2995,7 @@ const MenuManagement: React.FC = () => {
                               width: 100,
                               height: 100,
                               border: '1px solid #E8E3DC',
-                              borderRadius: 1,
+                              borderRadius: '2px',
                             }}
                           >
                             <Box
@@ -3006,7 +3006,7 @@ const MenuManagement: React.FC = () => {
                                 width: '100%',
                                 height: '100%',
                                 objectFit: 'cover',
-                                borderRadius: '4px',
+                                borderRadius: '2px',
                               }}
                             />
                             <IconButton
@@ -3069,7 +3069,7 @@ const MenuManagement: React.FC = () => {
           sx={{
             p: 3,
             gap: 1.5,
-            background: 'linear-gradient(180deg, #FFFFFF 0%, #FDF8F4 100%)',
+            background: 'linear-gradient(180deg, #FFFFFF 0%, #F6F7F7 100%)',
           }}
         >
           <Button
@@ -3084,7 +3084,7 @@ const MenuManagement: React.FC = () => {
               color: '#BE5953',
               fontWeight: 600,
               px: 3,
-              borderRadius: 2,
+              borderRadius: '2px',
               '&:hover': {
                 borderColor: '#BE5953',
                 backgroundColor: 'rgba(190, 89, 83, 0.05)',
@@ -3102,10 +3102,10 @@ const MenuManagement: React.FC = () => {
               color: 'white',
               fontWeight: 600,
               px: 3,
-              borderRadius: 2,
+              borderRadius: '2px',
               boxShadow: '0 4px 12px rgba(190, 89, 83, 0.3)',
               '&:hover': {
-                background: 'linear-gradient(135deg, #8E3830 0%, #BE5953 100%)',
+                background: 'linear-gradient(135deg, #9A413C 0%, #BE5953 100%)',
                 boxShadow: '0 6px 16px rgba(190, 89, 83, 0.4)',
               },
               '&:disabled': {
@@ -3131,7 +3131,7 @@ const MenuManagement: React.FC = () => {
         maxWidth="sm"
         fullWidth
         TransitionComponent={Zoom}
-        slotProps={{ paper: { sx: { borderRadius: 2.5, boxShadow: '0 12px 40px rgba(0, 0, 0, 0.12)' } } }}
+        slotProps={{ paper: { sx: { borderRadius: '2px', boxShadow: '0 12px 40px rgba(0, 0, 0, 0.12)' } } }}
       >
         <DialogTitle
           sx={{
@@ -3229,7 +3229,7 @@ const MenuManagement: React.FC = () => {
                               width: 100,
                               height: 100,
                               border: '1px solid #E8E3DC',
-                              borderRadius: 1,
+                              borderRadius: '2px',
                             }}
                           >
                             <Box
@@ -3240,7 +3240,7 @@ const MenuManagement: React.FC = () => {
                                 width: '100%',
                                 height: '100%',
                                 objectFit: 'cover',
-                                borderRadius: '4px',
+                                borderRadius: '2px',
                               }}
                             />
                             <IconButton
@@ -3264,7 +3264,7 @@ const MenuManagement: React.FC = () => {
                               width: 100,
                               height: 100,
                               border: '1px solid #E8E3DC',
-                              borderRadius: 1,
+                              borderRadius: '2px',
                             }}
                           >
                             <Box
@@ -3275,7 +3275,7 @@ const MenuManagement: React.FC = () => {
                                 width: '100%',
                                 height: '100%',
                                 objectFit: 'cover',
-                                borderRadius: '4px',
+                                borderRadius: '2px',
                               }}
                             />
                             <IconButton
@@ -3373,7 +3373,7 @@ const MenuManagement: React.FC = () => {
         maxWidth="lg"
         fullWidth
         TransitionComponent={Zoom}
-        slotProps={{ paper: { sx: { borderRadius: 2.5, boxShadow: '0 12px 40px rgba(0, 0, 0, 0.12)' } } }}
+        slotProps={{ paper: { sx: { borderRadius: '2px', boxShadow: '0 12px 40px rgba(0, 0, 0, 0.12)' } } }}
       >
         <DialogTitle
           sx={{
@@ -3876,7 +3876,7 @@ const MenuManagement: React.FC = () => {
           sx={{
             p: 3,
             gap: 1.5,
-            background: 'linear-gradient(180deg, #FFFFFF 0%, #FDF8F4 100%)',
+            background: 'linear-gradient(180deg, #FFFFFF 0%, #F6F7F7 100%)',
           }}
         >
           <Button
@@ -3887,7 +3887,7 @@ const MenuManagement: React.FC = () => {
               color: '#BE5953',
               fontWeight: 600,
               px: 3,
-              borderRadius: 2,
+              borderRadius: '2px',
               '&:hover': {
                 borderColor: '#BE5953',
                 backgroundColor: 'rgba(190, 89, 83, 0.05)',
@@ -3905,10 +3905,10 @@ const MenuManagement: React.FC = () => {
               color: 'white',
               fontWeight: 600,
               px: 3,
-              borderRadius: 2,
+              borderRadius: '2px',
               boxShadow: '0 4px 12px rgba(190, 89, 83, 0.3)',
               '&:hover': {
-                background: 'linear-gradient(135deg, #8E3830 0%, #BE5953 100%)',
+                background: 'linear-gradient(135deg, #9A413C 0%, #BE5953 100%)',
                 boxShadow: '0 6px 16px rgba(190, 89, 83, 0.4)',
               },
               '&:disabled': {
@@ -3943,18 +3943,18 @@ const MenuManagement: React.FC = () => {
             sx={{
               width: 36,
               height: 36,
-              borderRadius: 2,
+              borderRadius: '2px',
               background: 'rgba(239,68,68,0.1)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              color: '#EF4444',
+              color: '#D63638',
             }}
           >
             <WarningIcon fontSize="small" />
           </Box>
           <Typography
-            sx={{ fontWeight: 700, fontSize: '1.05rem', color: '#2D2926' }}
+            sx={{ fontWeight: 700, fontSize: '1.05rem', color: '#1D2327' }}
           >
             Confirm Delete
           </Typography>
@@ -3971,7 +3971,7 @@ const MenuManagement: React.FC = () => {
           <Button
             onClick={() => setDeleteTarget(null)}
             variant="outlined"
-            sx={{ borderRadius: 2, fontWeight: 600, px: 3 }}
+            sx={{ borderRadius: '2px', fontWeight: 600, px: 3 }}
           >
             Cancel
           </Button>
@@ -3986,11 +3986,11 @@ const MenuManagement: React.FC = () => {
             }}
             variant="contained"
             sx={{
-              borderRadius: 2,
+              borderRadius: '2px',
               fontWeight: 600,
               px: 3,
-              bgcolor: '#EF4444',
-              '&:hover': { bgcolor: '#DC2626' },
+              bgcolor: '#D63638',
+              '&:hover': { bgcolor: '#A62527' },
             }}
           >
             Delete

@@ -81,8 +81,8 @@ const ROLE_CONFIG: Record<UserRoleValue, { label: string; color: string; bg: str
   },
   admin: {
     label: 'Admin',
-    color: '#C9A96E',
-    bg: 'rgba(201,169,110,0.12)',
+    color: '#DBA617',
+    bg: 'rgba(219,166,23,0.1)',
     icon: <AdminIcon sx={{ fontSize: 13 }} />,
   },
 };
@@ -254,11 +254,11 @@ const UserManagement: React.FC = () => {
 
   const summaryStats: StatItem[] = [
     { label: 'Total Users', value: userStats.total, icon: <GroupIcon fontSize="small" />, color: '#BE5953' },
-    { label: 'Active', value: userStats.active, icon: <ActiveIcon fontSize="small" />, color: '#2C5530' },
-    { label: 'Inactive', value: userStats.inactive, icon: <InactiveIcon fontSize="small" />, color: '#A89080' },
+    { label: 'Active', value: userStats.active, icon: <ActiveIcon fontSize="small" />, color: '#00A32A' },
+    { label: 'Inactive', value: userStats.inactive, icon: <InactiveIcon fontSize="small" />, color: '#787C82' },
     { label: 'Super Admins', value: userStats.superAdmins, icon: <SuperAdminIcon fontSize="small" />, color: '#BE5953' },
-    { label: 'Admins', value: userStats.admins, icon: <AdminIcon fontSize="small" />, color: '#C9A96E' },
-    { label: 'Verified', value: userStats.verified, icon: <VerifiedIcon fontSize="small" />, color: '#243A7D' },
+    { label: 'Admins', value: userStats.admins, icon: <AdminIcon fontSize="small" />, color: '#DBA617' },
+    { label: 'Verified', value: userStats.verified, icon: <VerifiedIcon fontSize="small" />, color: '#0073AA' },
   ];
 
   return (
@@ -271,7 +271,7 @@ const UserManagement: React.FC = () => {
             variant="contained"
             startIcon={<AddIcon />}
             onClick={handleCreate}
-            sx={{ backgroundColor: '#BE5953', '&:hover': { backgroundColor: '#8E3830' }, fontWeight: 700 }}
+            sx={{ backgroundColor: '#BE5953', '&:hover': { backgroundColor: '#9A413C' }, fontWeight: 700 }}
           >
             Add User
           </Button>
@@ -285,11 +285,11 @@ const UserManagement: React.FC = () => {
         <Box
           sx={{
             display: 'flex', alignItems: 'center', gap: 1.5, flex: 1, minWidth: 240, maxWidth: 400,
-            px: 2, height: 42, borderRadius: 2, border: '1.5px solid #EDE0D8', backgroundColor: '#FFFFFF',
+            px: 2, height: 42, borderRadius: '2px', border: '1.5px solid #E2E4E7', backgroundColor: '#FFFFFF',
             '&:focus-within': { borderColor: '#BE5953', borderWidth: '2px' },
           }}
         >
-          <SearchIcon sx={{ color: '#B0A8A2', fontSize: 20, flexShrink: 0 }} />
+          <SearchIcon sx={{ color: '#787C82', fontSize: 20, flexShrink: 0 }} />
           <Box
             component="input"
             value={searchTerm}
@@ -297,7 +297,7 @@ const UserManagement: React.FC = () => {
             placeholder="Search users…"
             sx={{
               flex: 1, border: 'none', outline: 'none',
-              fontSize: '0.875rem', color: '#2D2926',
+              fontSize: '0.875rem', color: '#1D2327',
               backgroundColor: 'transparent', fontFamily: 'inherit',
             }}
           />
@@ -310,19 +310,19 @@ const UserManagement: React.FC = () => {
       </Box>
 
       {/* Table */}
-      <Box sx={{ borderRadius: 2, border: '1px solid #EDE0D8', overflow: 'hidden', backgroundColor: '#FFFFFF', boxShadow: '0 1px 6px rgba(0,0,0,0.04)' }}>
+      <Box sx={{ borderRadius: '2px', border: '1px solid #E2E4E7', overflow: 'hidden', backgroundColor: '#FFFFFF', boxShadow: '0 1px 6px rgba(0,0,0,0.04)' }}>
         {/* Table header */}
         <Box
           sx={{
             display: 'grid',
             gridTemplateColumns: '2fr 1fr 2fr 100px 90px 130px 100px',
             px: 2.5, py: 1.5,
-            backgroundColor: '#FDFAF8',
-            borderBottom: '1px solid #EDE0D8',
+            backgroundColor: '#F6F7F7',
+            borderBottom: '1px solid #E2E4E7',
           }}
         >
           {['User', 'Role', 'Email', 'Status', 'Verified', 'Last Login', 'Actions'].map((h) => (
-            <Typography key={h} sx={{ fontSize: '0.68rem', fontWeight: 700, color: '#A89080', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+            <Typography key={h} sx={{ fontSize: '0.68rem', fontWeight: 700, color: '#787C82', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
               {h}
             </Typography>
           ))}
@@ -331,10 +331,10 @@ const UserManagement: React.FC = () => {
         {filteredUsers.length === 0 ? (
           <Box sx={{ textAlign: 'center', py: 8 }}>
             <GroupIcon sx={{ fontSize: 48, color: 'rgba(190,89,83,0.25)', mb: 1.5 }} />
-            <Typography sx={{ fontWeight: 700, color: '#2D2926', mb: 0.5 }}>
+            <Typography sx={{ fontWeight: 700, color: '#1D2327', mb: 0.5 }}>
               {searchTerm ? 'No users match your search' : 'No users yet'}
             </Typography>
-            <Typography sx={{ color: '#5C524D', fontSize: '0.875rem' }}>
+            <Typography sx={{ color: '#50575E', fontSize: '0.875rem' }}>
               {searchTerm ? 'Try a different search term' : 'Add your first admin user to get started'}
             </Typography>
           </Box>
@@ -350,10 +350,10 @@ const UserManagement: React.FC = () => {
                   alignItems: 'center',
                   px: 2.5,
                   py: 1.75,
-                  borderBottom: idx < filteredUsers.length - 1 ? '1px solid rgba(190,89,83,0.06)' : 'none',
+                  borderBottom: idx < filteredUsers.length - 1 ? '1px solid rgba(0,0,0,0.04)' : 'none',
                   opacity: user.isActive ? 1 : 0.65,
                   transition: 'background-color 0.15s ease',
-                  '&:hover': { backgroundColor: '#FDFAF8' },
+                  '&:hover': { backgroundColor: '#F6F7F7' },
                 }}
               >
                 {/* User */}
@@ -371,15 +371,15 @@ const UserManagement: React.FC = () => {
                     {getInitials(user.firstName, user.lastName)}
                   </Avatar>
                   <Box sx={{ minWidth: 0 }}>
-                    <Typography sx={{ fontWeight: 600, color: '#2D2926', fontSize: '0.875rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                    <Typography sx={{ fontWeight: 600, color: '#1D2327', fontSize: '0.875rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                       {user.firstName} {user.lastName}
                       {currentUser?.id === user.id && (
-                        <Box component="span" sx={{ ml: 1, fontSize: '0.65rem', fontWeight: 700, color: '#BE5953', bgcolor: 'rgba(190,89,83,0.1)', px: 0.75, py: 0.2, borderRadius: 1 }}>
+                        <Box component="span" sx={{ ml: 1, fontSize: '0.65rem', fontWeight: 700, color: '#BE5953', bgcolor: 'rgba(190,89,83,0.1)', px: 0.75, py: 0.2, borderRadius: '2px' }}>
                           You
                         </Box>
                       )}
                     </Typography>
-                    <Typography sx={{ fontSize: '0.72rem', color: '#A89080' }}>
+                    <Typography sx={{ fontSize: '0.72rem', color: '#787C82' }}>
                       Joined {moment(user.createdAt).format('MMM YYYY')}
                     </Typography>
                   </Box>
@@ -403,8 +403,8 @@ const UserManagement: React.FC = () => {
 
                 {/* Email */}
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, minWidth: 0 }}>
-                  <EmailIcon sx={{ fontSize: 14, color: '#B0A8A2', flexShrink: 0 }} />
-                  <Typography sx={{ fontSize: '0.8rem', color: '#5C524D', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                  <EmailIcon sx={{ fontSize: 14, color: '#787C82', flexShrink: 0 }} />
+                  <Typography sx={{ fontSize: '0.8rem', color: '#50575E', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                     {user.email}
                   </Typography>
                 </Box>
@@ -425,15 +425,15 @@ const UserManagement: React.FC = () => {
                     size="small"
                     sx={{
                       height: 22, fontSize: '0.68rem', fontWeight: 700,
-                      backgroundColor: user.isEmailVerified ? 'rgba(44,85,48,0.1)' : 'rgba(201,169,110,0.12)',
-                      color: user.isEmailVerified ? '#2C5530' : '#A88040',
-                      border: `1px solid ${user.isEmailVerified ? 'rgba(44,85,48,0.2)' : 'rgba(201,169,110,0.3)'}`,
+                      backgroundColor: user.isEmailVerified ? 'rgba(0,163,42,0.1)' : 'rgba(219,166,23,0.1)',
+                      color: user.isEmailVerified ? '#00A32A' : '#996800',
+                      border: `1px solid ${user.isEmailVerified ? 'rgba(0,163,42,0.2)' : 'rgba(201,169,110,0.3)'}`,
                     }}
                   />
                 </Box>
 
                 {/* Last Login */}
-                <Typography sx={{ fontSize: '0.78rem', color: '#8B9D77' }}>
+                <Typography sx={{ fontSize: '0.78rem', color: '#787C82' }}>
                   {user.lastLogin
                     ? moment(user.lastLogin).tz('America/Toronto').fromNow()
                     : 'Never'}
@@ -454,7 +454,7 @@ const UserManagement: React.FC = () => {
                     <IconButton
                       size="small"
                       onClick={(e) => handleMenuOpen(e, user.id)}
-                      sx={{ color: '#B0A8A2', '&:hover': { bgcolor: 'rgba(0,0,0,0.05)', color: '#5C524D' } }}
+                      sx={{ color: '#787C82', '&:hover': { bgcolor: 'rgba(0,0,0,0.05)', color: '#50575E' } }}
                     >
                       <MoreVertIcon sx={{ fontSize: 16 }} />
                     </IconButton>
@@ -467,34 +467,34 @@ const UserManagement: React.FC = () => {
       </Box>
 
       {filteredUsers.length > 0 && (
-        <Typography sx={{ mt: 1.5, fontSize: '0.78rem', color: '#A89080', textAlign: 'right' }}>
+        <Typography sx={{ mt: 1.5, fontSize: '0.78rem', color: '#787C82', textAlign: 'right' }}>
           {filteredUsers.length} of {users.length} user{users.length !== 1 ? 's' : ''}
         </Typography>
       )}
 
       {/* Context Menu */}
-      <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose} slotProps={{ paper: { sx: { borderRadius: 2, border: '1px solid #EDE0D8', boxShadow: '0 8px 24px rgba(0,0,0,0.08)', minWidth: 180 } } }}>
+      <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose} slotProps={{ paper: { sx: { borderRadius: '2px', border: '1px solid #E2E4E7', boxShadow: '0 8px 24px rgba(0,0,0,0.08)', minWidth: 180 } } }}>
         <MenuList dense sx={{ py: 0.5 }}>
           <MenuListItem onClick={() => { const u = users.find((x) => x.id === menuUserId); if (u) handleEdit(u); handleMenuClose(); }}
-            sx={{ py: 1, px: 2, gap: 1.5, fontSize: '0.875rem', '&:hover': { bgcolor: 'rgba(190,89,83,0.06)' } }}>
+            sx={{ py: 1, px: 2, gap: 1.5, fontSize: '0.875rem', '&:hover': { bgcolor: 'rgba(0,0,0,0.04)' } }}>
             <EditIcon sx={{ fontSize: 16, color: '#BE5953' }} /> Edit User
           </MenuListItem>
           <MenuListItem onClick={() => { if (menuUserId) handleToggleStatus(menuUserId); }}
-            sx={{ py: 1, px: 2, gap: 1.5, fontSize: '0.875rem', '&:hover': { bgcolor: 'rgba(190,89,83,0.06)' } }}>
+            sx={{ py: 1, px: 2, gap: 1.5, fontSize: '0.875rem', '&:hover': { bgcolor: 'rgba(0,0,0,0.04)' } }}>
             <Switch size="small" sx={{ mr: 0.5 }} checked={users.find((u) => u.id === menuUserId)?.isActive} readOnly />
             {users.find((u) => u.id === menuUserId)?.isActive ? 'Deactivate' : 'Activate'}
           </MenuListItem>
           {!users.find((u) => u.id === menuUserId)?.isEmailVerified && (
             <MenuListItem onClick={() => { if (menuUserId) handleResendVerification(menuUserId); }}
-              sx={{ py: 1, px: 2, gap: 1.5, fontSize: '0.875rem', '&:hover': { bgcolor: 'rgba(190,89,83,0.06)' } }}>
-              <EmailIcon sx={{ fontSize: 16, color: '#243A7D' }} /> Resend Verification
+              sx={{ py: 1, px: 2, gap: 1.5, fontSize: '0.875rem', '&:hover': { bgcolor: 'rgba(0,0,0,0.04)' } }}>
+              <EmailIcon sx={{ fontSize: 16, color: '#0073AA' }} /> Resend Verification
             </MenuListItem>
           )}
-          <Divider sx={{ my: 0.5, borderColor: '#EDE0D8' }} />
+          <Divider sx={{ my: 0.5, borderColor: '#E2E4E7' }} />
           <MenuListItem
             onClick={() => { if (menuUserId) setDeleteConfirmId(menuUserId); handleMenuClose(); }}
             disabled={users.find((u) => u.id === menuUserId)?.role === UserRole.SUPER_ADMIN}
-            sx={{ py: 1, px: 2, gap: 1.5, fontSize: '0.875rem', color: '#BE5953', '&:hover': { bgcolor: 'rgba(190,89,83,0.06)' } }}
+            sx={{ py: 1, px: 2, gap: 1.5, fontSize: '0.875rem', color: '#BE5953', '&:hover': { bgcolor: 'rgba(0,0,0,0.04)' } }}
           >
             <DeleteIcon sx={{ fontSize: 16 }} /> Delete User
           </MenuListItem>
@@ -503,21 +503,21 @@ const UserManagement: React.FC = () => {
 
       {/* Delete Dialog */}
       <Dialog open={deleteConfirmId !== null} onClose={() => setDeleteConfirmId(null)} maxWidth="xs" fullWidth>
-        <DialogTitle sx={{ display: 'flex', alignItems: 'center', gap: 1.5, px: 3, py: 2.5, borderBottom: '1px solid #EDE0D8' }}>
-          <Box sx={{ width: 36, height: 36, borderRadius: 2, background: 'rgba(239,68,68,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#EF4444' }}>
+        <DialogTitle sx={{ display: 'flex', alignItems: 'center', gap: 1.5, px: 3, py: 2.5, borderBottom: '1px solid #E2E4E7' }}>
+          <Box sx={{ width: 36, height: 36, borderRadius: '2px', background: 'rgba(239,68,68,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#D63638' }}>
             <WarningIcon fontSize="small" />
           </Box>
-          <Typography sx={{ fontWeight: 700, fontSize: '1.05rem', color: '#2D2926' }}>Delete User</Typography>
+          <Typography sx={{ fontWeight: 700, fontSize: '1.05rem', color: '#1D2327' }}>Delete User</Typography>
         </DialogTitle>
         <DialogContent sx={{ px: 3, py: 3 }}>
-          <Typography sx={{ color: '#5C524D', fontSize: '0.938rem', lineHeight: 1.6 }}>
+          <Typography sx={{ color: '#50575E', fontSize: '0.938rem', lineHeight: 1.6 }}>
             Are you sure you want to delete this user? This action cannot be undone.
           </Typography>
         </DialogContent>
         <DialogActions sx={{ px: 3, pb: 3, gap: 1 }}>
-          <Button onClick={() => setDeleteConfirmId(null)} variant="outlined" sx={{ borderRadius: 1.5, px: 2.5, fontWeight: 600 }}>Cancel</Button>
+          <Button onClick={() => setDeleteConfirmId(null)} variant="outlined" sx={{ borderRadius: '2px', px: 2.5, fontWeight: 600 }}>Cancel</Button>
           <Button onClick={() => deleteConfirmId && handleDelete(deleteConfirmId)} variant="contained"
-            sx={{ borderRadius: 1.5, px: 2.5, fontWeight: 700, bgcolor: '#EF4444', '&:hover': { bgcolor: '#DC2626' } }}>
+            sx={{ borderRadius: '2px', px: 2.5, fontWeight: 700, bgcolor: '#D63638', '&:hover': { bgcolor: '#A62527' } }}>
             Delete
           </Button>
         </DialogActions>
@@ -525,11 +525,11 @@ const UserManagement: React.FC = () => {
 
       {/* Create / Edit Dialog */}
       <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)} maxWidth="sm" fullWidth>
-        <DialogTitle sx={{ display: 'flex', alignItems: 'center', gap: 1.5, px: 3, py: 2.5, borderBottom: '1px solid #EDE0D8' }}>
-          <Box sx={{ width: 36, height: 36, borderRadius: 2, background: 'rgba(190,89,83,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#BE5953' }}>
+        <DialogTitle sx={{ display: 'flex', alignItems: 'center', gap: 1.5, px: 3, py: 2.5, borderBottom: '1px solid #E2E4E7' }}>
+          <Box sx={{ width: 36, height: 36, borderRadius: '2px', background: 'rgba(190,89,83,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#BE5953' }}>
             <PersonIcon fontSize="small" />
           </Box>
-          <Typography sx={{ fontWeight: 700, fontSize: '1.05rem', color: '#2D2926' }}>
+          <Typography sx={{ fontWeight: 700, fontSize: '1.05rem', color: '#1D2327' }}>
             {selectedUser ? 'Edit User' : 'Create Admin User'}
           </Typography>
         </DialogTitle>
@@ -581,9 +581,9 @@ const UserManagement: React.FC = () => {
           </Grid>
         </DialogContent>
         <DialogActions sx={{ px: 3, pb: 3, pt: 2, gap: 1 }}>
-          <Button onClick={() => setDialogOpen(false)} variant="outlined" sx={{ borderRadius: 1.5, px: 2.5, fontWeight: 600 }}>Cancel</Button>
+          <Button onClick={() => setDialogOpen(false)} variant="outlined" sx={{ borderRadius: '2px', px: 2.5, fontWeight: 600 }}>Cancel</Button>
           <Button onClick={handleSave} variant="contained"
-            sx={{ borderRadius: 1.5, px: 2.5, fontWeight: 700, backgroundColor: '#BE5953', '&:hover': { backgroundColor: '#8E3830' } }}>
+            sx={{ borderRadius: '2px', px: 2.5, fontWeight: 700, backgroundColor: '#BE5953', '&:hover': { backgroundColor: '#9A413C' } }}>
             {selectedUser ? 'Update' : 'Create'}
           </Button>
         </DialogActions>

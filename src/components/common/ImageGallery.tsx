@@ -51,7 +51,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
           textAlign: "center",
           border: "2px dashed",
           borderColor: STANDARD_COLORS.ui.border,
-          borderRadius: 2,
+          borderRadius: '2px',
           bgcolor: STANDARD_COLORS.ui.background,
         }}
       >
@@ -69,7 +69,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
           <ImageListItem
             key={index}
             sx={{
-              borderRadius: 2,
+              borderRadius: '2px',
               overflow: "hidden",
               border: "1px solid",
               borderColor: STANDARD_COLORS.ui.border,
@@ -163,7 +163,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
           <Paper
             elevation={8}
             sx={{
-              borderRadius: 2,
+              borderRadius: '2px',
               overflow: "hidden",
               display: "flex",
               justifyContent: "center",

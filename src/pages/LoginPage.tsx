@@ -9,30 +9,14 @@ import {
   InputAdornment,
   Link as MuiLink,
   CircularProgress,
-  Divider,
 } from '@mui/material';
 import {
   Visibility,
   VisibilityOff,
   Login as LoginIcon,
-  LockOutlined as LockIcon,
 } from '@mui/icons-material';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-
-// Shared field style for enterprise-clean fields
-const fieldSx = {
-  '& .MuiOutlinedInput-root': {
-    bgcolor: '#FFFFFF',
-    borderRadius: '5px',
-    fontSize: '0.875rem',
-    '& fieldset': { borderColor: '#E8E0D8', borderWidth: '1.5px' },
-    '&:hover fieldset': { borderColor: '#BE5953' },
-    '&.Mui-focused fieldset': { borderColor: '#BE5953', borderWidth: '2px' },
-  },
-  '& .MuiInputLabel-root': { fontSize: '0.875rem' },
-  '& .MuiInputLabel-root.Mui-focused': { color: '#BE5953' },
-};
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -67,238 +51,214 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <Box sx={{ minHeight: '100vh', display: 'flex', bgcolor: '#F0EBE4' }}>
-
-      {/* ── Left brand panel ─────────────────────────────── */}
+    <Box
+      sx={{
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        bgcolor: '#F0F0F1',
+        p: '16px',
+      }}
+    >
       <Box
         sx={{
-          display: { xs: 'none', lg: 'flex' },
-          flex: '0 0 420px',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          bgcolor: '#1D1917',
-          p: 5,
-          position: 'relative',
-          overflow: 'hidden',
-          '&::before': {
-            content: '""',
-            position: 'absolute',
-            inset: 0,
-            background: 'radial-gradient(circle at 20% 80%, rgba(190,89,83,0.18) 0%, transparent 60%), radial-gradient(circle at 80% 20%, rgba(201,169,110,0.1) 0%, transparent 50%)',
-            pointerEvents: 'none',
-          },
+          width: '100%',
+          maxWidth: 420,
+          bgcolor: '#FFFFFF',
+          borderRadius: '2px',
+          border: '1px solid #CDD0D4',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+          p: '40px',
         }}
       >
-        {/* Logo */}
-        <Box sx={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', gap: 1.5 }}>
+        {/* Logo area */}
+        <Box sx={{ mb: '32px', textAlign: 'center' }}>
           <Box
+            component="img"
+            src="/corrados-logo.png"
+            alt="Corrado's"
+            sx={{ height: 48, width: 'auto', objectFit: 'contain', mb: '12px', display: 'block', mx: 'auto' }}
+            onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
+              e.currentTarget.style.display = 'none';
+            }}
+          />
+          <Typography
             sx={{
-              width: 40, height: 40,
-              borderRadius: '9px',
-              bgcolor: 'rgba(190,89,83,0.2)',
-              border: '1px solid rgba(190,89,83,0.35)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              overflow: 'hidden',
+              fontFamily: '"Inter", sans-serif',
+              fontWeight: 700,
+              fontSize: '1.125rem',
+              color: '#1D2327',
+              lineHeight: 1.3,
             }}
           >
-            <Box component="img" src="/corrados-logo.png" alt="C" sx={{ height: 28, objectFit: 'contain' }} />
-          </Box>
-          <Box>
-            <Typography sx={{ fontFamily: '"Playfair Display", Georgia, serif', fontWeight: 700, fontSize: '1rem', color: '#F5EDE4', lineHeight: 1.2 }}>
-              Corrado's
-            </Typography>
-            <Typography sx={{ fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: '#6B5047' }}>
-              Admin Portal
-            </Typography>
-          </Box>
-        </Box>
-
-        {/* Brand statement */}
-        <Box sx={{ position: 'relative', zIndex: 1 }}>
-          <Typography sx={{ fontSize: '0.68rem', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#BE5953', mb: 2 }}>
-            Restaurant Management
+            Corrado's Admin
           </Typography>
           <Typography
             sx={{
-              fontFamily: '"Playfair Display", Georgia, serif',
-              fontWeight: 700,
-              fontSize: '2.25rem',
-              color: '#FFFFFF',
-              lineHeight: 1.2,
-              letterSpacing: '-0.02em',
-              mb: 2,
+              fontSize: '0.6875rem',
+              fontWeight: 600,
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+              color: '#787C82',
+              mt: '2px',
             }}
           >
-            Manage your<br />restaurant with<br />
-            <Box component="span" sx={{ color: '#BE5953' }}>elegance.</Box>
-          </Typography>
-          <Typography sx={{ color: 'rgba(255,255,255,0.45)', fontSize: '0.875rem', lineHeight: 1.65, maxWidth: 300 }}>
-            Control your menu, specials, events, and communicate with guests — all from one place.
-          </Typography>
-          <Box sx={{ mt: 3.5, width: 48, height: 2, bgcolor: '#BE5953', borderRadius: 1 }} />
-        </Box>
-
-        {/* Footer */}
-        <Typography sx={{ position: 'relative', zIndex: 1, color: 'rgba(255,255,255,0.25)', fontSize: '0.72rem' }}>
-          Corrado's Restaurant &amp; Bar · Whitby, ON · Est. 2010
-        </Typography>
-      </Box>
-
-      {/* ── Right form panel ─────────────────────────────── */}
-      <Box
-        sx={{
-          flex: 1,
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          p: { xs: 3, sm: 5 },
-          bgcolor: '#F0EBE4',
-        }}
-      >
-        {/* Mobile logo */}
-        <Box sx={{ display: { xs: 'flex', lg: 'none' }, flexDirection: 'column', alignItems: 'center', mb: 4 }}>
-          <Box sx={{ width: 52, height: 52, borderRadius: '12px', bgcolor: '#1D1917', border: '1px solid rgba(190,89,83,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 1.5, overflow: 'hidden' }}>
-            <Box component="img" src="/corrados-logo.png" alt="C" sx={{ height: 36, objectFit: 'contain' }} />
-          </Box>
-          <Typography sx={{ fontFamily: '"Playfair Display", Georgia, serif', fontWeight: 700, color: '#1C1917', fontSize: '1.1rem' }}>
-            Corrado's Admin Portal
+            Restaurant Management Portal
           </Typography>
         </Box>
 
-        {/* Card */}
-        <Box
-          sx={{
-            width: '100%',
-            maxWidth: 420,
-            bgcolor: '#FFFFFF',
-            borderRadius: '8px',
-            border: '1px solid #E8E0D8',
-            boxShadow: '0 4px 24px rgba(0,0,0,0.07)',
-            overflow: 'hidden',
-          }}
-        >
-          {/* Card header */}
-          <Box
+        {flashMessage && (
+          <Alert
+            severity="success"
+            onClose={() => setFlashMessage('')}
             sx={{
-              px: 3.5,
-              py: 3,
-              borderBottom: '1px solid #F0EBE4',
-              bgcolor: '#FDFAF8',
-              display: 'flex',
-              alignItems: 'center',
-              gap: 1.5,
+              mb: '20px',
+              borderRadius: '2px',
+              borderLeft: '3px solid #00A32A',
+              fontSize: '0.875rem',
             }}
           >
-            <Box sx={{ width: 32, height: 32, borderRadius: '7px', bgcolor: 'rgba(190,89,83,0.1)', border: '1px solid rgba(190,89,83,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <LockIcon sx={{ fontSize: 15, color: '#BE5953' }} />
-            </Box>
+            {flashMessage}
+          </Alert>
+        )}
+        {error && (
+          <Alert
+            severity="error"
+            onClose={() => setError('')}
+            sx={{
+              mb: '20px',
+              borderRadius: '2px',
+              borderLeft: '3px solid #D63638',
+              bgcolor: '#FCEEEE',
+              color: '#D63638',
+              fontSize: '0.875rem',
+              '& .MuiAlert-icon': { color: '#D63638' },
+            }}
+          >
+            {error}
+          </Alert>
+        )}
+
+        <form onSubmit={handleSubmit}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             <Box>
-              <Typography sx={{ fontWeight: 700, fontSize: '0.975rem', color: '#1C1917', lineHeight: 1.2 }}>
-                Sign In
+              <Typography
+                component="label"
+                htmlFor="email"
+                sx={{ display: 'block', fontSize: '0.75rem', fontWeight: 600, color: '#1D2327', mb: '6px' }}
+              >
+                Email address
               </Typography>
-              <Typography sx={{ fontSize: '0.75rem', color: '#9B8B80' }}>
-                Access your admin dashboard
-              </Typography>
-            </Box>
-          </Box>
-
-          <Box sx={{ px: 3.5, py: 3 }}>
-            {flashMessage && (
-              <Alert severity="success" sx={{ mb: 2.5, borderRadius: '5px', fontSize: '0.845rem' }} onClose={() => setFlashMessage('')}>
-                {flashMessage}
-              </Alert>
-            )}
-            {error && (
-              <Alert severity="error" sx={{ mb: 2.5, borderRadius: '5px', fontSize: '0.845rem' }} onClose={() => setError('')}>
-                {error}
-              </Alert>
-            )}
-
-            <form onSubmit={handleSubmit}>
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                <TextField
-                  fullWidth
-                  label="Email address"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  autoFocus
-                  disabled={loading}
-                  size="small"
-                  sx={fieldSx}
-                />
-                <TextField
-                  fullWidth
-                  label="Password"
-                  type={showPassword ? 'text' : 'password'}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  disabled={loading}
-                  size="small"
-                  sx={fieldSx}
-                  slotProps={{
-                    input: {
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <IconButton
-                            onClick={() => setShowPassword(!showPassword)}
-                            edge="end"
-                            size="small"
-                            disabled={loading}
-                            sx={{ color: '#9B8B80', '&:hover': { color: '#BE5953' } }}
-                          >
-                            {showPassword ? <VisibilityOff sx={{ fontSize: 17 }} /> : <Visibility sx={{ fontSize: 17 }} />}
-                          </IconButton>
-                        </InputAdornment>
-                      ),
-                    },
-                  }}
-                />
-
-                <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                  <MuiLink
-                    component={RouterLink}
-                    to="/forgot-password"
-                    underline="hover"
-                    sx={{ fontSize: '0.8rem', color: '#9B8B80', '&:hover': { color: '#BE5953' } }}
-                  >
-                    Forgot password?
-                  </MuiLink>
-                </Box>
-
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  disabled={loading}
-                  startIcon={loading ? <CircularProgress size={14} color="inherit" /> : <LoginIcon sx={{ fontSize: '16px !important' }} />}
-                  sx={{
-                    bgcolor: '#1D1917',
-                    '&:hover': { bgcolor: '#BE5953' },
-                    '&:disabled': { bgcolor: '#E8E0D8' },
-                    borderRadius: '5px',
-                    py: 1.125,
+              <TextField
+                id="email"
+                fullWidth
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                autoFocus
+                disabled={loading}
+                placeholder="you@corrados.ca"
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    height: 36,
+                    borderRadius: '2px',
                     fontSize: '0.875rem',
-                    fontWeight: 700,
-                    textTransform: 'none',
-                    letterSpacing: '0.01em',
-                    boxShadow: 'none',
-                  }}
-                >
-                  {loading ? 'Signing in…' : 'Sign In'}
-                </Button>
-              </Box>
-            </form>
+                    '& fieldset': { borderColor: '#CDD0D4', borderWidth: '1px' },
+                    '&:hover fieldset': { borderColor: '#A7AAAD' },
+                    '&.Mui-focused fieldset': { borderColor: '#BE5953', borderWidth: '1px', boxShadow: '0 0 0 2px rgba(190,89,83,0.15)' },
+                  },
+                  '& .MuiInputLabel-root': { display: 'none' },
+                }}
+              />
+            </Box>
 
-            <Divider sx={{ my: 2.5, borderColor: '#F0EBE4' }} />
-            <Typography sx={{ textAlign: 'center', color: '#C4BBB5', fontSize: '0.72rem' }}>
-              Corrado's Restaurant &amp; Bar · Admin Portal
-            </Typography>
+            <Box>
+              <Typography
+                component="label"
+                htmlFor="password"
+                sx={{ display: 'block', fontSize: '0.75rem', fontWeight: 600, color: '#1D2327', mb: '6px' }}
+              >
+                Password
+              </Typography>
+              <TextField
+                id="password"
+                fullWidth
+                type={showPassword ? 'text' : 'password'}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                disabled={loading}
+                placeholder="••••••••"
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    height: 36,
+                    borderRadius: '2px',
+                    fontSize: '0.875rem',
+                    '& fieldset': { borderColor: '#CDD0D4', borderWidth: '1px' },
+                    '&:hover fieldset': { borderColor: '#A7AAAD' },
+                    '&.Mui-focused fieldset': { borderColor: '#BE5953', borderWidth: '1px', boxShadow: '0 0 0 2px rgba(190,89,83,0.15)' },
+                  },
+                  '& .MuiInputLabel-root': { display: 'none' },
+                }}
+                slotProps={{
+                  input: {
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={() => setShowPassword(!showPassword)}
+                          edge="end"
+                          size="small"
+                          disabled={loading}
+                          sx={{ color: '#787C82', borderRadius: '2px', '&:hover': { color: '#1D2327', bgcolor: '#F0F0F1' } }}
+                        >
+                          {showPassword ? <VisibilityOff sx={{ fontSize: 16 }} /> : <Visibility sx={{ fontSize: 16 }} />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  },
+                }}
+              />
+            </Box>
+
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <MuiLink
+                component={RouterLink}
+                to="/forgot-password"
+                underline="hover"
+                sx={{ fontSize: '0.8125rem', color: '#0073AA', '&:hover': { color: '#BE5953' } }}
+              >
+                Forgot password?
+              </MuiLink>
+            </Box>
+
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              disabled={loading}
+              startIcon={loading ? <CircularProgress size={14} color="inherit" /> : <LoginIcon sx={{ fontSize: '16px !important' }} />}
+              sx={{
+                bgcolor: '#BE5953',
+                '&:hover': { bgcolor: '#9A413C' },
+                '&:disabled': { bgcolor: '#E2E4E7' },
+                borderRadius: '2px',
+                height: 36,
+                fontSize: '0.8125rem',
+                fontWeight: 600,
+                textTransform: 'none',
+                boxShadow: 'none',
+              }}
+            >
+              {loading ? 'Signing in…' : 'Sign In'}
+            </Button>
           </Box>
-        </Box>
+        </form>
+
+        <Typography sx={{ textAlign: 'center', color: '#A7AAAD', fontSize: '0.6875rem', mt: '24px' }}>
+          Corrado's Restaurant &amp; Bar · Whitby, ON
+        </Typography>
       </Box>
     </Box>
   );

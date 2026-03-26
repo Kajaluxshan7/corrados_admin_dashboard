@@ -444,10 +444,10 @@ const OpeningHours: React.FC = () => {
           <Skeleton variant="text" width={320} height={44} />
           <Skeleton variant="text" width={480} height={24} sx={{ mt: 1 }} />
         </Box>
-        <Skeleton variant="rounded" height={80} sx={{ mb: 3, borderRadius: 3 }} />
+        <Skeleton variant="rounded" height={80} sx={{ mb: 3, borderRadius: '2px' }} />
         <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', lg: '1fr 1fr' }, gap: 2.5 }}>
           {[...Array(7)].map((_, i) => (
-            <Skeleton key={i} variant="rounded" height={110} sx={{ borderRadius: 2.5 }} />
+            <Skeleton key={i} variant="rounded" height={110} sx={{ borderRadius: '2px' }} />
           ))}
         </Box>
       </Box>
@@ -473,23 +473,23 @@ const OpeningHours: React.FC = () => {
         sx={{
           mb: 3,
           p: 2.5,
-          borderRadius: 3,
+          borderRadius: '2px',
           display: 'flex',
           alignItems: 'center',
           gap: 2,
           background: status.isOpen
-            ? 'linear-gradient(135deg, rgba(44,85,48,0.08) 0%, rgba(44,85,48,0.04) 100%)'
+            ? 'linear-gradient(135deg, rgba(0,163,42,0.08) 0%, rgba(44,85,48,0.04) 100%)'
             : 'linear-gradient(135deg, rgba(239,68,68,0.08) 0%, rgba(239,68,68,0.04) 100%)',
-          border: `1px solid ${status.isOpen ? 'rgba(44,85,48,0.2)' : 'rgba(239,68,68,0.18)'}`,
+          border: `1px solid ${status.isOpen ? 'rgba(0,163,42,0.2)' : 'rgba(239,68,68,0.18)'}`,
           boxShadow: '0 2px 12px rgba(0,0,0,0.04)',
         }}
       >
         <Box sx={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <DotIcon sx={{ fontSize: 16, color: status.isOpen ? '#2C5530' : '#EF4444' }} />
+          <DotIcon sx={{ fontSize: 16, color: status.isOpen ? '#00A32A' : '#D63638' }} />
           <Box sx={{
             position: 'absolute',
             width: 26, height: 26, borderRadius: '50%',
-            background: status.isOpen ? 'rgba(44,85,48,0.2)' : 'rgba(239,68,68,0.2)',
+            background: status.isOpen ? 'rgba(0,163,42,0.2)' : 'rgba(239,68,68,0.2)',
             animation: 'pulse 2s infinite',
             '@keyframes pulse': {
               '0%': { transform: 'scale(0.8)', opacity: 1 },
@@ -499,10 +499,10 @@ const OpeningHours: React.FC = () => {
           }} />
         </Box>
         <Box>
-          <Typography sx={{ fontWeight: 700, fontSize: '0.938rem', color: status.isOpen ? '#1A3A1E' : '#991B1B', lineHeight: 1.2 }}>
+          <Typography sx={{ fontWeight: 700, fontSize: '0.938rem', color: status.isOpen ? '#007A1F' : '#991B1B', lineHeight: 1.2 }}>
             {status.isOpen ? 'We are open right now' : 'Currently closed'}
           </Typography>
-          <Typography sx={{ fontSize: '0.82rem', color: status.isOpen ? '#2C5530' : '#B91C1C', mt: 0.25 }}>
+          <Typography sx={{ fontSize: '0.82rem', color: status.isOpen ? '#00A32A' : '#B91C1C', mt: 0.25 }}>
             {status.message}
           </Typography>
         </Box>
@@ -542,7 +542,7 @@ const OpeningHours: React.FC = () => {
               elevation={0}
               sx={{
                 border: isToday ? '2px solid #BE5953' : '1px solid rgba(190,89,83,0.1)',
-                borderRadius: 2.5,
+                borderRadius: '2px',
                 background: isToday ? 'rgba(190,89,83,0.03)' : '#FFFFFF',
                 transition: 'box-shadow 0.2s ease',
                 position: 'relative',
@@ -562,8 +562,8 @@ const OpeningHours: React.FC = () => {
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
                     {/* Day icon */}
                     <Box sx={{
-                      width: 42, height: 42, borderRadius: 2, flexShrink: 0,
-                      background: isToday ? 'rgba(190,89,83,0.12)' : '#F5EDE4',
+                      width: 42, height: 42, borderRadius: '2px', flexShrink: 0,
+                      background: isToday ? 'rgba(190,89,83,0.12)' : '#F0F0F1',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
                       color: isToday ? '#BE5953' : '#7A6358',
                     }}>
@@ -573,7 +573,7 @@ const OpeningHours: React.FC = () => {
                     </Box>
                     <Box>
                       <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
-                        <Typography sx={{ fontWeight: 800, fontSize: '1.05rem', color: isToday ? '#BE5953' : '#2D2926', lineHeight: 1.1 }}>
+                        <Typography sx={{ fontWeight: 800, fontSize: '1.05rem', color: isToday ? '#BE5953' : '#1D2327', lineHeight: 1.1 }}>
                           {getDayDisplayName(day)}
                         </Typography>
                         {isToday && (
@@ -582,7 +582,7 @@ const OpeningHours: React.FC = () => {
                         )}
                       </Box>
                       {editingDay !== day && (
-                        <Typography sx={{ fontSize: '0.85rem', fontWeight: 600, color: displayData.isOpen ? '#2D2926' : '#9E9E9E', mt: 0.25 }}>
+                        <Typography sx={{ fontSize: '0.85rem', fontWeight: 600, color: displayData.isOpen ? '#1D2327' : '#9E9E9E', mt: 0.25 }}>
                           {!displayData.isOpen
                             ? 'Closed'
                             : displayData.openTime && displayData.closeTime
@@ -599,12 +599,12 @@ const OpeningHours: React.FC = () => {
                       <>
                         <Button size="small" variant="contained" startIcon={<SaveIcon />}
                           onClick={handleSave} disabled={saving}
-                          sx={{ borderRadius: 2, fontWeight: 600, fontSize: '0.8rem', py: 0.75, px: 1.5, backgroundColor: '#BE5953', '&:hover': { backgroundColor: '#8E3830' } }}>
+                          sx={{ borderRadius: '2px', fontWeight: 600, fontSize: '0.8rem', py: 0.75, px: 1.5, backgroundColor: '#BE5953', '&:hover': { backgroundColor: '#9A413C' } }}>
                           {saving ? 'Saving…' : 'Save'}
                         </Button>
                         <Button size="small" variant="outlined" startIcon={<CancelIcon />}
                           onClick={handleCancel} disabled={saving}
-                          sx={{ borderRadius: 2, fontWeight: 600, fontSize: '0.8rem', py: 0.75, px: 1.5 }}>
+                          sx={{ borderRadius: '2px', fontWeight: 600, fontSize: '0.8rem', py: 0.75, px: 1.5 }}>
                           Cancel
                         </Button>
                       </>
@@ -612,10 +612,10 @@ const OpeningHours: React.FC = () => {
                       <Button size="small" variant={isToday ? 'contained' : 'outlined'} startIcon={<EditIcon />}
                         onClick={() => handleEdit(day)} disabled={!!editingDay}
                         sx={{
-                          borderRadius: 2, fontWeight: 600, fontSize: '0.8rem', py: 0.75, px: 1.5,
+                          borderRadius: '2px', fontWeight: 600, fontSize: '0.8rem', py: 0.75, px: 1.5,
                           ...(isToday
-                            ? { backgroundColor: '#BE5953', '&:hover': { backgroundColor: '#8E3830' } }
-                            : { borderColor: 'rgba(190,89,83,0.3)', color: '#BE5953', '&:hover': { borderColor: '#BE5953', bgcolor: 'rgba(190,89,83,0.05)' } }),
+                            ? { backgroundColor: '#BE5953', '&:hover': { backgroundColor: '#9A413C' } }
+                            : { borderColor: 'rgba(190,89,83,0.3)', color: '#BE5953', '&:hover': { borderColor: '#BE5953', bgcolor: 'rgba(0,0,0,0.03)' } }),
                         }}>
                         Edit
                       </Button>
@@ -629,7 +629,7 @@ const OpeningHours: React.FC = () => {
                     <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
                       <FormControlLabel control={<Switch checked={editForm.isActive} onChange={(e) => setEditForm({ ...editForm, isActive: e.target.checked })} />} label="Active" />
                       <FormControlLabel control={<Switch checked={!editForm.isOpen} onChange={(e) => setEditForm({ ...editForm, isOpen: !e.target.checked })}
-                        sx={{ '& .MuiSwitch-switchBase.Mui-checked': { color: '#EF4444' }, '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { bgcolor: '#EF4444' } }} />} label="Mark as Closed" />
+                        sx={{ '& .MuiSwitch-switchBase.Mui-checked': { color: '#D63638' }, '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { bgcolor: '#D63638' } }} />} label="Mark as Closed" />
                     </Box>
                     {editForm.isOpen && (
                       <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
@@ -653,10 +653,10 @@ const OpeningHours: React.FC = () => {
                 {editingDay !== day && (
                   <Box sx={{ mt: 2 }}>
                     {/* 24h track */}
-                    <Box sx={{ position: 'relative', height: 6, borderRadius: 3, bgcolor: 'rgba(0,0,0,0.06)', overflow: 'hidden' }}>
+                    <Box sx={{ position: 'relative', height: 6, borderRadius: '2px', bgcolor: 'rgba(0,0,0,0.06)', overflow: 'hidden' }}>
                       {hasTimeBar && (
                         <Box sx={{
-                          position: 'absolute', top: 0, bottom: 0, borderRadius: 3,
+                          position: 'absolute', top: 0, bottom: 0, borderRadius: '2px',
                           left: barLeft, width: barWidth,
                           background: displayData.isActive
                             ? 'linear-gradient(90deg, #BE5953, #DDA15E)'
@@ -672,7 +672,7 @@ const OpeningHours: React.FC = () => {
                     </Box>
                     {/* Special note */}
                     {displayData.specialNote && (
-                      <Typography sx={{ fontSize: '0.78rem', color: '#5C524D', mt: 1, fontStyle: 'italic' }}>
+                      <Typography sx={{ fontSize: '0.78rem', color: '#50575E', mt: 1, fontStyle: 'italic' }}>
                         ✦ {displayData.specialNote}
                       </Typography>
                     )}
