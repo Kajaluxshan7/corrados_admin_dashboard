@@ -272,15 +272,12 @@ const MenuManagement: React.FC = () => {
   const handleMoveCategory = useCallback(
     async (id: string, direction: 'up' | 'down') => {
       try {
-        const res = await fetch(
-          `${API_BASE_URL}/menu/categories/${id}/move`,
-          {
-            method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
-            credentials: 'include',
-            body: JSON.stringify({ direction }),
-          }
-        );
+        const res = await fetch(`${API_BASE_URL}/menu/categories/${id}/move`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ direction }),
+        });
         if (!res.ok) throw new Error('Failed to move category');
         await loadCategories();
       } catch (err) {
@@ -288,7 +285,7 @@ const MenuManagement: React.FC = () => {
         showSnackbar(getErrorMessage(err), 'error');
       }
     },
-    [loadCategories, showSnackbar]
+    [loadCategories, showSnackbar],
   );
 
   const handleMoveItem = useCallback(
@@ -307,7 +304,7 @@ const MenuManagement: React.FC = () => {
         showSnackbar(getErrorMessage(err), 'error');
       }
     },
-    [loadMenuItems, showSnackbar]
+    [loadMenuItems, showSnackbar],
   );
 
   // Toggle availability
@@ -390,7 +387,7 @@ const MenuManagement: React.FC = () => {
       type: DrawerFormType,
       editId: string | null,
       payload: Record<string, unknown>,
-      imagesToDelete: string[]
+      imagesToDelete: string[],
     ) => {
       setSaving(true);
       try {
@@ -460,10 +457,10 @@ const MenuManagement: React.FC = () => {
             type === 'primaryCategory'
               ? 'Primary category'
               : type === 'category'
-              ? 'Category'
-              : 'Menu item'
+                ? 'Category'
+                : 'Menu item'
           } ${editId ? 'updated' : 'created'} successfully.`,
-          'success'
+          'success',
         );
       } catch (err) {
         logger.error('handleDrawerSave error:', err);
@@ -472,7 +469,7 @@ const MenuManagement: React.FC = () => {
         setSaving(false);
       }
     },
-    [view, loadPrimaryCategories, loadCategories, loadMenuItems, showSnackbar]
+    [view, loadPrimaryCategories, loadCategories, loadMenuItems, showSnackbar],
   );
 
   // Computed values
@@ -594,15 +591,15 @@ const MenuManagement: React.FC = () => {
               {view === 'overview'
                 ? 'Menu Management'
                 : view === 'categories'
-                ? activePrimaryCategory?.name
-                : activeCategory?.name}
+                  ? activePrimaryCategory?.name
+                  : activeCategory?.name}
             </Typography>
             <Typography fontSize="0.8125rem" color="#787C82">
               {view === 'overview'
                 ? 'Manage your restaurant menu structure'
                 : view === 'categories'
-                ? `Categories in ${activePrimaryCategory?.name}`
-                : `Items in ${activeCategory?.name}`}
+                  ? `Categories in ${activePrimaryCategory?.name}`
+                  : `Items in ${activeCategory?.name}`}
             </Typography>
           </Box>
         </Box>
@@ -706,8 +703,8 @@ const MenuManagement: React.FC = () => {
           deleteTarget?.type === 'primary'
             ? 'Primary Category'
             : deleteTarget?.type === 'category'
-            ? 'Category'
-            : 'Menu Item'
+              ? 'Category'
+              : 'Menu Item'
         }`}
         message={`Are you sure you want to delete "${deleteTarget?.label}"? This action cannot be undone.`}
         confirmText="Delete"
@@ -727,9 +724,7 @@ const MenuManagement: React.FC = () => {
         <Alert
           severity={snackbar.severity}
           variant="filled"
-          onClose={() =>
-            setSnackbar((prev) => ({ ...prev, open: false }))
-          }
+          onClose={() => setSnackbar((prev) => ({ ...prev, open: false }))}
         >
           {snackbar.message}
         </Alert>
