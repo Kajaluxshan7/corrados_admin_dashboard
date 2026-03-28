@@ -6,8 +6,8 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [react()],
     server: {
-      port: 3002,
-      host: true,
+      port: parseInt(process.env.VITE_DEV_PORT || '5173'),
+      host: 'localhost',
       strictPort: false,
     },
     build: {
@@ -36,9 +36,9 @@ export default defineConfig(({ mode }) => {
       },
     },
     preview: {
-      port: 3002,
+      port: parseInt(process.env.VITE_PREVIEW_PORT || '5173'),
       strictPort: false,
-      host: true,
+      host: 'localhost',
     },
   };
 });

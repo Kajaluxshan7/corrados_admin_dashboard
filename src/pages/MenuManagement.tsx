@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import {
   Box,
   Typography,
@@ -32,13 +33,22 @@ import { MenuItemsView } from '../components/menu/MenuItemsView';
 import { MenuFormDrawer } from '../components/menu/MenuFormDrawer';
 
 const MenuManagement: React.FC = () => {
-  // Navigation state
-  const [view, setView] = useState<MenuView>('overview');
-  const [activePrimaryCategory, setActivePrimaryCategory] =
-    useState<PrimaryCategory | null>(null);
-  const [activeCategory, setActiveCategory] = useState<MenuCategory | null>(
-    null
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // Navigation state — derived from URL params
+  const view = (searchParams.get('view') as MenuView) || 'overview';
+  const activePcId = searchParams.get('pcId') || '';
+  const activeCatId = searchParams.get('catId') || '';
+
+  // Shared view mode — persisted in localStorage
+  const [viewMode, setViewMode] = useState<'grid' | 'table'>(
+    () => (localStorage.getItem('menuViewMode') as 'grid' | 'table') || 'grid'
   );
+
+  const handleViewModeChange = useCallback((mode: 'grid' | 'table') => {
+    setViewMode(mode);
+    localStorage.setItem('menuViewMode', mode);
+  }, []);
 
   // Data state
   const [primaryCategories, setPrimaryCategories] = useState<PrimaryCategory[]>(
@@ -154,17 +164,7 @@ const MenuManagement: React.FC = () => {
             '',
           preparationTime: item.preparationTime as number | undefined,
           isAvailable: item.isAvailable as boolean,
-          isVegetarian:
-            (item.isVegetarian as boolean) ||
-            dietaryInfo.includes('vegetarian'),
-          isVegan:
-            (item.isVegan as boolean) || dietaryInfo.includes('vegan'),
-          isGlutenFree:
-            (item.isGlutenFree as boolean) ||
-            dietaryInfo.includes('glutenFree'),
-          isDairyFree:
-            (item.isDairyFree as boolean) ||
-            dietaryInfo.includes('dairyFree'),
+          dietaryInfo,
           allergens: (item.allergens as string[]) || [],
           imageUrls: (item.imageUrls as string[]) || [],
           sortOrder: (item.sortOrder as number) || 0,
@@ -211,40 +211,36 @@ const MenuManagement: React.FC = () => {
     loadAll();
   }, [loadPrimaryCategories, loadCategories, loadMenuItems, loadMeasurementTypes]);
 
-  // Navigation handlers
+  // Navigation handlers — update URL params
   const handleEnterPrimaryCategory = useCallback(
     (pc: PrimaryCategory) => {
-      setActivePrimaryCategory(pc);
-      setView('categories');
+      setSearchParams({ view: 'categories', pcId: pc.id });
     },
-    []
+    [setSearchParams]
   );
 
-  const handleEnterCategory = useCallback((cat: MenuCategory) => {
-    setActiveCategory(cat);
-    setView('items');
-  }, []);
+  const handleEnterCategory = useCallback(
+    (cat: MenuCategory) => {
+      setSearchParams({ view: 'items', pcId: activePcId, catId: cat.id });
+    },
+    [setSearchParams, activePcId]
+  );
 
   const handleNavigateBack = useCallback(() => {
     if (view === 'items') {
-      setView('categories');
-      setActiveCategory(null);
+      setSearchParams({ view: 'categories', pcId: activePcId });
     } else {
-      setView('overview');
-      setActivePrimaryCategory(null);
+      setSearchParams({});
     }
-  }, [view]);
+  }, [view, activePcId, setSearchParams]);
 
   const handleNavigateToOverview = useCallback(() => {
-    setView('overview');
-    setActivePrimaryCategory(null);
-    setActiveCategory(null);
-  }, []);
+    setSearchParams({});
+  }, [setSearchParams]);
 
   const handleNavigateToCategories = useCallback(() => {
-    setView('categories');
-    setActiveCategory(null);
-  }, []);
+    setSearchParams({ view: 'categories', pcId: activePcId });
+  }, [activePcId, setSearchParams]);
 
   // Move handlers
   const handleMovePrimaryCategory = useCallback(
@@ -472,18 +468,25 @@ const MenuManagement: React.FC = () => {
     [view, loadPrimaryCategories, loadCategories, loadMenuItems, showSnackbar],
   );
 
-  // Computed values
+  // Computed values — derive active objects from URL params + loaded data
+  const activePrimaryCategory = useMemo(
+    () => primaryCategories.find((pc) => pc.id === activePcId) || null,
+    [primaryCategories, activePcId]
+  );
+
+  const activeCategory = useMemo(
+    () => categories.find((c) => c.id === activeCatId) || null,
+    [categories, activeCatId]
+  );
+
   const filteredCategories = useMemo(
-    () =>
-      categories.filter(
-        (c) => c.primaryCategoryId === activePrimaryCategory?.id
-      ),
-    [categories, activePrimaryCategory]
+    () => categories.filter((c) => c.primaryCategoryId === activePcId),
+    [categories, activePcId]
   );
 
   const filteredItems = useMemo(
-    () => menuItems.filter((i) => i.categoryId === activeCategory?.id),
-    [menuItems, activeCategory]
+    () => menuItems.filter((i) => i.categoryId === activeCatId),
+    [menuItems, activeCatId]
   );
 
   return (
@@ -612,6 +615,8 @@ const MenuManagement: React.FC = () => {
           categories={categories}
           menuItems={menuItems}
           loading={loading}
+          viewMode={viewMode}
+          onViewModeChange={handleViewModeChange}
           onEnter={handleEnterPrimaryCategory}
           onEdit={(pc) => {
             setDrawerFormType('primaryCategory');
@@ -636,6 +641,8 @@ const MenuManagement: React.FC = () => {
           categories={filteredCategories}
           menuItems={menuItems}
           loading={loading}
+          viewMode={viewMode}
+          onViewModeChange={handleViewModeChange}
           onEnter={handleEnterCategory}
           onEdit={(cat) => {
             setDrawerFormType('category');
@@ -663,6 +670,8 @@ const MenuManagement: React.FC = () => {
           category={activeCategory}
           items={filteredItems}
           loading={loading}
+          viewMode={viewMode}
+          onViewModeChange={handleViewModeChange}
           onEdit={(item) => {
             setDrawerFormType('item');
             setDrawerEditData(item);

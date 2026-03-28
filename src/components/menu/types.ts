@@ -26,7 +26,7 @@ export interface MenuCategory {
 
 export interface MenuItemMeasurement {
   id?: string;
-  measurementTypeId?: string;
+  measurementTypeId: string;
   price: number;
   isAvailable: boolean;
   sortOrder: number;
@@ -41,10 +41,7 @@ export interface MenuItem {
   categoryName?: string;
   preparationTime?: number;
   isAvailable: boolean;
-  isVegetarian: boolean;
-  isVegan: boolean;
-  isGlutenFree: boolean;
-  isDairyFree: boolean;
+  dietaryInfo: string[];
   allergens: string[];
   imageUrls: string[];
   sortOrder: number;

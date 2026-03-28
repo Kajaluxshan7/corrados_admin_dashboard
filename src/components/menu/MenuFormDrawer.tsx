@@ -160,10 +160,10 @@ export const MenuFormDrawer: React.FC<Props> = ({
         categoryId: item?.categoryId || prefilledCategoryId || '',
         preparationTime: item?.preparationTime ?? '',
         isAvailable: item?.isAvailable ?? true,
-        isVegetarian: item?.isVegetarian ?? false,
-        isVegan: item?.isVegan ?? false,
-        isGlutenFree: item?.isGlutenFree ?? false,
-        isDairyFree: item?.isDairyFree ?? false,
+        isVegetarian: item?.dietaryInfo?.includes('vegetarian') ?? false,
+        isVegan: item?.dietaryInfo?.includes('vegan') ?? false,
+        isGlutenFree: item?.dietaryInfo?.includes('glutenFree') ?? false,
+        isDairyFree: item?.dietaryInfo?.includes('dairyFree') ?? false,
         allergens: item?.allergens ? [...item.allergens] : [],
         sortOrder: item?.sortOrder ?? 0,
         hasMeasurements: item?.hasMeasurements ?? false,
@@ -426,10 +426,6 @@ export const MenuFormDrawer: React.FC<Props> = ({
           imageUrls: finalImageUrls,
           sortOrder: itemForm.sortOrder,
           hasMeasurements: itemForm.hasMeasurements,
-          isVegetarian: itemForm.isVegetarian,
-          isVegan: itemForm.isVegan,
-          isGlutenFree: itemForm.isGlutenFree,
-          isDairyFree: itemForm.isDairyFree,
         };
 
         if (
@@ -440,7 +436,10 @@ export const MenuFormDrawer: React.FC<Props> = ({
         }
 
         if (itemForm.hasMeasurements) {
-          payload.measurements = itemForm.measurements;
+          payload.measurements = itemForm.measurements.map(
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            ({ id: _id, ...rest }) => rest,
+          );
         } else {
           payload.price = itemForm.price;
         }
@@ -498,7 +497,7 @@ export const MenuFormDrawer: React.FC<Props> = ({
                   position: 'relative',
                   width: 80,
                   height: 80,
-                  borderRadius: '6px',
+                  borderRadius: '2px',
                   overflow: 'hidden',
                   border: '1px solid #E2E4E7',
                 }}
@@ -535,7 +534,7 @@ export const MenuFormDrawer: React.FC<Props> = ({
                 position: 'relative',
                 width: 80,
                 height: 80,
-                borderRadius: '6px',
+                borderRadius: '2px',
                 overflow: 'hidden',
                 border: '1px solid #E2E4E7',
               }}
@@ -571,7 +570,7 @@ export const MenuFormDrawer: React.FC<Props> = ({
             onClick={() => fileInputRef.current?.click()}
             sx={{
               border: '2px dashed #CDD0D4',
-              borderRadius: '6px',
+              borderRadius: '2px',
               p: 3,
               display: 'flex',
               flexDirection: 'column',
@@ -664,9 +663,9 @@ export const MenuFormDrawer: React.FC<Props> = ({
                   setPcForm((p) => ({ ...p, isActive: e.target.checked }))
                 }
                 sx={{
-                  '& .MuiSwitch-switchBase.Mui-checked': { color: '#00A32A' },
                   '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-                    bgcolor: '#00A32A',
+                    backgroundColor: '#00A32A',
+                    opacity: 1,
                   },
                 }}
               />
@@ -770,9 +769,9 @@ export const MenuFormDrawer: React.FC<Props> = ({
                   setCatForm((p) => ({ ...p, isActive: e.target.checked }))
                 }
                 sx={{
-                  '& .MuiSwitch-switchBase.Mui-checked': { color: '#00A32A' },
                   '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-                    bgcolor: '#00A32A',
+                    backgroundColor: '#00A32A',
+                    opacity: 1,
                   },
                 }}
               />
@@ -877,11 +876,9 @@ export const MenuFormDrawer: React.FC<Props> = ({
                     }))
                   }
                   sx={{
-                    '& .MuiSwitch-switchBase.Mui-checked': {
-                      color: '#BE5953',
-                    },
                     '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-                      bgcolor: '#BE5953',
+                      backgroundColor: '#BE5953',
+                      opacity: 1,
                     },
                   }}
                 />
@@ -906,11 +903,13 @@ export const MenuFormDrawer: React.FC<Props> = ({
               onChange={(e) =>
                 setItemForm((p) => ({ ...p, price: Number(e.target.value) }))
               }
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">$</InputAdornment>
-                ),
-                inputProps: { min: 0, step: 0.01 },
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start">$</InputAdornment>
+                  ),
+                  inputProps: { min: 0, step: 0.01 },
+                },
               }}
               sx={{ maxWidth: 180 }}
             />
@@ -925,7 +924,7 @@ export const MenuFormDrawer: React.FC<Props> = ({
                     gap: 1,
                     bgcolor: '#FAFAFA',
                     border: '1px solid #E2E4E7',
-                    borderRadius: '6px',
+                    borderRadius: '2px',
                     p: 1,
                   }}
                 >
@@ -961,29 +960,40 @@ export const MenuFormDrawer: React.FC<Props> = ({
                         Number(e.target.value),
                       )
                     }
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">$</InputAdornment>
-                      ),
-                      inputProps: { min: 0, step: 0.01 },
+                    slotProps={{
+                      input: {
+                        startAdornment: (
+                          <InputAdornment position="start">$</InputAdornment>
+                        ),
+                        inputProps: { min: 0, step: 0.01 },
+                      },
                     }}
                     sx={{ width: 110 }}
                   />
-                  <Checkbox
-                    size="small"
-                    checked={m.isAvailable}
-                    onChange={(e) =>
-                      handleMeasurementChange(
-                        idx,
-                        'isAvailable',
-                        e.target.checked,
-                      )
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        size="small"
+                        checked={m.isAvailable}
+                        onChange={(e) =>
+                          handleMeasurementChange(
+                            idx,
+                            'isAvailable',
+                            e.target.checked,
+                          )
+                        }
+                        sx={{
+                          color: '#CDD0D4',
+                          '&.Mui-checked': { color: '#00A32A' },
+                        }}
+                      />
                     }
-                    title="Available"
-                    sx={{
-                      color: '#CDD0D4',
-                      '&.Mui-checked': { color: '#00A32A' },
-                    }}
+                    label={
+                      <Typography fontSize="0.75rem" color="#50575E">
+                        Avail.
+                      </Typography>
+                    }
+                    sx={{ mr: 0 }}
                   />
                   <IconButton
                     size="small"
@@ -1004,13 +1014,15 @@ export const MenuFormDrawer: React.FC<Props> = ({
                 onClick={handleAddMeasurement}
                 sx={{
                   alignSelf: 'flex-start',
+                  borderRadius: '2px',
+                  fontWeight: 600,
                   textTransform: 'none',
-                  borderColor: '#CDD0D4',
+                  borderColor: '#E2E4E7',
                   color: '#50575E',
                   '&:hover': {
                     borderColor: '#BE5953',
                     color: '#BE5953',
-                    bgcolor: '#F5E9E8',
+                    bgcolor: 'transparent',
                   },
                 }}
               >
@@ -1046,9 +1058,11 @@ export const MenuFormDrawer: React.FC<Props> = ({
                   e.target.value === '' ? '' : Number(e.target.value),
               }))
             }
-            InputProps={{
-              endAdornment: <InputAdornment position="end">min</InputAdornment>,
-              inputProps: { min: 0 },
+            slotProps={{
+              input: {
+                endAdornment: <InputAdornment position="end">min</InputAdornment>,
+                inputProps: { min: 0 },
+              },
             }}
             sx={{ width: 180 }}
           />
@@ -1066,6 +1080,40 @@ export const MenuFormDrawer: React.FC<Props> = ({
             sx={{ width: 160 }}
           />
         </Box>
+      </Box>
+
+      <Divider />
+
+      {/* Availability */}
+      <Box>
+        <Typography
+          fontWeight={700}
+          fontSize="0.875rem"
+          color="#1D2327"
+          sx={{ mb: 1.5 }}
+        >
+          Availability
+        </Typography>
+        <FormControlLabel
+          control={
+            <Switch
+              checked={itemForm.isAvailable}
+              onChange={(e) =>
+                setItemForm((p) => ({
+                  ...p,
+                  isAvailable: e.target.checked,
+                }))
+              }
+              sx={{
+                '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
+                  backgroundColor: '#00A32A',
+                  opacity: 1,
+                },
+              }}
+            />
+          }
+          label="Available on menu"
+        />
       </Box>
 
       <Divider />
@@ -1101,7 +1149,7 @@ export const MenuFormDrawer: React.FC<Props> = ({
                 }
                 sx={{
                   color: '#CDD0D4',
-                  '&.Mui-checked': { color: '#00A32A' },
+                  '&.Mui-checked': { color: '#BE5953' },
                 }}
               />
             }
@@ -1121,7 +1169,7 @@ export const MenuFormDrawer: React.FC<Props> = ({
                 }
                 sx={{
                   color: '#CDD0D4',
-                  '&.Mui-checked': { color: '#006B1A' },
+                  '&.Mui-checked': { color: '#BE5953' },
                 }}
               />
             }
@@ -1144,7 +1192,7 @@ export const MenuFormDrawer: React.FC<Props> = ({
                 }
                 sx={{
                   color: '#CDD0D4',
-                  '&.Mui-checked': { color: '#0073AA' },
+                  '&.Mui-checked': { color: '#BE5953' },
                 }}
               />
             }
@@ -1167,7 +1215,7 @@ export const MenuFormDrawer: React.FC<Props> = ({
                 }
                 sx={{
                   color: '#CDD0D4',
-                  '&.Mui-checked': { color: '#9A413C' },
+                  '&.Mui-checked': { color: '#BE5953' },
                 }}
               />
             }
@@ -1210,7 +1258,6 @@ export const MenuFormDrawer: React.FC<Props> = ({
           value={allergenInput}
           onChange={(e) => setAllergenInput(e.target.value)}
           onKeyDown={handleAllergenKeyDown}
-          onBlur={handleAddAllergen}
           fullWidth
           helperText="Press Enter or comma to add"
         />
@@ -1221,39 +1268,6 @@ export const MenuFormDrawer: React.FC<Props> = ({
       {/* Images */}
       {renderImageUploadZone()}
 
-      <Divider />
-
-      {/* Availability */}
-      <Box>
-        <Typography
-          fontWeight={700}
-          fontSize="0.875rem"
-          color="#1D2327"
-          sx={{ mb: 1.5 }}
-        >
-          Availability
-        </Typography>
-        <FormControlLabel
-          control={
-            <Switch
-              checked={itemForm.isAvailable}
-              onChange={(e) =>
-                setItemForm((p) => ({
-                  ...p,
-                  isAvailable: e.target.checked,
-                }))
-              }
-              sx={{
-                '& .MuiSwitch-switchBase.Mui-checked': { color: '#00A32A' },
-                '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-                  bgcolor: '#00A32A',
-                },
-              }}
-            />
-          }
-          label="Available on menu"
-        />
-      </Box>
     </Box>
   );
 
@@ -1262,12 +1276,16 @@ export const MenuFormDrawer: React.FC<Props> = ({
       anchor="right"
       open={open}
       onClose={isBusy ? undefined : onClose}
-      PaperProps={{
-        sx: {
-          width: 480,
-          display: 'flex',
-          flexDirection: 'column',
-          height: '100%',
+      slotProps={{
+        paper: {
+          sx: {
+            width: 480,
+            display: 'flex',
+            flexDirection: 'column',
+            height: '100%',
+            bgcolor: '#FFFFFF',
+            color: '#1D2327',
+          },
         },
       }}
     >
@@ -1304,6 +1322,7 @@ export const MenuFormDrawer: React.FC<Props> = ({
           flex: 1,
           overflowY: 'auto',
           p: 3,
+          bgcolor: '#FFFFFF',
         }}
       >
         {formError && (
@@ -1339,10 +1358,13 @@ export const MenuFormDrawer: React.FC<Props> = ({
           onClick={onClose}
           disabled={isBusy}
           sx={{
+            borderRadius: '2px',
+            fontWeight: 600,
+            px: 3,
             textTransform: 'none',
-            borderColor: '#CDD0D4',
+            borderColor: '#E2E4E7',
             color: '#50575E',
-            '&:hover': { borderColor: '#787C82', bgcolor: '#F6F7F7' },
+            '&:hover': { borderColor: '#BE5953', color: '#BE5953', bgcolor: 'transparent' },
           }}
         >
           Cancel
@@ -1357,10 +1379,12 @@ export const MenuFormDrawer: React.FC<Props> = ({
           sx={{
             bgcolor: '#BE5953',
             color: '#fff',
-            fontWeight: 600,
+            fontWeight: 700,
+            borderRadius: '2px',
+            px: 3,
             textTransform: 'none',
             boxShadow: 'none',
-            '&:hover': { bgcolor: '#9A413C', boxShadow: 'none' },
+            '&:hover': { bgcolor: '#A84E48', boxShadow: 'none' },
             '&.Mui-disabled': { bgcolor: '#E2A09D', color: '#fff' },
           }}
         >
