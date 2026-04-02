@@ -823,22 +823,22 @@ const MenuCard: React.FC<MenuCardProps> = ({
                     sx={{ mb: sIdx < sortedSections.length - 1 ? 1.25 : 0.25 }}
                   >
                     {/* Section heading — uppercase underlined, matches PDF */}
-                    <Typography
-                      sx={{
-                        fontSize: '0.7rem',
-                        fontWeight: 900,
-                        color: titleColor,
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.06em',
-                        textDecoration: 'underline',
-                        textUnderlineOffset: '2px',
-                        lineHeight: 1.4,
-                      }}
-                    >
-                      {sec.title || (
-                        <em style={{ opacity: 0.45 }}>Untitled section</em>
-                      )}
-                    </Typography>
+                    {sec.title && (
+                      <Typography
+                        sx={{
+                          fontSize: '0.7rem',
+                          fontWeight: 900,
+                          color: titleColor,
+                          textTransform: 'uppercase',
+                          letterSpacing: '0.06em',
+                          textDecoration: 'underline',
+                          textUnderlineOffset: '2px',
+                          lineHeight: 1.4,
+                        }}
+                      >
+                        {sec.title}
+                      </Typography>
+                    )}
 
                     {/* Instruction line — e.g. "CHOOSE ONE PER GUEST" */}
                     {sec.instruction && (
