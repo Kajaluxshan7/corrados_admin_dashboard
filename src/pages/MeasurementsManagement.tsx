@@ -462,7 +462,7 @@ const MeasurementsManagement: React.FC = () => {
       {/* Snackbar */}
       <Snackbar open={snackbar.open} autoHideDuration={4000}
         onClose={() => setSnackbar({ ...snackbar, open: false })}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         sx={{ zIndex: 99999, position: 'fixed' }}>
         <Alert onClose={() => setSnackbar({ ...snackbar, open: false })} severity={snackbar.severity}
           variant="filled" sx={{ borderRadius: '2px', boxShadow: '0 4px 16px rgba(0,0,0,0.15)' }}>

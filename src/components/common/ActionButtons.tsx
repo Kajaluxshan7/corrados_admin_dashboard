@@ -15,8 +15,6 @@ interface ActionButtonsProps {
   onDuplicate?: () => void;
   onMore?: () => void;
   size?: 'small' | 'medium';
-  showLabels?: boolean;
-  variant?: 'default' | 'compact' | 'colorful';
 }
 
 export const ActionButtons: React.FC<ActionButtonsProps> = ({

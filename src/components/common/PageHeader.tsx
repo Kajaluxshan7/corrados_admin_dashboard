@@ -16,6 +16,7 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
   action,
   statusChip,
   breadcrumbs,
+  icon,
 }) => {
   return (
     <Box
@@ -43,7 +44,6 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
                 underline="hover"
                 sx={{
                   fontSize: '0.75rem',
-                  fontWeight: i === breadcrumbs.length - 1 ? 400 : 400,
                   color: i === breadcrumbs.length - 1 ? '#50575E' : '#0073AA',
                   '&:hover': { color: '#BE5953' },
                 }}
@@ -55,6 +55,19 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
         )}
 
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
+          {icon && (
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#BE5953',
+                '& svg': { fontSize: 22 },
+              }}
+            >
+              {icon}
+            </Box>
+          )}
           <Box>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
               <Typography

@@ -397,7 +397,7 @@ const Settings: React.FC = () => {
 
       <Snackbar open={notification.open} autoHideDuration={4000}
         onClose={() => setNotification({ ...notification, open: false })}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         sx={{ zIndex: 99999 }}>
         <Alert onClose={() => setNotification({ ...notification, open: false })} severity={notification.type}
           sx={{ borderRadius: '2px', boxShadow: '0 4px 16px rgba(0,0,0,0.12)' }}>

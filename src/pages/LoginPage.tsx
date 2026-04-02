@@ -30,7 +30,7 @@ const LoginPage: React.FC = () => {
   const location = useLocation();
 
   useEffect(() => {
-    const state = location.state as any;
+    const state = location.state as { message?: string } | null;
     if (state?.message) {
       setFlashMessage(state.message);
       window.history.replaceState({}, document.title);

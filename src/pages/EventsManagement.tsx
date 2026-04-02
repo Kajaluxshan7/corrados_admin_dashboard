@@ -433,14 +433,7 @@ const EventsManagement: React.FC = () => {
 
   return (
     <LocalizationProvider dateAdapter={AdapterMoment}>
-      <Box
-        sx={{
-          p: 3,
-          background: '#F6F7F7',
-          minHeight: '100vh',
-        }}
-      >
-        {/* Page header moved to top-level for consistency */}
+      <Box>
         <PageHeader
           title="Events Management"
           subtitle="Manage your pub events and special occasions"
@@ -1114,10 +1107,12 @@ const EventsManagement: React.FC = () => {
                   onChange={(e) =>
                     setEventForm({ ...eventForm, ticketLink: e.target.value })
                   }
-                  InputProps={{
-                    startAdornment: (
-                      <LinkIcon sx={{ color: '#BE5953', mr: 1 }} />
-                    ),
+                  slotProps={{
+                    input: {
+                      startAdornment: (
+                        <LinkIcon sx={{ color: '#BE5953', mr: 1 }} />
+                      ),
+                    },
                   }}
                   helperText="If provided, a 'Get Your Ticket' button will appear on the frontend"
                   sx={{
@@ -1224,10 +1219,8 @@ const EventsManagement: React.FC = () => {
           open={snackbar.open}
           autoHideDuration={6000}
           onClose={() => setSnackbar({ ...snackbar, open: false })}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
           sx={{ zIndex: 99999, position: 'fixed' }}
-          // @ts-ignore PortalProps typed as any
-          PortalProps={{ style: { zIndex: 99999 } }}
         >
           <Alert
             onClose={() => setSnackbar({ ...snackbar, open: false })}

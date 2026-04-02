@@ -36,6 +36,7 @@ import {
   ChevronLeft as ChevronLeftIcon,
   ChevronRight as ChevronRightIcon,
   KeyboardArrowDown as ArrowDownIcon,
+  Celebration as PartyMenuIcon,
 } from '@mui/icons-material';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
@@ -53,6 +54,7 @@ const navigationGroups = [
     label: 'Content',
     items: [
       { name: 'Menu', path: '/menu', icon: RestaurantIcon },
+      { name: 'Party Menus', path: '/party-menu', icon: PartyMenuIcon },
       { name: 'Measurements', path: '/measurements', icon: MeasurementsIcon },
       { name: 'Specials', path: '/specials', icon: SpecialsIcon },
       { name: 'Events', path: '/events', icon: EventIcon },
@@ -64,8 +66,16 @@ const navigationGroups = [
     label: 'Communication',
     items: [
       { name: 'Newsletter', path: '/newsletter', icon: NewsletterIcon },
-      { name: 'Announcements', path: '/announcements', icon: AnnouncementsIcon },
-      { name: 'Notifications', path: '/notifications', icon: NotificationsIcon },
+      {
+        name: 'Announcements',
+        path: '/announcements',
+        icon: AnnouncementsIcon,
+      },
+      {
+        name: 'Notifications',
+        path: '/notifications',
+        icon: NotificationsIcon,
+      },
     ],
   },
   {

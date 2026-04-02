@@ -757,7 +757,7 @@ const OpeningHours: React.FC = () => {
         open={notification.open}
         autoHideDuration={4000}
         onClose={() => setNotification({ ...notification, open: false })}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         sx={{ zIndex: 99999, position: 'fixed' }}
       >
         <Alert

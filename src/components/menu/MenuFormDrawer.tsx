@@ -908,8 +908,8 @@ export const MenuFormDrawer: React.FC<Props> = ({
                   startAdornment: (
                     <InputAdornment position="start">$</InputAdornment>
                   ),
-                  inputProps: { min: 0, step: 0.01 },
                 },
+                htmlInput: { min: 0, step: 0.01 },
               }}
               sx={{ maxWidth: 180 }}
             />
@@ -965,8 +965,8 @@ export const MenuFormDrawer: React.FC<Props> = ({
                         startAdornment: (
                           <InputAdornment position="start">$</InputAdornment>
                         ),
-                        inputProps: { min: 0, step: 0.01 },
                       },
+                      htmlInput: { min: 0, step: 0.01 },
                     }}
                     sx={{ width: 110 }}
                   />
@@ -1061,8 +1061,8 @@ export const MenuFormDrawer: React.FC<Props> = ({
             slotProps={{
               input: {
                 endAdornment: <InputAdornment position="end">min</InputAdornment>,
-                inputProps: { min: 0 },
               },
+              htmlInput: { min: 0 },
             }}
             sx={{ width: 180 }}
           />

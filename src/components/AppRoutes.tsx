@@ -18,7 +18,8 @@ import Settings from "../pages/Settings";
 import NewsletterManagement from "../pages/NewsletterManagement";
 import AnnouncementsManagement from '../pages/AnnouncementsManagement';
 import ScheduledNotifications from '../pages/ScheduledNotifications';
-import LoadingScreen from "../components/LoadingScreen";
+import PartyMenuManagement from '../pages/PartyMenuManagement';
+import LoadingScreen from '../components/LoadingScreen';
 
 const AppRoutes: React.FC = () => {
   const { isAuthenticated, loading } = useAuth();
@@ -44,6 +45,7 @@ const AppRoutes: React.FC = () => {
       <Route path="/" element={<DashboardLayout />}>
         <Route index element={<Dashboard />} />
         <Route path="menu" element={<MenuManagement />} />
+        <Route path="party-menu" element={<PartyMenuManagement />} />
         <Route path="measurements" element={<MeasurementsManagement />} />
         <Route path="specials" element={<SpecialsManagement />} />
         <Route path="events" element={<EventsManagement />} />

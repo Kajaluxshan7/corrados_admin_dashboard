@@ -518,7 +518,7 @@ const AnnouncementsManagement: React.FC = () => {
               </Grid>
             </Box>
 
-            <TextField label="Title" fullWidth size="small" value={formData.title} onChange={(e) => setFormData((p) => ({ ...p, title: e.target.value }))} inputProps={{ maxLength: 200 }} helperText={`${formData.title.length}/200`} sx={fieldSx} />
+            <TextField label="Title" fullWidth size="small" value={formData.title} onChange={(e) => setFormData((p) => ({ ...p, title: e.target.value }))} slotProps={{ htmlInput: { maxLength: 200 } }} helperText={`${formData.title.length}/200`} sx={fieldSx} />
             <TextField label="Content" fullWidth size="small" multiline rows={5} value={formData.content} onChange={(e) => setFormData((p) => ({ ...p, content: e.target.value }))} placeholder="Write the announcement content…" sx={fieldSx} />
 
             <FormControl size="small" sx={{ maxWidth: 180 }}>
@@ -540,7 +540,7 @@ const AnnouncementsManagement: React.FC = () => {
                 Call to Action (Optional)
               </Typography>
               <Box sx={{ display: 'flex', gap: 2 }}>
-                <TextField size="small" label="Button Text" value={formData.ctaText} onChange={(e) => setFormData((p) => ({ ...p, ctaText: e.target.value }))} placeholder="e.g., Learn More" inputProps={{ maxLength: 50 }} sx={{ flex: 1, ...fieldSx }} />
+                <TextField size="small" label="Button Text" value={formData.ctaText} onChange={(e) => setFormData((p) => ({ ...p, ctaText: e.target.value }))} placeholder="e.g., Learn More" slotProps={{ htmlInput: { maxLength: 50 } }} sx={{ flex: 1, ...fieldSx }} />
                 <TextField size="small" label="Button URL" value={formData.ctaUrl} onChange={(e) => setFormData((p) => ({ ...p, ctaUrl: e.target.value }))} placeholder="https://…" sx={{ flex: 2, ...fieldSx }} />
               </Box>
             </Box>

@@ -1567,10 +1567,8 @@ const SpecialsManagement: React.FC = () => {
             open={snackbar.open}
             autoHideDuration={6000}
             onClose={() => setSnackbar({ ...snackbar, open: false })}
-            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
             sx={{ zIndex: 99999, position: 'fixed' }}
-            // @ts-ignore PortalProps typed as any
-            PortalProps={{ style: { zIndex: 99999 } }}
           >
             <Alert
               onClose={() => setSnackbar({ ...snackbar, open: false })}

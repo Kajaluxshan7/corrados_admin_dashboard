@@ -206,12 +206,14 @@ export default function PrimaryCategoriesTab({
           onChange={(e) => setSearchText(e.target.value)}
           size="small"
           sx={{ flexGrow: 1 }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            ),
+          slotProps={{
+            input: {
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+            },
           }}
         />
         <Button
@@ -230,7 +232,6 @@ export default function PrimaryCategoriesTab({
       <DataGrid
         rows={filteredCategories}
         columns={columns}
-        autoHeight
         pageSizeOptions={[10, 25, 50, 100, 200, 300]}
         initialState={{
           pagination: { paginationModel: { pageSize: 10 } },
@@ -248,7 +249,7 @@ export default function PrimaryCategoriesTab({
         open={snackbar.open}
         autoHideDuration={4000}
         onClose={() => setSnackbar({ ...snackbar, open: false })}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         sx={{ zIndex: 99999, position: 'fixed' }}
       >
         <Alert severity={snackbar.severity} sx={{ width: '100%' }}>
