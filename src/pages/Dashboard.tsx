@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { api } from '../utils/api';
+import { useWsRefresh, WsEvent } from '../contexts/WebSocketContext';
 import {
   Box,
   Grid,
@@ -190,11 +191,41 @@ const Dashboard: React.FC = () => {
           })),
         );
         const acts: RecentActivity[] = [];
-        if (s.recent.menuItems?.length)  acts.push({ id: 'menu-1',    type: 'menu',    message: `Menu item "${s.recent.menuItems[0].name}" was added`,              timestamp: new Date(s.recent.menuItems[0].createdAt) });
-        if (s.recent.specials?.length)   acts.push({ id: 'special-1', type: 'special', message: `Special "${s.recent.specials[0].title}" was created`,              timestamp: new Date(s.recent.specials[0].createdAt) });
-        if (s.recent.events?.length)     acts.push({ id: 'event-1',   type: 'event',   message: `Event "${s.recent.events[0].title}" was scheduled`,                timestamp: new Date(s.recent.events[0].startDateTime) });
-        if (s.recent.users?.length)      acts.push({ id: 'user-1',    type: 'user',    message: `User "${s.recent.users[0].firstName} ${s.recent.users[0].lastName}" joined`, timestamp: new Date(s.recent.users[0].createdAt) });
-        if (!acts.length) acts.push({ id: '1', type: 'system', message: 'Dashboard loaded successfully', timestamp: new Date() });
+        if (s.recent.menuItems?.length)
+          acts.push({
+            id: `menu-${s.recent.menuItems[0].createdAt}`,
+            type: 'menu',
+            message: `Menu item "${s.recent.menuItems[0].name}" was added`,
+            timestamp: new Date(s.recent.menuItems[0].createdAt),
+          });
+        if (s.recent.specials?.length)
+          acts.push({
+            id: `special-${s.recent.specials[0].createdAt}`,
+            type: 'special',
+            message: `Special "${s.recent.specials[0].title}" was created`,
+            timestamp: new Date(s.recent.specials[0].createdAt),
+          });
+        if (s.recent.events?.length)
+          acts.push({
+            id: `event-${s.recent.events[0].startDateTime}`,
+            type: 'event',
+            message: `Event "${s.recent.events[0].title}" was scheduled`,
+            timestamp: new Date(s.recent.events[0].startDateTime),
+          });
+        if (s.recent.users?.length)
+          acts.push({
+            id: `user-${s.recent.users[0].createdAt}`,
+            type: 'user',
+            message: `User "${s.recent.users[0].firstName} ${s.recent.users[0].lastName}" joined`,
+            timestamp: new Date(s.recent.users[0].createdAt),
+          });
+        if (!acts.length)
+          acts.push({
+            id: 'system-default',
+            type: 'system',
+            message: 'Dashboard loaded successfully',
+            timestamp: new Date(),
+          });
         setRecentActivities(acts);
       } else {
         await loadFallback();
@@ -237,32 +268,54 @@ const Dashboard: React.FC = () => {
       const acts: RecentActivity[] = [];
       if (menuItems.length) {
         const latest = [...menuItems].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())[0];
-        acts.push({ id: '1', type: 'menu', message: `Menu item "${latest.name}" was added`, timestamp: new Date(latest.createdAt) });
+        acts.push({
+          id: `fallback-menu-${latest.createdAt}`,
+          type: 'menu',
+          message: `Menu item "${latest.name}" was added`,
+          timestamp: new Date(latest.createdAt),
+        });
       }
       if (specials.length) {
         const latest = [...specials].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())[0];
-        acts.push({ id: '2', type: 'special', message: `Special "${latest.title}" was created`, timestamp: new Date(latest.createdAt) });
+        acts.push({
+          id: `fallback-special-${latest.createdAt}`,
+          type: 'special',
+          message: `Special "${latest.title}" was created`,
+          timestamp: new Date(latest.createdAt),
+        });
       }
-      if (!acts.length) acts.push({ id: '1', type: 'system', message: 'Dashboard loaded successfully', timestamp: new Date() });
+      if (!acts.length)
+        acts.push({
+          id: 'fallback-system',
+          type: 'system',
+          message: 'Dashboard loaded successfully',
+          timestamp: new Date(),
+        });
       setRecentActivities(acts);
     } catch (error) {
       logger.error('Fallback error:', error);
     }
   };
 
-  const loadTodos = async () => {
+  const loadTodos = useCallback(async () => {
     try {
       const r = await api.get('/todos');
       if (r.status === 200) setTodos(r.data || []);
     } catch (error) {
       logger.error('Error loading todos:', error);
     }
-  };
+  }, []);
 
   useEffect(() => {
     loadDashboardData();
     loadTodos();
-  }, [loadDashboardData]);
+  }, [loadDashboardData, loadTodos]);
+
+  // Real-time updates via WebSocket
+  useWsRefresh(WsEvent.DASHBOARD_REFRESH, loadDashboardData);
+  useWsRefresh(WsEvent.TODO_CREATED, loadTodos);
+  useWsRefresh(WsEvent.TODO_UPDATED, loadTodos);
+  useWsRefresh(WsEvent.TODO_DELETED, loadTodos);
 
   const handleSaveTodo = async () => {
     try {

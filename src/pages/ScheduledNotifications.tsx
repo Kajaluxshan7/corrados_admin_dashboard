@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import { useWsRefresh, WsEvent } from '../contexts/WebSocketContext';
 import {
   Box,
   Typography,
@@ -140,6 +141,9 @@ const ScheduledNotifications: React.FC = () => {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
+
+  // Real-time updates via WebSocket
+  useWsRefresh(WsEvent.NOTIFICATION_SENT, fetchData);
 
   const filteredNotifications = useMemo(() => {
     return notifications.filter((n) => {
@@ -489,6 +493,6 @@ const ScheduledNotifications: React.FC = () => {
       )}
     </Box>
   );
-};
+};;;
 
 export default ScheduledNotifications;

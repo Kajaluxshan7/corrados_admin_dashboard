@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { useWsRefresh, WsEvent } from '../contexts/WebSocketContext';
 import {
   Box,
   Typography,
@@ -42,7 +43,7 @@ const MenuManagement: React.FC = () => {
 
   // Shared view mode — persisted in localStorage
   const [viewMode, setViewMode] = useState<'grid' | 'table'>(
-    () => (localStorage.getItem('menuViewMode') as 'grid' | 'table') || 'grid'
+    () => (localStorage.getItem('menuViewMode') as 'grid' | 'table') || 'grid',
   );
 
   const handleViewModeChange = useCallback((mode: 'grid' | 'table') => {
@@ -52,12 +53,12 @@ const MenuManagement: React.FC = () => {
 
   // Data state
   const [primaryCategories, setPrimaryCategories] = useState<PrimaryCategory[]>(
-    []
+    [],
   );
   const [categories, setCategories] = useState<MenuCategory[]>([]);
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
   const [measurementTypes, setMeasurementTypes] = useState<MeasurementType[]>(
-    []
+    [],
   );
 
   // UI state
@@ -67,7 +68,7 @@ const MenuManagement: React.FC = () => {
   // Drawer state
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [drawerFormType, setDrawerFormType] = useState<DrawerFormType | null>(
-    null
+    null,
   );
   const [drawerEditData, setDrawerEditData] = useState<
     PrimaryCategory | MenuCategory | MenuItem | null
@@ -91,11 +92,11 @@ const MenuManagement: React.FC = () => {
   const showSnackbar = useCallback(
     (
       message: string,
-      severity: 'success' | 'error' | 'warning' | 'info' = 'success'
+      severity: 'success' | 'error' | 'warning' | 'info' = 'success',
     ) => {
       setSnackbar({ open: true, message, severity });
     },
-    []
+    [],
   );
 
   // Data loading
@@ -111,7 +112,7 @@ const MenuManagement: React.FC = () => {
           ...pc,
           createdAt: new Date(pc.createdAt as string),
           updatedAt: new Date(pc.updatedAt as string),
-        })
+        }),
       );
       setPrimaryCategories(items);
     } catch (err) {
@@ -132,7 +133,7 @@ const MenuManagement: React.FC = () => {
           ...cat,
           createdAt: new Date(cat.createdAt as string),
           updatedAt: new Date(cat.updatedAt as string),
-        })
+        }),
       );
       setCategories(items);
     } catch (err) {
@@ -158,8 +159,7 @@ const MenuManagement: React.FC = () => {
           price: Number(item.price ?? 0),
           categoryId: item.categoryId as string,
           categoryName:
-            ((item.category as Record<string, unknown>)
-              ?.name as string) ||
+            ((item.category as Record<string, unknown>)?.name as string) ||
             (item.categoryName as string) ||
             '',
           preparationTime: item.preparationTime as number | undefined,
@@ -209,21 +209,33 @@ const MenuManagement: React.FC = () => {
       }
     };
     loadAll();
-  }, [loadPrimaryCategories, loadCategories, loadMenuItems, loadMeasurementTypes]);
+  }, [
+    loadPrimaryCategories,
+    loadCategories,
+    loadMenuItems,
+    loadMeasurementTypes,
+  ]);
+
+  // Real-time updates via WebSocket
+  useWsRefresh(WsEvent.MENU_UPDATED, loadPrimaryCategories);
+  useWsRefresh(WsEvent.MENU_UPDATED, loadCategories);
+  useWsRefresh(WsEvent.MENU_ITEM_CREATED, loadMenuItems);
+  useWsRefresh(WsEvent.MENU_ITEM_UPDATED, loadMenuItems);
+  useWsRefresh(WsEvent.MENU_ITEM_DELETED, loadMenuItems);
 
   // Navigation handlers — update URL params
   const handleEnterPrimaryCategory = useCallback(
     (pc: PrimaryCategory) => {
       setSearchParams({ view: 'categories', pcId: pc.id });
     },
-    [setSearchParams]
+    [setSearchParams],
   );
 
   const handleEnterCategory = useCallback(
     (cat: MenuCategory) => {
       setSearchParams({ view: 'items', pcId: activePcId, catId: cat.id });
     },
-    [setSearchParams, activePcId]
+    [setSearchParams, activePcId],
   );
 
   const handleNavigateBack = useCallback(() => {
@@ -253,7 +265,7 @@ const MenuManagement: React.FC = () => {
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include',
             body: JSON.stringify({ direction }),
-          }
+          },
         );
         if (!res.ok) throw new Error('Failed to move primary category');
         await loadPrimaryCategories();
@@ -262,7 +274,7 @@ const MenuManagement: React.FC = () => {
         showSnackbar(getErrorMessage(err), 'error');
       }
     },
-    [loadPrimaryCategories, showSnackbar]
+    [loadPrimaryCategories, showSnackbar],
   );
 
   const handleMoveCategory = useCallback(
@@ -319,14 +331,14 @@ const MenuManagement: React.FC = () => {
           `${item.name} marked as ${
             !item.isAvailable ? 'available' : 'unavailable'
           }.`,
-          'success'
+          'success',
         );
       } catch (err) {
         logger.error('handleToggleAvailability error:', err);
         showSnackbar(getErrorMessage(err), 'error');
       }
     },
-    [loadMenuItems, showSnackbar]
+    [loadMenuItems, showSnackbar],
   );
 
   // Delete handlers
@@ -471,22 +483,22 @@ const MenuManagement: React.FC = () => {
   // Computed values — derive active objects from URL params + loaded data
   const activePrimaryCategory = useMemo(
     () => primaryCategories.find((pc) => pc.id === activePcId) || null,
-    [primaryCategories, activePcId]
+    [primaryCategories, activePcId],
   );
 
   const activeCategory = useMemo(
     () => categories.find((c) => c.id === activeCatId) || null,
-    [categories, activeCatId]
+    [categories, activeCatId],
   );
 
   const filteredCategories = useMemo(
     () => categories.filter((c) => c.primaryCategoryId === activePcId),
-    [categories, activePcId]
+    [categories, activePcId],
   );
 
   const filteredItems = useMemo(
     () => menuItems.filter((i) => i.categoryId === activeCatId),
-    [menuItems, activeCatId]
+    [menuItems, activeCatId],
   );
 
   return (
@@ -740,6 +752,6 @@ const MenuManagement: React.FC = () => {
       </Snackbar>
     </Box>
   );
-};
+};;
 
 export default React.memo(MenuManagement);

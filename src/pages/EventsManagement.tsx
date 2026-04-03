@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { API_BASE_URL } from '../config/env.config';
+import { useWsRefresh, WsEvent } from '../contexts/WebSocketContext';
 import {
   Box,
   Typography,
@@ -138,11 +139,7 @@ const EventsManagement: React.FC = () => {
     setSnackbar({ open: true, message, severity });
   };
 
-  useEffect(() => {
-    loadEvents();
-  }, []);
-
-  const loadEvents = async () => {
+  const loadEvents = useCallback(async () => {
     try {
       const response = await fetch(`${API_BASE_URL}/events`, {
         credentials: 'include',
@@ -159,7 +156,16 @@ const EventsManagement: React.FC = () => {
       logger.error('Error loading events:', error);
       setEvents([]);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    loadEvents();
+  }, [loadEvents]);
+
+  // Real-time updates via WebSocket
+  useWsRefresh(WsEvent.EVENT_CREATED, loadEvents);
+  useWsRefresh(WsEvent.EVENT_UPDATED, loadEvents);
+  useWsRefresh(WsEvent.EVENT_DELETED, loadEvents);
 
   const handleCreate = () => {
     setSelectedEvent(null);
@@ -529,15 +535,15 @@ const EventsManagement: React.FC = () => {
                       getEventStatus(event) === 'upcoming'
                         ? 'Upcoming'
                         : getEventStatus(event) === 'ongoing'
-                        ? 'Ongoing'
-                        : 'Past'
+                          ? 'Ongoing'
+                          : 'Past'
                     }
                     color={
                       getEventStatus(event) === 'upcoming'
                         ? 'success'
                         : getEventStatus(event) === 'ongoing'
-                        ? 'primary'
-                        : 'default'
+                          ? 'primary'
+                          : 'default'
                     }
                     size="small"
                     sx={{
@@ -546,8 +552,8 @@ const EventsManagement: React.FC = () => {
                         getEventStatus(event) === 'upcoming'
                           ? '#00A32A'
                           : getEventStatus(event) === 'ongoing'
-                          ? '#0073AA'
-                          : '#50575E',
+                            ? '#0073AA'
+                            : '#50575E',
                       color: 'white',
                     }}
                   />
@@ -759,7 +765,14 @@ const EventsManagement: React.FC = () => {
           fullWidth
           slotProps={{ paper: { sx: { borderRadius: '2px' } } }}
         >
-          <DialogTitle sx={{ fontWeight: 700, fontSize: '1rem', color: '#FFFFFF', bgcolor: '#1D2327' }}>
+          <DialogTitle
+            sx={{
+              fontWeight: 700,
+              fontSize: '1rem',
+              color: '#FFFFFF',
+              bgcolor: '#1D2327',
+            }}
+          >
             {selectedEvent ? 'Edit Event' : 'Create Event'}
           </DialogTitle>
           <DialogContent sx={{ p: 3 }}>
@@ -1190,24 +1203,68 @@ const EventsManagement: React.FC = () => {
         </Dialog>
 
         {/* Delete Confirmation Dialog */}
-        <Dialog open={deleteConfirmId !== null} onClose={() => setDeleteConfirmId(null)} maxWidth="xs" fullWidth>
-          <DialogTitle sx={{ display: 'flex', alignItems: 'center', gap: 1.5, fontWeight: 700, fontSize: '1rem', color: '#FFFFFF', bgcolor: '#1D2327' }}>
-            <WarningIcon sx={{ fontSize: 16, color: 'rgba(255,255,255,0.7)' }} />
+        <Dialog
+          open={deleteConfirmId !== null}
+          onClose={() => setDeleteConfirmId(null)}
+          maxWidth="xs"
+          fullWidth
+        >
+          <DialogTitle
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 1.5,
+              fontWeight: 700,
+              fontSize: '1rem',
+              color: '#FFFFFF',
+              bgcolor: '#1D2327',
+            }}
+          >
+            <WarningIcon
+              sx={{ fontSize: 16, color: 'rgba(255,255,255,0.7)' }}
+            />
             Delete Event
           </DialogTitle>
           <DialogContent sx={{ px: 3, py: 3 }}>
-            <Typography sx={{ color: '#50575E', fontSize: '0.938rem', lineHeight: 1.6 }}>
-              Are you sure you want to delete this event? This action cannot be undone.
+            <Typography
+              sx={{ color: '#50575E', fontSize: '0.938rem', lineHeight: 1.6 }}
+            >
+              Are you sure you want to delete this event? This action cannot be
+              undone.
             </Typography>
           </DialogContent>
           <DialogActions sx={{ px: 3, pb: 3, gap: 1.5 }}>
-            <Button onClick={() => setDeleteConfirmId(null)} variant="outlined" sx={{ borderRadius: '2px', fontWeight: 600, px: 3, borderColor: '#E2E4E7', color: '#50575E', textTransform: 'none', '&:hover': { borderColor: '#BE5953', color: '#BE5953', bgcolor: 'transparent' } }}>
+            <Button
+              onClick={() => setDeleteConfirmId(null)}
+              variant="outlined"
+              sx={{
+                borderRadius: '2px',
+                fontWeight: 600,
+                px: 3,
+                borderColor: '#E2E4E7',
+                color: '#50575E',
+                textTransform: 'none',
+                '&:hover': {
+                  borderColor: '#BE5953',
+                  color: '#BE5953',
+                  bgcolor: 'transparent',
+                },
+              }}
+            >
               Cancel
             </Button>
             <Button
-              onClick={() => deleteConfirmId !== null && handleDelete(deleteConfirmId)}
+              onClick={() =>
+                deleteConfirmId !== null && handleDelete(deleteConfirmId)
+              }
               variant="contained"
-              sx={{ borderRadius: '2px', fontWeight: 600, px: 3, bgcolor: '#D63638', '&:hover': { bgcolor: '#A62527' } }}
+              sx={{
+                borderRadius: '2px',
+                fontWeight: 600,
+                px: 3,
+                bgcolor: '#D63638',
+                '&:hover': { bgcolor: '#A62527' },
+              }}
             >
               Delete
             </Button>
@@ -1235,7 +1292,15 @@ const EventsManagement: React.FC = () => {
           open={!!previewImage}
           onClose={() => setPreviewImage(null)}
           maxWidth="lg"
-          slotProps={{ paper: { sx: { backgroundColor: 'transparent', boxShadow: 'none', overflow: 'visible' } } }}
+          slotProps={{
+            paper: {
+              sx: {
+                backgroundColor: 'transparent',
+                boxShadow: 'none',
+                overflow: 'visible',
+              },
+            },
+          }}
         >
           <Box sx={{ position: 'relative' }}>
             <IconButton

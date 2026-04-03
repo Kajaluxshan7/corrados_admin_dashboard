@@ -4,6 +4,8 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { useEffect } from 'react';
 import { AuthProvider } from './contexts/AuthContext';
 import { ToastProvider } from './contexts/ToastContext';
+import { WebSocketProvider } from './contexts/WebSocketContext';
+import { ErrorBoundary } from './components/common/ErrorBoundary';
 import AppRoutes from './components/AppRoutes';
 
 const theme = createTheme({
@@ -651,17 +653,21 @@ function ScrollToTop() {
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Router>
-        <ScrollToTop />
-        <AuthProvider>
-          <ToastProvider>
-            <AppRoutes />
-          </ToastProvider>
-        </AuthProvider>
-      </Router>
-    </ThemeProvider>
+    <ErrorBoundary>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Router>
+          <ScrollToTop />
+          <AuthProvider>
+            <WebSocketProvider>
+              <ToastProvider>
+                <AppRoutes />
+              </ToastProvider>
+            </WebSocketProvider>
+          </AuthProvider>
+        </Router>
+      </ThemeProvider>
+    </ErrorBoundary>
   );
 }
 

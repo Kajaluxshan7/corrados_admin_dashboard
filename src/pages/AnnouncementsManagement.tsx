@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import { useWsRefresh, WsEvent } from '../contexts/WebSocketContext';
 import {
   Box,
   Typography,
@@ -131,10 +132,17 @@ const fieldSx = {
 const AnnouncementsManagement: React.FC = () => {
   const { showToast } = useGlobalToast();
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
-  const [stats, setStats] = useState<AnnouncementStats>({ total: 0, sent: 0, drafts: 0, totalRecipients: 0 });
+  const [stats, setStats] = useState<AnnouncementStats>({
+    total: 0,
+    sent: 0,
+    drafts: 0,
+    totalRecipients: 0,
+  });
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
-  const [filterStatus, setFilterStatus] = useState<'all' | AnnouncementStatus>('all');
+  const [filterStatus, setFilterStatus] = useState<'all' | AnnouncementStatus>(
+    'all',
+  );
 
   const [formOpen, setFormOpen] = useState(false);
   const [formData, setFormData] = useState<FormData>(INITIAL_FORM);
@@ -143,7 +151,8 @@ const AnnouncementsManagement: React.FC = () => {
 
   const [sendDialogOpen, setSendDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [selectedAnnouncement, setSelectedAnnouncement] = useState<Announcement | null>(null);
+  const [selectedAnnouncement, setSelectedAnnouncement] =
+    useState<Announcement | null>(null);
   const [sending, setSending] = useState(false);
 
   const fetchData = useCallback(async () => {
@@ -163,34 +172,73 @@ const AnnouncementsManagement: React.FC = () => {
     }
   }, [showToast]);
 
-  useEffect(() => { fetchData(); }, [fetchData]);
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
-  const filtered = useMemo(() => announcements.filter((a) => {
-    const matchesSearch = a.title.toLowerCase().includes(searchTerm.toLowerCase()) || a.content.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesFilter = filterStatus === 'all' || a.status === filterStatus;
-    return matchesSearch && matchesFilter;
-  }), [announcements, searchTerm, filterStatus]);
+  // Real-time updates via WebSocket
+  useWsRefresh(WsEvent.ANNOUNCEMENT_CREATED, fetchData);
+  useWsRefresh(WsEvent.ANNOUNCEMENT_UPDATED, fetchData);
+  useWsRefresh(WsEvent.ANNOUNCEMENT_DELETED, fetchData);
 
-  const openCreate = () => { setFormData(INITIAL_FORM); setEditingId(null); setFormOpen(true); };
+  const filtered = useMemo(
+    () =>
+      announcements.filter((a) => {
+        const matchesSearch =
+          a.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          a.content.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesFilter =
+          filterStatus === 'all' || a.status === filterStatus;
+        return matchesSearch && matchesFilter;
+      }),
+    [announcements, searchTerm, filterStatus],
+  );
+
+  const openCreate = () => {
+    setFormData(INITIAL_FORM);
+    setEditingId(null);
+    setFormOpen(true);
+  };
   const openEdit = (a: Announcement) => {
-    setFormData({ title: a.title, content: a.content, type: a.type, priority: a.priority, ctaText: a.ctaText || '', ctaUrl: a.ctaUrl || '' });
+    setFormData({
+      title: a.title,
+      content: a.content,
+      type: a.type,
+      priority: a.priority,
+      ctaText: a.ctaText || '',
+      ctaUrl: a.ctaUrl || '',
+    });
     setEditingId(a.id);
     setFormOpen(true);
   };
 
   const handleSave = async () => {
-    if (!formData.title.trim() || !formData.content.trim()) { showToast('Title and content are required', 'error'); return; }
+    if (!formData.title.trim() || !formData.content.trim()) {
+      showToast('Title and content are required', 'error');
+      return;
+    }
     setSaving(true);
     try {
-      const payload = { ...formData, ctaText: formData.ctaText || undefined, ctaUrl: formData.ctaUrl || undefined };
-      if (editingId) { await api.put(`/announcements/${editingId}`, payload); showToast('Announcement updated', 'success'); }
-      else            { await api.post('/announcements', payload);            showToast('Saved as draft', 'success'); }
+      const payload = {
+        ...formData,
+        ctaText: formData.ctaText || undefined,
+        ctaUrl: formData.ctaUrl || undefined,
+      };
+      if (editingId) {
+        await api.put(`/announcements/${editingId}`, payload);
+        showToast('Announcement updated', 'success');
+      } else {
+        await api.post('/announcements', payload);
+        showToast('Saved as draft', 'success');
+      }
       setFormOpen(false);
       fetchData();
     } catch (error) {
       logger.error('Save error:', error);
       showToast(getErrorMessage(error), 'error');
-    } finally { setSaving(false); }
+    } finally {
+      setSaving(false);
+    }
   };
 
   const handleSend = async () => {
@@ -202,8 +250,11 @@ const AnnouncementsManagement: React.FC = () => {
       setSendDialogOpen(false);
       setSelectedAnnouncement(null);
       fetchData();
-    } catch (error) { showToast(getErrorMessage(error), 'error'); }
-    finally { setSending(false); }
+    } catch (error) {
+      showToast(getErrorMessage(error), 'error');
+    } finally {
+      setSending(false);
+    }
   };
 
   const handleDelete = async () => {
@@ -214,17 +265,39 @@ const AnnouncementsManagement: React.FC = () => {
       setDeleteDialogOpen(false);
       setSelectedAnnouncement(null);
       fetchData();
-    } catch (error) { showToast(getErrorMessage(error), 'error'); }
+    } catch (error) {
+      showToast(getErrorMessage(error), 'error');
+    }
   };
 
   const summaryStats: StatItem[] = [
-    { label: 'Total',      value: stats.total,           icon: <CampaignIcon />, color: '#BE5953' },
-    { label: 'Sent',       value: stats.sent,            icon: <SentIcon />,     color: '#00A32A' },
-    { label: 'Drafts',     value: stats.drafts,          icon: <DraftsIcon />,   color: '#DBA617' },
-    { label: 'Recipients', value: stats.totalRecipients, icon: <GroupIcon />,    color: '#0073AA' },
+    {
+      label: 'Total',
+      value: stats.total,
+      icon: <CampaignIcon />,
+      color: '#BE5953',
+    },
+    { label: 'Sent', value: stats.sent, icon: <SentIcon />, color: '#00A32A' },
+    {
+      label: 'Drafts',
+      value: stats.drafts,
+      icon: <DraftsIcon />,
+      color: '#DBA617',
+    },
+    {
+      label: 'Recipients',
+      value: stats.totalRecipients,
+      icon: <GroupIcon />,
+      color: '#0073AA',
+    },
   ];
 
-  const statusFilters: Array<'all' | AnnouncementStatus> = ['all', 'draft', 'sent', 'failed'];
+  const statusFilters: Array<'all' | AnnouncementStatus> = [
+    'all',
+    'draft',
+    'sent',
+    'failed',
+  ];
 
   return (
     <Box>
@@ -251,7 +324,14 @@ const AnnouncementsManagement: React.FC = () => {
               New Announcement
             </Button>
             <Tooltip title="Refresh">
-              <IconButton onClick={fetchData} sx={{ color: '#BE5953', border: '1px solid #E2E4E7', borderRadius: '2px' }}>
+              <IconButton
+                onClick={fetchData}
+                sx={{
+                  color: '#BE5953',
+                  border: '1px solid #E2E4E7',
+                  borderRadius: '2px',
+                }}
+              >
                 <RefreshIcon sx={{ fontSize: 18 }} />
               </IconButton>
             </Tooltip>
@@ -259,7 +339,16 @@ const AnnouncementsManagement: React.FC = () => {
         }
       />
 
-      {loading && <LinearProgress sx={{ mb: 2, height: 2, bgcolor: '#F0F0F1', '& .MuiLinearProgress-bar': { bgcolor: '#BE5953' } }} />}
+      {loading && (
+        <LinearProgress
+          sx={{
+            mb: 2,
+            height: 2,
+            bgcolor: '#F0F0F1',
+            '& .MuiLinearProgress-bar': { bgcolor: '#BE5953' },
+          }}
+        />
+      )}
 
       <SummaryStats stats={summaryStats} columns={4} />
 
@@ -295,13 +384,21 @@ const AnnouncementsManagement: React.FC = () => {
                 py: 0.375,
                 minHeight: 0,
                 ...(filterStatus === s
-                  ? { bgcolor: '#BE5953', color: '#fff', '&:hover': { bgcolor: '#A84E48' }, boxShadow: 'none' }
+                  ? {
+                      bgcolor: '#BE5953',
+                      color: '#fff',
+                      '&:hover': { bgcolor: '#A84E48' },
+                      boxShadow: 'none',
+                    }
                   : { color: '#50575E', '&:hover': { bgcolor: '#F5F0EB' } }),
               }}
             >
               {s === 'all' ? 'All' : STATUS_META[s].label}
               {s !== 'all' && (
-                <Box component="span" sx={{ ml: 0.75, fontSize: '0.7rem', opacity: 0.75 }}>
+                <Box
+                  component="span"
+                  sx={{ ml: 0.75, fontSize: '0.7rem', opacity: 0.75 }}
+                >
                   ({announcements.filter((a) => a.status === s).length})
                 </Box>
               )}
@@ -314,22 +411,53 @@ const AnnouncementsManagement: React.FC = () => {
             placeholder="Search announcements…"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            slotProps={{ input: { startAdornment: <InputAdornment position="start"><SearchIcon sx={{ fontSize: 16, color: '#787C82' }} /></InputAdornment> } }}
-            sx={{ width: 240, ...fieldSx, '& .MuiOutlinedInput-root': { borderRadius: '2px', fontSize: '0.845rem' } }}
+            slotProps={{
+              input: {
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon sx={{ fontSize: 16, color: '#787C82' }} />
+                  </InputAdornment>
+                ),
+              },
+            }}
+            sx={{
+              width: 240,
+              ...fieldSx,
+              '& .MuiOutlinedInput-root': {
+                borderRadius: '2px',
+                fontSize: '0.845rem',
+              },
+            }}
           />
-          <Typography sx={{ fontSize: '0.78rem', color: '#787C82', whiteSpace: 'nowrap' }}>
+          <Typography
+            sx={{ fontSize: '0.78rem', color: '#787C82', whiteSpace: 'nowrap' }}
+          >
             {filtered.length} of {announcements.length}
           </Typography>
         </Box>
       </Box>
 
       {/* Table */}
-      <Box sx={{ bgcolor: '#FFFFFF', border: '1px solid #E2E4E7', borderRadius: '2px', overflow: 'hidden' }}>
+      <Box
+        sx={{
+          bgcolor: '#FFFFFF',
+          border: '1px solid #E2E4E7',
+          borderRadius: '2px',
+          overflow: 'hidden',
+        }}
+      >
         <TableContainer>
           <Table size="small">
             <TableHead>
               <TableRow sx={{ bgcolor: '#F6F7F7' }}>
-                {['Title', 'Type', 'Priority', 'Status', 'Created', 'Actions'].map((h) => (
+                {[
+                  'Title',
+                  'Type',
+                  'Priority',
+                  'Status',
+                  'Created',
+                  'Actions',
+                ].map((h) => (
                   <TableCell
                     key={h}
                     sx={{
@@ -352,8 +480,18 @@ const AnnouncementsManagement: React.FC = () => {
             <TableBody>
               {filtered.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={6} sx={{ textAlign: 'center', py: 6, color: '#787C82', fontSize: '0.875rem' }}>
-                    {searchTerm || filterStatus !== 'all' ? 'No matching announcements' : 'No announcements yet — create your first one.'}
+                  <TableCell
+                    colSpan={6}
+                    sx={{
+                      textAlign: 'center',
+                      py: 6,
+                      color: '#787C82',
+                      fontSize: '0.875rem',
+                    }}
+                  >
+                    {searchTerm || filterStatus !== 'all'
+                      ? 'No matching announcements'
+                      : 'No announcements yet — create your first one.'}
                   </TableCell>
                 </TableRow>
               ) : (
@@ -371,22 +509,62 @@ const AnnouncementsManagement: React.FC = () => {
                       }}
                     >
                       <TableCell sx={{ px: 2, py: 1.5, maxWidth: 300 }}>
-                        <Typography sx={{ fontWeight: 600, fontSize: '0.845rem', color: '#1D2327', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        <Typography
+                          sx={{
+                            fontWeight: 600,
+                            fontSize: '0.845rem',
+                            color: '#1D2327',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap',
+                          }}
+                        >
                           {a.title}
                         </Typography>
-                        <Typography sx={{ fontSize: '0.75rem', color: '#787C82', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: 280 }}>
+                        <Typography
+                          sx={{
+                            fontSize: '0.75rem',
+                            color: '#787C82',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap',
+                            maxWidth: 280,
+                          }}
+                        >
                           {a.content}
                         </Typography>
                         {a.sentAt && (
-                          <Typography sx={{ fontSize: '0.68rem', color: '#787C82', mt: 0.25 }}>
-                            Sent {moment(a.sentAt).tz('America/Toronto').format('MMM D [at] h:mm A')} · {a.recipientCount} recipients
+                          <Typography
+                            sx={{
+                              fontSize: '0.68rem',
+                              color: '#787C82',
+                              mt: 0.25,
+                            }}
+                          >
+                            Sent{' '}
+                            {moment(a.sentAt)
+                              .tz('America/Toronto')
+                              .format('MMM D [at] h:mm A')}{' '}
+                            · {a.recipientCount} recipients
                           </Typography>
                         )}
                       </TableCell>
                       <TableCell sx={{ px: 2, py: 1.5, whiteSpace: 'nowrap' }}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
-                          <Box component="span" sx={{ fontSize: '0.9rem' }}>{type.emoji}</Box>
-                          <Typography sx={{ fontSize: '0.8rem', color: '#50575E' }}>{type.label}</Typography>
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 0.75,
+                          }}
+                        >
+                          <Box component="span" sx={{ fontSize: '0.9rem' }}>
+                            {type.emoji}
+                          </Box>
+                          <Typography
+                            sx={{ fontSize: '0.8rem', color: '#50575E' }}
+                          >
+                            {type.label}
+                          </Typography>
                         </Box>
                       </TableCell>
                       <TableCell sx={{ px: 2, py: 1.5 }}>
@@ -420,8 +598,12 @@ const AnnouncementsManagement: React.FC = () => {
                         />
                       </TableCell>
                       <TableCell sx={{ px: 2, py: 1.5, whiteSpace: 'nowrap' }}>
-                        <Typography sx={{ fontSize: '0.78rem', color: '#787C82' }}>
-                          {moment(a.createdAt).tz('America/Toronto').format('MMM D, YYYY')}
+                        <Typography
+                          sx={{ fontSize: '0.78rem', color: '#787C82' }}
+                        >
+                          {moment(a.createdAt)
+                            .tz('America/Toronto')
+                            .format('MMM D, YYYY')}
                         </Typography>
                       </TableCell>
                       <TableCell sx={{ px: 2, py: 1.5 }}>
@@ -429,19 +611,51 @@ const AnnouncementsManagement: React.FC = () => {
                           {a.status === 'draft' && (
                             <>
                               <Tooltip title="Edit">
-                                <IconButton size="small" onClick={() => openEdit(a)} sx={{ color: '#BE5953', '&:hover': { bgcolor: 'rgba(190,89,83,0.08)' } }}>
+                                <IconButton
+                                  size="small"
+                                  onClick={() => openEdit(a)}
+                                  sx={{
+                                    color: '#BE5953',
+                                    '&:hover': {
+                                      bgcolor: 'rgba(190,89,83,0.08)',
+                                    },
+                                  }}
+                                >
                                   <EditIcon sx={{ fontSize: 15 }} />
                                 </IconButton>
                               </Tooltip>
                               <Tooltip title="Send to subscribers">
-                                <IconButton size="small" onClick={() => { setSelectedAnnouncement(a); setSendDialogOpen(true); }} sx={{ color: '#787C82', '&:hover': { color: '#00A32A', bgcolor: 'rgba(0,163,42,0.08)' } }}>
+                                <IconButton
+                                  size="small"
+                                  onClick={() => {
+                                    setSelectedAnnouncement(a);
+                                    setSendDialogOpen(true);
+                                  }}
+                                  sx={{
+                                    color: '#787C82',
+                                    '&:hover': {
+                                      color: '#00A32A',
+                                      bgcolor: 'rgba(0,163,42,0.08)',
+                                    },
+                                  }}
+                                >
                                   <SendIcon sx={{ fontSize: 15 }} />
                                 </IconButton>
                               </Tooltip>
                             </>
                           )}
                           <Tooltip title="Delete">
-                            <IconButton size="small" onClick={() => { setSelectedAnnouncement(a); setDeleteDialogOpen(true); }} sx={{ color: '#D63638', '&:hover': { bgcolor: 'rgba(214,54,56,0.08)' } }}>
+                            <IconButton
+                              size="small"
+                              onClick={() => {
+                                setSelectedAnnouncement(a);
+                                setDeleteDialogOpen(true);
+                              }}
+                              sx={{
+                                color: '#D63638',
+                                '&:hover': { bgcolor: 'rgba(214,54,56,0.08)' },
+                              }}
+                            >
                               <DeleteIcon sx={{ fontSize: 15 }} />
                             </IconButton>
                           </Tooltip>
@@ -462,7 +676,9 @@ const AnnouncementsManagement: React.FC = () => {
         onClose={() => setFormOpen(false)}
         maxWidth="md"
         fullWidth
-        slotProps={{ paper: { sx: { borderRadius: '2px', border: '1px solid #E2E4E7' } } }}
+        slotProps={{
+          paper: { sx: { borderRadius: '2px', border: '1px solid #E2E4E7' } },
+        }}
       >
         <DialogTitle
           sx={{
@@ -477,7 +693,14 @@ const AnnouncementsManagement: React.FC = () => {
           }}
         >
           {editingId ? 'Edit Announcement' : 'New Announcement'}
-          <IconButton size="small" onClick={() => setFormOpen(false)} sx={{ color: 'rgba(255,255,255,0.6)', '&:hover': { color: '#FFFFFF' } }}>
+          <IconButton
+            size="small"
+            onClick={() => setFormOpen(false)}
+            sx={{
+              color: 'rgba(255,255,255,0.6)',
+              '&:hover': { color: '#FFFFFF' },
+            }}
+          >
             <CloseIcon sx={{ fontSize: 17 }} />
           </IconButton>
         </DialogTitle>
@@ -486,11 +709,25 @@ const AnnouncementsManagement: React.FC = () => {
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
             {/* Type selector */}
             <Box>
-              <Typography sx={{ fontSize: '0.78rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#787C82', mb: 1.25 }}>
+              <Typography
+                sx={{
+                  fontSize: '0.78rem',
+                  fontWeight: 700,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.08em',
+                  color: '#787C82',
+                  mb: 1.25,
+                }}
+              >
                 Announcement Type
               </Typography>
               <Grid container spacing={1}>
-                {(Object.entries(TYPE_META) as [AnnouncementType, typeof TYPE_META[AnnouncementType]][]).map(([key, meta]) => (
+                {(
+                  Object.entries(TYPE_META) as [
+                    AnnouncementType,
+                    (typeof TYPE_META)[AnnouncementType],
+                  ][]
+                ).map(([key, meta]) => (
                   <Grid size={{ xs: 6, sm: 4 }} key={key}>
                     <Box
                       onClick={() => setFormData((p) => ({ ...p, type: key }))}
@@ -499,7 +736,10 @@ const AnnouncementsManagement: React.FC = () => {
                         p: 1.5,
                         borderRadius: '2px',
                         border: `2px solid ${formData.type === key ? meta.color : '#E2E4E7'}`,
-                        bgcolor: formData.type === key ? `${meta.color}08` : 'transparent',
+                        bgcolor:
+                          formData.type === key
+                            ? `${meta.color}08`
+                            : 'transparent',
                         transition: 'all 0.15s',
                         '&:hover': { borderColor: meta.color },
                         display: 'flex',
@@ -509,8 +749,20 @@ const AnnouncementsManagement: React.FC = () => {
                     >
                       <Box sx={{ fontSize: '1.2rem' }}>{meta.emoji}</Box>
                       <Box>
-                        <Typography sx={{ fontSize: '0.8rem', fontWeight: 700, color: '#1D2327' }}>{meta.label}</Typography>
-                        <Typography sx={{ fontSize: '0.68rem', color: '#787C82' }}>{meta.description}</Typography>
+                        <Typography
+                          sx={{
+                            fontSize: '0.8rem',
+                            fontWeight: 700,
+                            color: '#1D2327',
+                          }}
+                        >
+                          {meta.label}
+                        </Typography>
+                        <Typography
+                          sx={{ fontSize: '0.68rem', color: '#787C82' }}
+                        >
+                          {meta.description}
+                        </Typography>
                       </Box>
                     </Box>
                   </Grid>
@@ -518,16 +770,63 @@ const AnnouncementsManagement: React.FC = () => {
               </Grid>
             </Box>
 
-            <TextField label="Title" fullWidth size="small" value={formData.title} onChange={(e) => setFormData((p) => ({ ...p, title: e.target.value }))} slotProps={{ htmlInput: { maxLength: 200 } }} helperText={`${formData.title.length}/200`} sx={fieldSx} />
-            <TextField label="Content" fullWidth size="small" multiline rows={5} value={formData.content} onChange={(e) => setFormData((p) => ({ ...p, content: e.target.value }))} placeholder="Write the announcement content…" sx={fieldSx} />
+            <TextField
+              label="Title"
+              fullWidth
+              size="small"
+              value={formData.title}
+              onChange={(e) =>
+                setFormData((p) => ({ ...p, title: e.target.value }))
+              }
+              slotProps={{ htmlInput: { maxLength: 200 } }}
+              helperText={`${formData.title.length}/200`}
+              sx={fieldSx}
+            />
+            <TextField
+              label="Content"
+              fullWidth
+              size="small"
+              multiline
+              rows={5}
+              value={formData.content}
+              onChange={(e) =>
+                setFormData((p) => ({ ...p, content: e.target.value }))
+              }
+              placeholder="Write the announcement content…"
+              sx={fieldSx}
+            />
 
             <FormControl size="small" sx={{ maxWidth: 180 }}>
-              <InputLabel sx={{ '&.Mui-focused': { color: '#BE5953' } }}>Priority</InputLabel>
-              <Select value={formData.priority} label="Priority" onChange={(e) => setFormData((p) => ({ ...p, priority: e.target.value as AnnouncementPriority }))} sx={{ borderRadius: '2px' }}>
-                {(Object.entries(PRIORITY_META) as [AnnouncementPriority, typeof PRIORITY_META[AnnouncementPriority]][]).map(([k, v]) => (
+              <InputLabel sx={{ '&.Mui-focused': { color: '#BE5953' } }}>
+                Priority
+              </InputLabel>
+              <Select
+                value={formData.priority}
+                label="Priority"
+                onChange={(e) =>
+                  setFormData((p) => ({
+                    ...p,
+                    priority: e.target.value as AnnouncementPriority,
+                  }))
+                }
+                sx={{ borderRadius: '2px' }}
+              >
+                {(
+                  Object.entries(PRIORITY_META) as [
+                    AnnouncementPriority,
+                    (typeof PRIORITY_META)[AnnouncementPriority],
+                  ][]
+                ).map(([k, v]) => (
                   <MenuItem key={k} value={k}>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                      <Box sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: v.color }} />
+                      <Box
+                        sx={{
+                          width: 8,
+                          height: 8,
+                          borderRadius: '50%',
+                          bgcolor: v.color,
+                        }}
+                      />
                       {v.label}
                     </Box>
                   </MenuItem>
@@ -536,26 +835,86 @@ const AnnouncementsManagement: React.FC = () => {
             </FormControl>
 
             <Box>
-              <Typography sx={{ fontSize: '0.78rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#787C82', mb: 1.25 }}>
+              <Typography
+                sx={{
+                  fontSize: '0.78rem',
+                  fontWeight: 700,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.08em',
+                  color: '#787C82',
+                  mb: 1.25,
+                }}
+              >
                 Call to Action (Optional)
               </Typography>
               <Box sx={{ display: 'flex', gap: 2 }}>
-                <TextField size="small" label="Button Text" value={formData.ctaText} onChange={(e) => setFormData((p) => ({ ...p, ctaText: e.target.value }))} placeholder="e.g., Learn More" slotProps={{ htmlInput: { maxLength: 50 } }} sx={{ flex: 1, ...fieldSx }} />
-                <TextField size="small" label="Button URL" value={formData.ctaUrl} onChange={(e) => setFormData((p) => ({ ...p, ctaUrl: e.target.value }))} placeholder="https://…" sx={{ flex: 2, ...fieldSx }} />
+                <TextField
+                  size="small"
+                  label="Button Text"
+                  value={formData.ctaText}
+                  onChange={(e) =>
+                    setFormData((p) => ({ ...p, ctaText: e.target.value }))
+                  }
+                  placeholder="e.g., Learn More"
+                  slotProps={{ htmlInput: { maxLength: 50 } }}
+                  sx={{ flex: 1, ...fieldSx }}
+                />
+                <TextField
+                  size="small"
+                  label="Button URL"
+                  value={formData.ctaUrl}
+                  onChange={(e) =>
+                    setFormData((p) => ({ ...p, ctaUrl: e.target.value }))
+                  }
+                  placeholder="https://…"
+                  sx={{ flex: 2, ...fieldSx }}
+                />
               </Box>
             </Box>
           </Box>
         </DialogContent>
 
-        <DialogActions sx={{ px: 2.5, pb: 2.5, gap: 1, borderTop: '1px solid #F0F0F1', pt: 2 }}>
-          <Button onClick={() => setFormOpen(false)} variant="outlined" sx={{ borderColor: '#E2E4E7', color: '#50575E', borderRadius: '2px', fontWeight: 600, textTransform: 'none', '&:hover': { borderColor: '#BE5953', color: '#BE5953', bgcolor: 'transparent' } }}>
+        <DialogActions
+          sx={{
+            px: 2.5,
+            pb: 2.5,
+            gap: 1,
+            borderTop: '1px solid #F0F0F1',
+            pt: 2,
+          }}
+        >
+          <Button
+            onClick={() => setFormOpen(false)}
+            variant="outlined"
+            sx={{
+              borderColor: '#E2E4E7',
+              color: '#50575E',
+              borderRadius: '2px',
+              fontWeight: 600,
+              textTransform: 'none',
+              '&:hover': {
+                borderColor: '#BE5953',
+                color: '#BE5953',
+                bgcolor: 'transparent',
+              },
+            }}
+          >
             Cancel
           </Button>
           <Button
             onClick={handleSave}
             variant="contained"
-            disabled={saving || !formData.title.trim() || !formData.content.trim()}
-            sx={{ bgcolor: '#BE5953', '&:hover': { bgcolor: '#A84E48' }, borderRadius: '2px', fontWeight: 700, textTransform: 'none', boxShadow: 'none' }}
+            disabled={
+              saving || !formData.title.trim() || !formData.content.trim()
+            }
+            sx={{
+              bgcolor: '#BE5953',
+              '&:hover': { bgcolor: '#A84E48' },
+              borderRadius: '2px',
+              fontWeight: 700,
+              textTransform: 'none',
+              boxShadow: 'none',
+            }}
           >
             {saving ? 'Saving…' : editingId ? 'Update' : 'Save as Draft'}
           </Button>
@@ -566,32 +925,87 @@ const AnnouncementsManagement: React.FC = () => {
       <Dialog
         open={sendDialogOpen}
         onClose={() => !sending && setSendDialogOpen(false)}
-        slotProps={{ paper: { sx: { borderRadius: '2px', border: '1px solid #E2E4E7', maxWidth: 480 } } }}
+        slotProps={{
+          paper: {
+            sx: {
+              borderRadius: '2px',
+              border: '1px solid #E2E4E7',
+              maxWidth: 480,
+            },
+          },
+        }}
       >
-        <DialogTitle sx={{ fontWeight: 700, fontSize: '1rem', color: '#FFFFFF', bgcolor: '#1D2327', pb: 2, display: 'flex', alignItems: 'center', gap: 1.25 }}>
+        <DialogTitle
+          sx={{
+            fontWeight: 700,
+            fontSize: '1rem',
+            color: '#FFFFFF',
+            bgcolor: '#1D2327',
+            pb: 2,
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1.25,
+          }}
+        >
           <SendIcon sx={{ fontSize: 16, color: 'rgba(255,255,255,0.7)' }} />
           Send Announcement
         </DialogTitle>
         <DialogContent sx={{ pt: '16px !important' }}>
           {selectedAnnouncement && (
             <Box>
-              <Typography sx={{ fontSize: '0.875rem', color: '#50575E', mb: 2 }}>
-                Send this announcement to <strong>all active subscribers</strong>?
+              <Typography
+                sx={{ fontSize: '0.875rem', color: '#50575E', mb: 2 }}
+              >
+                Send this announcement to{' '}
+                <strong>all active subscribers</strong>?
               </Typography>
-              <Box sx={{ p: 2, bgcolor: '#F6F7F7', border: '1px solid #E2E4E7', borderRadius: '2px' }}>
-                <Typography sx={{ fontWeight: 700, fontSize: '0.875rem', color: '#1D2327' }}>
-                  {TYPE_META[selectedAnnouncement.type].emoji} {selectedAnnouncement.title}
+              <Box
+                sx={{
+                  p: 2,
+                  bgcolor: '#F6F7F7',
+                  border: '1px solid #E2E4E7',
+                  borderRadius: '2px',
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontWeight: 700,
+                    fontSize: '0.875rem',
+                    color: '#1D2327',
+                  }}
+                >
+                  {TYPE_META[selectedAnnouncement.type].emoji}{' '}
+                  {selectedAnnouncement.title}
                 </Typography>
-                <Typography sx={{ fontSize: '0.8rem', color: '#787C82', mt: 0.5 }}>
-                  {TYPE_META[selectedAnnouncement.type].label} · Priority: {PRIORITY_META[selectedAnnouncement.priority].label}
+                <Typography
+                  sx={{ fontSize: '0.8rem', color: '#787C82', mt: 0.5 }}
+                >
+                  {TYPE_META[selectedAnnouncement.type].label} · Priority:{' '}
+                  {PRIORITY_META[selectedAnnouncement.priority].label}
                 </Typography>
               </Box>
-              {(selectedAnnouncement.priority === 'high' || selectedAnnouncement.priority === 'urgent') && (
+              {(selectedAnnouncement.priority === 'high' ||
+                selectedAnnouncement.priority === 'urgent') && (
                 <Fade in>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 2, p: 1.5, bgcolor: 'rgba(201,169,110,0.08)', border: '1px solid rgba(219,166,23,0.25)', borderRadius: '2px' }}>
-                    <WarningIcon sx={{ fontSize: 16, color: '#DBA617', flexShrink: 0 }} />
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 1,
+                      mt: 2,
+                      p: 1.5,
+                      bgcolor: 'rgba(201,169,110,0.08)',
+                      border: '1px solid rgba(219,166,23,0.25)',
+                      borderRadius: '2px',
+                    }}
+                  >
+                    <WarningIcon
+                      sx={{ fontSize: 16, color: '#DBA617', flexShrink: 0 }}
+                    />
                     <Typography sx={{ fontSize: '0.8rem', color: '#50575E' }}>
-                      This is a <strong>{selectedAnnouncement.priority} priority</strong> announcement and will be prominently highlighted.
+                      This is a{' '}
+                      <strong>{selectedAnnouncement.priority} priority</strong>{' '}
+                      announcement and will be prominently highlighted.
                     </Typography>
                   </Box>
                 </Fade>
@@ -599,8 +1013,32 @@ const AnnouncementsManagement: React.FC = () => {
             </Box>
           )}
         </DialogContent>
-        <DialogActions sx={{ px: 2.5, pb: 2.5, gap: 1, borderTop: '1px solid #F0F0F1', pt: 2 }}>
-          <Button onClick={() => setSendDialogOpen(false)} disabled={sending} variant="outlined" sx={{ borderColor: '#E2E4E7', color: '#50575E', borderRadius: '2px', fontWeight: 600, textTransform: 'none', '&:hover': { borderColor: '#BE5953', color: '#BE5953', bgcolor: 'transparent' } }}>
+        <DialogActions
+          sx={{
+            px: 2.5,
+            pb: 2.5,
+            gap: 1,
+            borderTop: '1px solid #F0F0F1',
+            pt: 2,
+          }}
+        >
+          <Button
+            onClick={() => setSendDialogOpen(false)}
+            disabled={sending}
+            variant="outlined"
+            sx={{
+              borderColor: '#E2E4E7',
+              color: '#50575E',
+              borderRadius: '2px',
+              fontWeight: 600,
+              textTransform: 'none',
+              '&:hover': {
+                borderColor: '#BE5953',
+                color: '#BE5953',
+                bgcolor: 'transparent',
+              },
+            }}
+          >
             Cancel
           </Button>
           <Button
@@ -608,7 +1046,14 @@ const AnnouncementsManagement: React.FC = () => {
             variant="contained"
             disabled={sending}
             startIcon={<SendIcon sx={{ fontSize: '15px !important' }} />}
-            sx={{ bgcolor: '#00A32A', '&:hover': { bgcolor: '#007A1F' }, borderRadius: '2px', fontWeight: 700, textTransform: 'none', boxShadow: 'none' }}
+            sx={{
+              bgcolor: '#00A32A',
+              '&:hover': { bgcolor: '#007A1F' },
+              borderRadius: '2px',
+              fontWeight: 700,
+              textTransform: 'none',
+              boxShadow: 'none',
+            }}
           >
             {sending ? 'Sending…' : 'Send Now'}
           </Button>
@@ -619,28 +1064,83 @@ const AnnouncementsManagement: React.FC = () => {
       <Dialog
         open={deleteDialogOpen}
         onClose={() => setDeleteDialogOpen(false)}
-        slotProps={{ paper: { sx: { borderRadius: '2px', border: '1px solid #E2E4E7', maxWidth: 420 } } }}
+        slotProps={{
+          paper: {
+            sx: {
+              borderRadius: '2px',
+              border: '1px solid #E2E4E7',
+              maxWidth: 420,
+            },
+          },
+        }}
       >
-        <DialogTitle sx={{ fontWeight: 700, fontSize: '1rem', color: '#FFFFFF', bgcolor: '#1D2327', pb: 2, display: 'flex', alignItems: 'center', gap: 1.25 }}>
+        <DialogTitle
+          sx={{
+            fontWeight: 700,
+            fontSize: '1rem',
+            color: '#FFFFFF',
+            bgcolor: '#1D2327',
+            pb: 2,
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1.25,
+          }}
+        >
           <DeleteIcon sx={{ fontSize: 16, color: 'rgba(255,255,255,0.7)' }} />
           Delete Announcement
         </DialogTitle>
         <DialogContent sx={{ pt: '16px !important' }}>
           <Typography sx={{ fontSize: '0.875rem', color: '#50575E' }}>
-            Are you sure you want to permanently delete <strong>"{selectedAnnouncement?.title}"</strong>? This action cannot be undone.
+            Are you sure you want to permanently delete{' '}
+            <strong>"{selectedAnnouncement?.title}"</strong>? This action cannot
+            be undone.
           </Typography>
         </DialogContent>
-        <DialogActions sx={{ px: 2.5, pb: 2.5, gap: 1, borderTop: '1px solid #F0F0F1', pt: 2 }}>
-          <Button onClick={() => setDeleteDialogOpen(false)} variant="outlined" sx={{ borderColor: '#E2E4E7', color: '#50575E', borderRadius: '2px', fontWeight: 600, textTransform: 'none', '&:hover': { borderColor: '#BE5953', color: '#BE5953', bgcolor: 'transparent' } }}>
+        <DialogActions
+          sx={{
+            px: 2.5,
+            pb: 2.5,
+            gap: 1,
+            borderTop: '1px solid #F0F0F1',
+            pt: 2,
+          }}
+        >
+          <Button
+            onClick={() => setDeleteDialogOpen(false)}
+            variant="outlined"
+            sx={{
+              borderColor: '#E2E4E7',
+              color: '#50575E',
+              borderRadius: '2px',
+              fontWeight: 600,
+              textTransform: 'none',
+              '&:hover': {
+                borderColor: '#BE5953',
+                color: '#BE5953',
+                bgcolor: 'transparent',
+              },
+            }}
+          >
             Cancel
           </Button>
-          <Button onClick={handleDelete} variant="contained" sx={{ bgcolor: '#D63638', '&:hover': { bgcolor: '#A62527' }, borderRadius: '2px', fontWeight: 700, textTransform: 'none', boxShadow: 'none' }}>
+          <Button
+            onClick={handleDelete}
+            variant="contained"
+            sx={{
+              bgcolor: '#D63638',
+              '&:hover': { bgcolor: '#A62527' },
+              borderRadius: '2px',
+              fontWeight: 700,
+              textTransform: 'none',
+              boxShadow: 'none',
+            }}
+          >
             Delete
           </Button>
         </DialogActions>
       </Dialog>
     </Box>
   );
-};
+};;
 
 export default AnnouncementsManagement;

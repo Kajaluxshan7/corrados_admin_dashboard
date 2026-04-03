@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
+import { useWsRefresh, WsEvent } from '../contexts/WebSocketContext';
 import {
   Box,
   Typography,
@@ -91,7 +92,7 @@ const DayOfWeekValues = {
 };
 
 interface Special {
-  id: number;
+  id: string;
   type: SpecialType;
   dayOfWeek?: DayOfWeek;
   specialCategory?: SpecialCategory;
@@ -147,7 +148,7 @@ const SpecialsManagement: React.FC = () => {
   });
 
   const [editingSpecial, setEditingSpecial] = useState<Special | null>(null);
-  const [deleteConfirmId, setDeleteConfirmId] = useState<number | null>(null);
+  const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
 
   // Image upload states for preview functionality
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
@@ -176,6 +177,11 @@ const SpecialsManagement: React.FC = () => {
   useEffect(() => {
     fetchSpecials();
   }, [fetchSpecials]);
+
+  // Real-time updates via WebSocket
+  useWsRefresh(WsEvent.SPECIAL_CREATED, fetchSpecials);
+  useWsRefresh(WsEvent.SPECIAL_UPDATED, fetchSpecials);
+  useWsRefresh(WsEvent.SPECIAL_DELETED, fetchSpecials);
 
   const handleOpenDialog = (
     special?: Special,
@@ -312,7 +318,7 @@ const SpecialsManagement: React.FC = () => {
     }
   };
 
-  const handleDelete = async (id: number) => {
+  const handleDelete = async (id: string) => {
     try {
       await api.delete(`/specials/${id}`);
       showSnackbar('Special deleted successfully', 'success');
@@ -326,7 +332,9 @@ const SpecialsManagement: React.FC = () => {
 
   const handleToggleActive = async (special: Special) => {
     try {
-      await api.patch(`/specials/${special.id}`, { isActive: !special.isActive });
+      await api.patch(`/specials/${special.id}`, {
+        isActive: !special.isActive,
+      });
       showSnackbar('Special status updated', 'success');
       fetchSpecials();
     } catch (error) {
@@ -644,8 +652,20 @@ const SpecialsManagement: React.FC = () => {
               fontSize: '0.78rem',
               borderRadius: '2px',
               ...(special.isActive
-                ? { color: '#787C82', borderColor: '#CDD0D4', '&:hover': { borderColor: '#50575E', color: '#50575E', bgcolor: 'transparent' } }
-                : { color: '#00A32A', borderColor: '#B3DFBB', '&:hover': { borderColor: '#00A32A', bgcolor: '#EEF7EE' } }),
+                ? {
+                    color: '#787C82',
+                    borderColor: '#CDD0D4',
+                    '&:hover': {
+                      borderColor: '#50575E',
+                      color: '#50575E',
+                      bgcolor: 'transparent',
+                    },
+                  }
+                : {
+                    color: '#00A32A',
+                    borderColor: '#B3DFBB',
+                    '&:hover': { borderColor: '#00A32A', bgcolor: '#EEF7EE' },
+                  }),
             }}
           >
             {special.isActive ? 'Deactivate' : 'Activate'}
@@ -885,8 +905,7 @@ const SpecialsManagement: React.FC = () => {
                   position: 'relative',
                   '&.Mui-selected': {
                     color: '#FFFFFF',
-                    background:
-                      '#BE5953',
+                    background: '#BE5953',
                     boxShadow:
                       '0 6px 20px rgba(190, 89, 83, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.3)',
                     '&::after': {
@@ -961,7 +980,10 @@ const SpecialsManagement: React.FC = () => {
 
             {activeTab === 1 && (
               <Box>
-                <Typography variant="h6" sx={{ color: 'text.primary', fontWeight: 600, mb: 3 }}>
+                <Typography
+                  variant="h6"
+                  sx={{ color: 'text.primary', fontWeight: 600, mb: 3 }}
+                >
                   Late Night Specials
                 </Typography>
                 {lateNightSpecials.length === 0 ? (
@@ -1000,7 +1022,10 @@ const SpecialsManagement: React.FC = () => {
 
             {activeTab === 2 && (
               <Box>
-                <Typography variant="h6" sx={{ color: 'text.primary', fontWeight: 600, mb: 3 }}>
+                <Typography
+                  variant="h6"
+                  sx={{ color: 'text.primary', fontWeight: 600, mb: 3 }}
+                >
                   Game Time Specials
                 </Typography>
                 {gameTimeSpecials.length === 0 ? (
@@ -1038,7 +1063,10 @@ const SpecialsManagement: React.FC = () => {
 
             {activeTab === 3 && (
               <Box>
-                <Typography variant="h6" sx={{ color: 'text.primary', fontWeight: 600, mb: 3 }}>
+                <Typography
+                  variant="h6"
+                  sx={{ color: 'text.primary', fontWeight: 600, mb: 3 }}
+                >
                   Day Time Specials
                 </Typography>
                 {dayTimeSpecials.length === 0 ? (
@@ -1075,7 +1103,10 @@ const SpecialsManagement: React.FC = () => {
 
             {activeTab === 4 && (
               <Box>
-                <Typography variant="h6" sx={{ color: 'text.primary', fontWeight: 600, mb: 3 }}>
+                <Typography
+                  variant="h6"
+                  sx={{ color: 'text.primary', fontWeight: 600, mb: 3 }}
+                >
                   Chef Specials
                 </Typography>
                 {chefSpecials.length === 0 ? (
@@ -1113,7 +1144,10 @@ const SpecialsManagement: React.FC = () => {
 
             {activeTab === 5 && (
               <Box>
-                <Typography variant="h6" sx={{ color: 'text.primary', fontWeight: 600, mb: 3 }}>
+                <Typography
+                  variant="h6"
+                  sx={{ color: 'text.primary', fontWeight: 600, mb: 3 }}
+                >
                   Seasonal Specials
                 </Typography>
                 {seasonalSpecials.length === 0 ? (
@@ -1180,7 +1214,10 @@ const SpecialsManagement: React.FC = () => {
               <IconButton
                 onClick={handleCloseDialog}
                 size="small"
-                sx={{ color: 'rgba(255,255,255,0.6)', '&:hover': { color: '#FFFFFF' } }}
+                sx={{
+                  color: 'rgba(255,255,255,0.6)',
+                  '&:hover': { color: '#FFFFFF' },
+                }}
               >
                 <CloseIcon fontSize="small" />
               </IconButton>
@@ -1393,7 +1430,10 @@ const SpecialsManagement: React.FC = () => {
                             isActive: e.target.checked,
                           })
                         }
-                        sx={{ '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#00A32A', opacity: 1 } }}
+                        sx={{
+                          '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track':
+                            { backgroundColor: '#00A32A', opacity: 1 },
+                        }}
                       />
                     }
                     label="Active"
@@ -1539,24 +1579,68 @@ const SpecialsManagement: React.FC = () => {
           </Dialog>
 
           {/* Delete Confirmation Dialog */}
-          <Dialog open={deleteConfirmId !== null} onClose={() => setDeleteConfirmId(null)} maxWidth="xs" fullWidth>
-            <DialogTitle sx={{ display: 'flex', alignItems: 'center', gap: 1.5, fontWeight: 700, fontSize: '1rem', color: '#FFFFFF', bgcolor: '#1D2327' }}>
-              <WarningIcon sx={{ fontSize: 16, color: 'rgba(255,255,255,0.7)' }} />
+          <Dialog
+            open={deleteConfirmId !== null}
+            onClose={() => setDeleteConfirmId(null)}
+            maxWidth="xs"
+            fullWidth
+          >
+            <DialogTitle
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1.5,
+                fontWeight: 700,
+                fontSize: '1rem',
+                color: '#FFFFFF',
+                bgcolor: '#1D2327',
+              }}
+            >
+              <WarningIcon
+                sx={{ fontSize: 16, color: 'rgba(255,255,255,0.7)' }}
+              />
               Delete Special
             </DialogTitle>
             <DialogContent sx={{ px: 3, py: 3 }}>
-              <Typography sx={{ color: '#50575E', fontSize: '0.938rem', lineHeight: 1.6 }}>
-                Are you sure you want to delete this special? This action cannot be undone.
+              <Typography
+                sx={{ color: '#50575E', fontSize: '0.938rem', lineHeight: 1.6 }}
+              >
+                Are you sure you want to delete this special? This action cannot
+                be undone.
               </Typography>
             </DialogContent>
             <DialogActions sx={{ px: 3, pb: 3, gap: 1.5 }}>
-              <Button onClick={() => setDeleteConfirmId(null)} variant="outlined" sx={{ borderRadius: '2px', fontWeight: 600, px: 3, borderColor: '#E2E4E7', color: '#50575E', textTransform: 'none', '&:hover': { borderColor: '#BE5953', color: '#BE5953', bgcolor: 'transparent' } }}>
+              <Button
+                onClick={() => setDeleteConfirmId(null)}
+                variant="outlined"
+                sx={{
+                  borderRadius: '2px',
+                  fontWeight: 600,
+                  px: 3,
+                  borderColor: '#E2E4E7',
+                  color: '#50575E',
+                  textTransform: 'none',
+                  '&:hover': {
+                    borderColor: '#BE5953',
+                    color: '#BE5953',
+                    bgcolor: 'transparent',
+                  },
+                }}
+              >
                 Cancel
               </Button>
               <Button
-                onClick={() => deleteConfirmId !== null && handleDelete(deleteConfirmId)}
+                onClick={() =>
+                  deleteConfirmId !== null && handleDelete(deleteConfirmId)
+                }
                 variant="contained"
-                sx={{ borderRadius: '2px', fontWeight: 600, px: 3, bgcolor: '#D63638', '&:hover': { bgcolor: '#A62527' } }}
+                sx={{
+                  borderRadius: '2px',
+                  fontWeight: 600,
+                  px: 3,
+                  bgcolor: '#D63638',
+                  '&:hover': { bgcolor: '#A62527' },
+                }}
               >
                 Delete
               </Button>
@@ -1582,6 +1666,6 @@ const SpecialsManagement: React.FC = () => {
       </Box>
     </LocalizationProvider>
   );
-};
+};;;;
 
 export default React.memo(SpecialsManagement);

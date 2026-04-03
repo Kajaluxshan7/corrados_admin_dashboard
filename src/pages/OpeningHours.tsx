@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { API_BASE_URL } from '../config/env.config';
+import { useWsRefresh, WsEvent } from '../contexts/WebSocketContext';
 import {
   Box,
   Card,
@@ -168,7 +169,9 @@ const OpeningHours: React.FC = () => {
   ): Promise<{ success: boolean; error?: string }> => {
     try {
       setSaving(true);
-      const existingHours = openingHours.find((oh) => oh.dayOfWeek === dayOfWeek);
+      const existingHours = openingHours.find(
+        (oh) => oh.dayOfWeek === dayOfWeek,
+      );
       const payload = {
         dayOfWeek,
         openTime: hoursData.isOpen ? hoursData.openTime : '',
@@ -190,7 +193,9 @@ const OpeningHours: React.FC = () => {
       });
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+        throw new Error(
+          errorData.message || `HTTP error! status: ${response.status}`,
+        );
       }
       const result = await response.json();
       if (existingHours) {
@@ -230,16 +235,25 @@ const OpeningHours: React.FC = () => {
   const handleSave = async () => {
     if (!editingDay) return;
     if (editForm.isOpen && (!editForm.openTime || !editForm.closeTime)) {
-      showNotification('Please set both open and close times when marked as open', 'warning');
+      showNotification(
+        'Please set both open and close times when marked as open',
+        'warning',
+      );
       return;
     }
     const result = await saveOpeningHours(editingDay, editForm);
     if (result.success) {
-      showNotification(`${getDayDisplayName(editingDay)} hours updated successfully`, 'success');
+      showNotification(
+        `${getDayDisplayName(editingDay)} hours updated successfully`,
+        'success',
+      );
       setEditDialogOpen(false);
       setEditingDay(null);
     } else {
-      showNotification(result.error || 'Failed to save opening hours.', 'error');
+      showNotification(
+        result.error || 'Failed to save opening hours.',
+        'error',
+      );
     }
   };
 
@@ -253,22 +267,41 @@ const OpeningHours: React.FC = () => {
     const currentDay = now.format('dddd').toLowerCase() as DayOfWeekValue;
     const currentTime = now.format('HH:mm');
     const todayHours = openingHours.find((oh) => oh.dayOfWeek === currentDay);
-    if (todayHours?.isActive && todayHours.isOpen && todayHours.openTime && todayHours.closeTime) {
+    if (
+      todayHours?.isActive &&
+      todayHours.isOpen &&
+      todayHours.openTime &&
+      todayHours.closeTime
+    ) {
       const { openTime, closeTime } = todayHours;
       if (closeTime < openTime) {
         if (currentTime >= openTime || currentTime <= closeTime) {
-          return { isOpen: true, message: `Open until ${moment(closeTime, 'HH:mm').format('h:mm A')} (overnight)`, day: currentDay };
+          return {
+            isOpen: true,
+            message: `Open until ${moment(closeTime, 'HH:mm').format('h:mm A')} (overnight)`,
+            day: currentDay,
+          };
         }
       } else if (currentTime >= openTime && currentTime <= closeTime) {
-        return { isOpen: true, message: `Open until ${moment(closeTime, 'HH:mm').format('h:mm A')}`, day: currentDay };
+        return {
+          isOpen: true,
+          message: `Open until ${moment(closeTime, 'HH:mm').format('h:mm A')}`,
+          day: currentDay,
+        };
       }
     }
     const previousDay = now.clone().subtract(1, 'day');
-    const previousDayName = previousDay.format('dddd').toLowerCase() as DayOfWeekValue;
-    const previousDayHours = openingHours.find((oh) => oh.dayOfWeek === previousDayName);
+    const previousDayName = previousDay
+      .format('dddd')
+      .toLowerCase() as DayOfWeekValue;
+    const previousDayHours = openingHours.find(
+      (oh) => oh.dayOfWeek === previousDayName,
+    );
     if (
-      previousDayHours?.isActive && previousDayHours.isOpen &&
-      previousDayHours.openTime && previousDayHours.closeTime &&
+      previousDayHours?.isActive &&
+      previousDayHours.isOpen &&
+      previousDayHours.openTime &&
+      previousDayHours.closeTime &&
       previousDayHours.closeTime < previousDayHours.openTime &&
       currentTime <= previousDayHours.closeTime
     ) {
@@ -290,7 +323,11 @@ const OpeningHours: React.FC = () => {
 
   const findNextOpenDay = (now: moment.Moment) => {
     for (let i = 0; i < 7; i++) {
-      const dayName = now.clone().add(i, 'days').format('dddd').toLowerCase() as DayOfWeekValue;
+      const dayName = now
+        .clone()
+        .add(i, 'days')
+        .format('dddd')
+        .toLowerCase() as DayOfWeekValue;
       const dayHours = openingHours.find((oh) => oh.dayOfWeek === dayName);
       if (dayHours?.isActive && dayHours.isOpen && dayHours.openTime) {
         if (i === 0 && now.format('HH:mm') >= dayHours.openTime) continue;
@@ -311,15 +348,42 @@ const OpeningHours: React.FC = () => {
     if (user) fetchOpeningHours();
   }, [fetchOpeningHours, user]);
 
+  // Real-time updates via WebSocket
+  useWsRefresh(WsEvent.OPENING_HOURS_UPDATED, fetchOpeningHours);
+
   if (loading) {
     return (
       <Box sx={{ p: 3 }}>
         <Skeleton variant="text" width={320} height={44} />
-        <Skeleton variant="text" width={480} height={24} sx={{ mt: 1, mb: 3 }} />
-        <Skeleton variant="rounded" height={80} sx={{ mb: 3, borderRadius: '2px' }} />
-        <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr', lg: 'repeat(4, 1fr)' }, gap: 2 }}>
+        <Skeleton
+          variant="text"
+          width={480}
+          height={24}
+          sx={{ mt: 1, mb: 3 }}
+        />
+        <Skeleton
+          variant="rounded"
+          height={80}
+          sx={{ mb: 3, borderRadius: '2px' }}
+        />
+        <Box
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: {
+              xs: '1fr',
+              sm: '1fr 1fr',
+              lg: 'repeat(4, 1fr)',
+            },
+            gap: 2,
+          }}
+        >
           {[...Array(7)].map((_, i) => (
-            <Skeleton key={i} variant="rounded" height={140} sx={{ borderRadius: '2px' }} />
+            <Skeleton
+              key={i}
+              variant="rounded"
+              height={140}
+              sx={{ borderRadius: '2px' }}
+            />
           ))}
         </Box>
       </Box>
@@ -349,30 +413,60 @@ const OpeningHours: React.FC = () => {
           display: 'flex',
           alignItems: 'center',
           gap: 2,
-          background: status.isOpen ? 'rgba(0,163,42,0.06)' : 'rgba(214,54,56,0.06)',
+          background: status.isOpen
+            ? 'rgba(0,163,42,0.06)'
+            : 'rgba(214,54,56,0.06)',
           border: `1px solid ${status.isOpen ? 'rgba(0,163,42,0.2)' : 'rgba(214,54,56,0.18)'}`,
           boxShadow: '0 2px 12px rgba(0,0,0,0.04)',
         }}
       >
-        <Box sx={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <DotIcon sx={{ fontSize: 16, color: status.isOpen ? '#00A32A' : '#D63638' }} />
-          <Box sx={{
-            position: 'absolute',
-            width: 26, height: 26, borderRadius: '50%',
-            background: status.isOpen ? 'rgba(0,163,42,0.2)' : 'rgba(214,54,56,0.2)',
-            animation: 'pulse 2s infinite',
-            '@keyframes pulse': {
-              '0%': { transform: 'scale(0.8)', opacity: 1 },
-              '70%': { transform: 'scale(1.4)', opacity: 0 },
-              '100%': { transform: 'scale(0.8)', opacity: 0 },
-            },
-          }} />
+        <Box
+          sx={{
+            position: 'relative',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <DotIcon
+            sx={{ fontSize: 16, color: status.isOpen ? '#00A32A' : '#D63638' }}
+          />
+          <Box
+            sx={{
+              position: 'absolute',
+              width: 26,
+              height: 26,
+              borderRadius: '50%',
+              background: status.isOpen
+                ? 'rgba(0,163,42,0.2)'
+                : 'rgba(214,54,56,0.2)',
+              animation: 'pulse 2s infinite',
+              '@keyframes pulse': {
+                '0%': { transform: 'scale(0.8)', opacity: 1 },
+                '70%': { transform: 'scale(1.4)', opacity: 0 },
+                '100%': { transform: 'scale(0.8)', opacity: 0 },
+              },
+            }}
+          />
         </Box>
         <Box>
-          <Typography sx={{ fontWeight: 700, fontSize: '0.938rem', color: status.isOpen ? '#007A1F' : '#991B1B', lineHeight: 1.2 }}>
+          <Typography
+            sx={{
+              fontWeight: 700,
+              fontSize: '0.938rem',
+              color: status.isOpen ? '#007A1F' : '#991B1B',
+              lineHeight: 1.2,
+            }}
+          >
             {status.isOpen ? 'We are open right now' : 'Currently closed'}
           </Typography>
-          <Typography sx={{ fontSize: '0.82rem', color: status.isOpen ? '#00A32A' : '#B91C1C', mt: 0.25 }}>
+          <Typography
+            sx={{
+              fontSize: '0.82rem',
+              color: status.isOpen ? '#00A32A' : '#B91C1C',
+              mt: 0.25,
+            }}
+          >
             {status.message}
           </Typography>
         </Box>
@@ -382,7 +476,11 @@ const OpeningHours: React.FC = () => {
       <Box
         sx={{
           display: 'grid',
-          gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr', lg: 'repeat(4, 1fr)' },
+          gridTemplateColumns: {
+            xs: '1fr',
+            sm: '1fr 1fr',
+            lg: 'repeat(4, 1fr)',
+          },
           gap: 2,
         }}
       >
@@ -390,11 +488,17 @@ const OpeningHours: React.FC = () => {
           const dayHours = openingHours.find((oh) => oh.dayOfWeek === day);
           const isToday = isCurrentDay(day);
           const displayData = dayHours || {
-            dayOfWeek: day, openTime: '', closeTime: '',
-            isActive: true, isOpen: false, isClosedNextDay: false, specialNote: '',
+            dayOfWeek: day,
+            openTime: '',
+            closeTime: '',
+            isActive: true,
+            isOpen: false,
+            isClosedNextDay: false,
+            specialNote: '',
           };
 
-          const hasTimeBar = displayData.isOpen && displayData.openTime && displayData.closeTime;
+          const hasTimeBar =
+            displayData.isOpen && displayData.openTime && displayData.closeTime;
           const openH = hasTimeBar ? timeToHours(displayData.openTime) : 0;
           const closeH = hasTimeBar ? timeToHours(displayData.closeTime) : 0;
           const isOvernight = hasTimeBar && closeH < openH;
@@ -410,48 +514,107 @@ const OpeningHours: React.FC = () => {
               key={day}
               elevation={0}
               sx={{
-                border: isToday ? '2px solid #BE5953' : '1px solid rgba(190,89,83,0.1)',
+                border: isToday
+                  ? '2px solid #BE5953'
+                  : '1px solid rgba(190,89,83,0.1)',
                 borderRadius: '2px',
                 background: isToday ? 'rgba(190,89,83,0.02)' : '#FFFFFF',
                 position: 'relative',
                 overflow: 'hidden',
-                boxShadow: isToday ? '0 4px 20px rgba(190,89,83,0.1)' : '0 2px 8px rgba(0,0,0,0.04)',
+                boxShadow: isToday
+                  ? '0 4px 20px rgba(190,89,83,0.1)'
+                  : '0 2px 8px rgba(0,0,0,0.04)',
                 transition: 'box-shadow 0.2s ease',
                 '&:hover': { boxShadow: '0 6px 20px rgba(0,0,0,0.08)' },
               }}
             >
               {/* Today accent stripe */}
               {isToday && (
-                <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, bgcolor: '#BE5953' }} />
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    height: 3,
+                    bgcolor: '#BE5953',
+                  }}
+                />
               )}
 
-              <CardContent sx={{ p: 2.5, pt: isToday ? 3 : 2.5, '&:last-child': { pb: 2.5 } }}>
+              <CardContent
+                sx={{
+                  p: 2.5,
+                  pt: isToday ? 3 : 2.5,
+                  '&:last-child': { pb: 2.5 },
+                }}
+              >
                 {/* Day name row */}
-                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1.5 }}>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    mb: 1.5,
+                  }}
+                >
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <Box sx={{
-                      width: 36, height: 36, borderRadius: '2px', flexShrink: 0,
-                      background: isToday ? 'rgba(190,89,83,0.12)' : '#F0F0F1',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      color: isToday ? '#BE5953' : '#7A6358',
-                    }}>
-                      {displayData.isOpen
-                        ? <ScheduleIcon sx={{ fontSize: '1.1rem' }} />
-                        : <ClosedIcon sx={{ fontSize: '1.1rem' }} />}
+                    <Box
+                      sx={{
+                        width: 36,
+                        height: 36,
+                        borderRadius: '2px',
+                        flexShrink: 0,
+                        background: isToday
+                          ? 'rgba(190,89,83,0.12)'
+                          : '#F0F0F1',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: isToday ? '#BE5953' : '#7A6358',
+                      }}
+                    >
+                      {displayData.isOpen ? (
+                        <ScheduleIcon sx={{ fontSize: '1.1rem' }} />
+                      ) : (
+                        <ClosedIcon sx={{ fontSize: '1.1rem' }} />
+                      )}
                     </Box>
                     <Box>
-                      <Typography sx={{ fontWeight: 800, fontSize: '0.95rem', color: isToday ? '#BE5953' : '#1D2327', lineHeight: 1.1 }}>
+                      <Typography
+                        sx={{
+                          fontWeight: 800,
+                          fontSize: '0.95rem',
+                          color: isToday ? '#BE5953' : '#1D2327',
+                          lineHeight: 1.1,
+                        }}
+                      >
                         {getDayDisplayName(day)}
                       </Typography>
                       {isToday && (
-                        <Typography sx={{ fontSize: '0.68rem', color: '#BE5953', fontWeight: 600, mt: 0.1 }}>Today</Typography>
+                        <Typography
+                          sx={{
+                            fontSize: '0.68rem',
+                            color: '#BE5953',
+                            fontWeight: 600,
+                            mt: 0.1,
+                          }}
+                        >
+                          Today
+                        </Typography>
                       )}
                     </Box>
                   </Box>
 
                   {/* Status chip */}
                   <Chip
-                    label={!displayData.isActive ? 'Inactive' : displayData.isOpen ? 'Open' : 'Closed'}
+                    label={
+                      !displayData.isActive
+                        ? 'Inactive'
+                        : displayData.isOpen
+                          ? 'Open'
+                          : 'Closed'
+                    }
                     size="small"
                     sx={{
                       height: 22,
@@ -461,32 +624,37 @@ const OpeningHours: React.FC = () => {
                       bgcolor: !displayData.isActive
                         ? '#F0F0F1'
                         : displayData.isOpen
-                        ? 'rgba(0,163,42,0.1)'
-                        : 'rgba(214,54,56,0.1)',
+                          ? 'rgba(0,163,42,0.1)'
+                          : 'rgba(214,54,56,0.1)',
                       color: !displayData.isActive
                         ? '#787C82'
                         : displayData.isOpen
-                        ? '#007A1F'
-                        : '#B91C1C',
+                          ? '#007A1F'
+                          : '#B91C1C',
                       border: `1px solid ${
                         !displayData.isActive
                           ? '#CDD0D4'
                           : displayData.isOpen
-                          ? 'rgba(0,163,42,0.25)'
-                          : 'rgba(214,54,56,0.25)'
+                            ? 'rgba(0,163,42,0.25)'
+                            : 'rgba(214,54,56,0.25)'
                       }`,
                     }}
                   />
                 </Box>
 
-                <Divider sx={{ borderColor: 'rgba(190,89,83,0.08)', mb: 1.5 }} />
+                <Divider
+                  sx={{ borderColor: 'rgba(190,89,83,0.08)', mb: 1.5 }}
+                />
 
                 {/* Time display */}
                 <Typography
                   sx={{
                     fontSize: '1rem',
                     fontWeight: 700,
-                    color: displayData.isOpen && displayData.isActive ? '#1D2327' : '#A7AAAD',
+                    color:
+                      displayData.isOpen && displayData.isActive
+                        ? '#1D2327'
+                        : '#A7AAAD',
                     mb: 0.5,
                     letterSpacing: '-0.01em',
                   }}
@@ -494,33 +662,73 @@ const OpeningHours: React.FC = () => {
                   {!displayData.isOpen
                     ? '— Closed —'
                     : displayData.openTime && displayData.closeTime
-                    ? formatTimeRange(displayData.openTime, displayData.closeTime, displayData.isClosedNextDay)
-                    : 'Hours not set'}
+                      ? formatTimeRange(
+                          displayData.openTime,
+                          displayData.closeTime,
+                          displayData.isClosedNextDay,
+                        )
+                      : 'Hours not set'}
                 </Typography>
 
                 {/* Time bar */}
                 <Box sx={{ mb: 1.5 }}>
-                  <Box sx={{ position: 'relative', height: 5, borderRadius: '3px', bgcolor: 'rgba(0,0,0,0.07)', overflow: 'hidden' }}>
+                  <Box
+                    sx={{
+                      position: 'relative',
+                      height: 5,
+                      borderRadius: '3px',
+                      bgcolor: 'rgba(0,0,0,0.07)',
+                      overflow: 'hidden',
+                    }}
+                  >
                     {hasTimeBar && (
-                      <Box sx={{
-                        position: 'absolute', top: 0, bottom: 0, borderRadius: '3px',
-                        left: barLeft, width: barWidth,
-                        background: displayData.isActive
-                          ? 'linear-gradient(90deg, #BE5953, #DDA15E)'
-                          : 'rgba(158,158,158,0.4)',
-                      }} />
+                      <Box
+                        sx={{
+                          position: 'absolute',
+                          top: 0,
+                          bottom: 0,
+                          borderRadius: '3px',
+                          left: barLeft,
+                          width: barWidth,
+                          background: displayData.isActive
+                            ? 'linear-gradient(90deg, #BE5953, #DDA15E)'
+                            : 'rgba(158,158,158,0.4)',
+                        }}
+                      />
                     )}
                   </Box>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 0.4 }}>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      mt: 0.4,
+                    }}
+                  >
                     {['12am', '6am', '12pm', '6pm', '12am'].map((t) => (
-                      <Typography key={t} sx={{ fontSize: '0.58rem', color: 'rgba(0,0,0,0.28)', fontWeight: 500 }}>{t}</Typography>
+                      <Typography
+                        key={t}
+                        sx={{
+                          fontSize: '0.58rem',
+                          color: 'rgba(0,0,0,0.28)',
+                          fontWeight: 500,
+                        }}
+                      >
+                        {t}
+                      </Typography>
                     ))}
                   </Box>
                 </Box>
 
                 {/* Special note */}
                 {displayData.specialNote && (
-                  <Typography sx={{ fontSize: '0.75rem', color: '#50575E', fontStyle: 'italic', mb: 1 }}>
+                  <Typography
+                    sx={{
+                      fontSize: '0.75rem',
+                      color: '#50575E',
+                      fontStyle: 'italic',
+                      mb: 1,
+                    }}
+                  >
                     ✦ {displayData.specialNote}
                   </Typography>
                 )}
@@ -529,7 +737,9 @@ const OpeningHours: React.FC = () => {
                 <Button
                   size="small"
                   variant={isToday ? 'contained' : 'outlined'}
-                  startIcon={<EditIcon sx={{ fontSize: '0.85rem !important' }} />}
+                  startIcon={
+                    <EditIcon sx={{ fontSize: '0.85rem !important' }} />
+                  }
                   onClick={() => handleEdit(day)}
                   fullWidth
                   sx={{
@@ -540,8 +750,18 @@ const OpeningHours: React.FC = () => {
                     textTransform: 'none',
                     boxShadow: 'none',
                     ...(isToday
-                      ? { bgcolor: '#BE5953', '&:hover': { bgcolor: '#A84E48', boxShadow: 'none' } }
-                      : { borderColor: 'rgba(190,89,83,0.3)', color: '#BE5953', '&:hover': { borderColor: '#BE5953', bgcolor: 'rgba(190,89,83,0.04)' } }),
+                      ? {
+                          bgcolor: '#BE5953',
+                          '&:hover': { bgcolor: '#A84E48', boxShadow: 'none' },
+                        }
+                      : {
+                          borderColor: 'rgba(190,89,83,0.3)',
+                          color: '#BE5953',
+                          '&:hover': {
+                            borderColor: '#BE5953',
+                            bgcolor: 'rgba(190,89,83,0.04)',
+                          },
+                        }),
                   }}
                 >
                   Edit Hours
@@ -573,12 +793,17 @@ const OpeningHours: React.FC = () => {
         >
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <ScheduleIcon sx={{ fontSize: '1.1rem', opacity: 0.8 }} />
-            {editingDay ? `Edit ${getDayDisplayName(editingDay)} Hours` : 'Edit Hours'}
+            {editingDay
+              ? `Edit ${getDayDisplayName(editingDay)} Hours`
+              : 'Edit Hours'}
           </Box>
           <IconButton
             size="small"
             onClick={handleCancel}
-            sx={{ color: 'rgba(255,255,255,0.6)', '&:hover': { color: '#FFFFFF' } }}
+            sx={{
+              color: 'rgba(255,255,255,0.6)',
+              '&:hover': { color: '#FFFFFF' },
+            }}
           >
             <CloseIcon sx={{ fontSize: 17 }} />
           </IconButton>
@@ -593,18 +818,29 @@ const OpeningHours: React.FC = () => {
                   control={
                     <Switch
                       checked={editForm.isActive}
-                      onChange={(e) => setEditForm({ ...editForm, isActive: e.target.checked })}
-                      sx={{ '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#00A32A', opacity: 1 } }}
+                      onChange={(e) =>
+                        setEditForm({ ...editForm, isActive: e.target.checked })
+                      }
+                      sx={{
+                        '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track':
+                          { backgroundColor: '#00A32A', opacity: 1 },
+                      }}
                     />
                   }
                   label={
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                      <Typography sx={{ fontWeight: 500, fontSize: '0.875rem' }}>Active</Typography>
+                      <Typography
+                        sx={{ fontWeight: 500, fontSize: '0.875rem' }}
+                      >
+                        Active
+                      </Typography>
                       <Chip
                         label={editForm.isActive ? 'Visible' : 'Hidden'}
                         size="small"
                         sx={{
-                          height: 20, fontSize: '0.7rem', borderRadius: '2px',
+                          height: 20,
+                          fontSize: '0.7rem',
+                          borderRadius: '2px',
                           bgcolor: editForm.isActive ? '#EEF7EE' : '#F0F0F1',
                           color: editForm.isActive ? '#00A32A' : '#787C82',
                           border: `1px solid ${editForm.isActive ? '#B3DFBB' : '#CDD0D4'}`,
@@ -617,19 +853,32 @@ const OpeningHours: React.FC = () => {
                   control={
                     <Switch
                       checked={editForm.isOpen}
-                      onChange={(e) => setEditForm({ ...editForm, isOpen: e.target.checked })}
-                      sx={{ '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#00A32A', opacity: 1 } }}
+                      onChange={(e) =>
+                        setEditForm({ ...editForm, isOpen: e.target.checked })
+                      }
+                      sx={{
+                        '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track':
+                          { backgroundColor: '#00A32A', opacity: 1 },
+                      }}
                     />
                   }
                   label={
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                      <Typography sx={{ fontWeight: 500, fontSize: '0.875rem' }}>Day is Open</Typography>
+                      <Typography
+                        sx={{ fontWeight: 500, fontSize: '0.875rem' }}
+                      >
+                        Day is Open
+                      </Typography>
                       <Chip
                         label={editForm.isOpen ? 'Open' : 'Closed'}
                         size="small"
                         sx={{
-                          height: 20, fontSize: '0.7rem', borderRadius: '2px',
-                          bgcolor: editForm.isOpen ? '#EEF7EE' : 'rgba(214,54,56,0.08)',
+                          height: 20,
+                          fontSize: '0.7rem',
+                          borderRadius: '2px',
+                          bgcolor: editForm.isOpen
+                            ? '#EEF7EE'
+                            : 'rgba(214,54,56,0.08)',
                           color: editForm.isOpen ? '#00A32A' : '#B91C1C',
                           border: `1px solid ${editForm.isOpen ? '#B3DFBB' : 'rgba(214,54,56,0.25)'}`,
                         }}
@@ -648,7 +897,9 @@ const OpeningHours: React.FC = () => {
                     label="Open Time"
                     type="time"
                     value={editForm.openTime}
-                    onChange={(e) => setEditForm({ ...editForm, openTime: e.target.value })}
+                    onChange={(e) =>
+                      setEditForm({ ...editForm, openTime: e.target.value })
+                    }
                     slotProps={{ inputLabel: { shrink: true } }}
                     fullWidth
                     helperText="Opening time"
@@ -667,7 +918,9 @@ const OpeningHours: React.FC = () => {
                     label="Close Time"
                     type="time"
                     value={editForm.closeTime}
-                    onChange={(e) => setEditForm({ ...editForm, closeTime: e.target.value })}
+                    onChange={(e) =>
+                      setEditForm({ ...editForm, closeTime: e.target.value })
+                    }
                     slotProps={{ inputLabel: { shrink: true } }}
                     fullWidth
                     helperText="Closing time"
@@ -687,12 +940,22 @@ const OpeningHours: React.FC = () => {
                       <Switch
                         size="small"
                         checked={editForm.isClosedNextDay}
-                        onChange={(e) => setEditForm({ ...editForm, isClosedNextDay: e.target.checked })}
-                        sx={{ '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#DBA617', opacity: 1 } }}
+                        onChange={(e) =>
+                          setEditForm({
+                            ...editForm,
+                            isClosedNextDay: e.target.checked,
+                          })
+                        }
+                        sx={{
+                          '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track':
+                            { backgroundColor: '#DBA617', opacity: 1 },
+                        }}
                       />
                     }
                     label={
-                      <Typography sx={{ fontSize: '0.875rem', fontWeight: 500 }}>
+                      <Typography
+                        sx={{ fontSize: '0.875rem', fontWeight: 500 }}
+                      >
                         Closes next day (overnight hours)
                       </Typography>
                     }
@@ -706,7 +969,9 @@ const OpeningHours: React.FC = () => {
               <TextField
                 label="Special Note"
                 value={editForm.specialNote}
-                onChange={(e) => setEditForm({ ...editForm, specialNote: e.target.value })}
+                onChange={(e) =>
+                  setEditForm({ ...editForm, specialNote: e.target.value })
+                }
                 fullWidth
                 placeholder="e.g., Live Music Night, Happy Hour 5–7 PM"
                 helperText="Optional note displayed on this day's card"
@@ -729,7 +994,12 @@ const OpeningHours: React.FC = () => {
             onClick={handleCancel}
             disabled={saving}
             startIcon={<CancelIcon />}
-            sx={{ color: '#8d6e63', borderRadius: '2px', textTransform: 'none', fontWeight: 600 }}
+            sx={{
+              color: '#8d6e63',
+              borderRadius: '2px',
+              textTransform: 'none',
+              fontWeight: 600,
+            }}
           >
             Cancel
           </Button>
@@ -770,6 +1040,6 @@ const OpeningHours: React.FC = () => {
       </Snackbar>
     </Box>
   );
-};
+};;
 
 export default OpeningHours;

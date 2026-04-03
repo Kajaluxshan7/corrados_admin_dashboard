@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { useWsRefresh, WsEvent } from '../contexts/WebSocketContext';
 import {
   Box,
   Typography,
@@ -41,11 +42,16 @@ import {
   CheckCircleOutline as ActiveIcon,
   FiberManualRecord as DotIcon,
   FormatListBulleted as SectionIcon,
+  CloudUpload as CloudUploadIcon,
 } from '@mui/icons-material';
 import { api } from '../utils/api';
 import logger from '../utils/logger';
 import { useGlobalToast } from '../contexts/ToastContext';
-import { getErrorMessage } from '../utils/uploadHelpers';
+import {
+  getErrorMessage,
+  getImageUrl,
+  uploadImages,
+} from '../utils/uploadHelpers';
 import { PageHeader } from '../components/common/PageHeader';
 import { EmptyState } from '../components/common/EmptyState';
 import { LoadingState } from '../components/common/LoadingState';
@@ -84,6 +90,7 @@ interface PartyMenu {
   maximumGuests: number | null;
   description: string;
   isActive: boolean;
+  imageUrls: string[];
   sortOrder: number;
   sections: PartySection[];
   createdAt: string;
@@ -159,6 +166,7 @@ const blankMenu = (): Omit<PartyMenu, 'id' | 'createdAt' | 'updatedAt'> => ({
   maximumGuests: null,
   description: '',
   isActive: true,
+  imageUrls: [],
   sortOrder: 0,
   sections: [],
 });
@@ -770,6 +778,27 @@ const MenuCard: React.FC<MenuCardProps> = ({
           </Typography>
         )}
 
+        {/* Images */}
+        {menu.imageUrls && menu.imageUrls.length > 0 && (
+          <Box sx={{ display: 'flex', gap: 0.75, flexWrap: 'wrap', mb: 1 }}>
+            {menu.imageUrls.map((url) => (
+              <Box
+                key={url}
+                component="img"
+                src={getImageUrl(url)}
+                alt=""
+                sx={{
+                  width: 56,
+                  height: 56,
+                  objectFit: 'cover',
+                  borderRadius: '3px',
+                  border: '1px solid #DDD9C4',
+                }}
+              />
+            ))}
+          </Box>
+        )}
+
         {/* ── Sections ── */}
         {sortedSections.length === 0 ? (
           <Typography
@@ -1079,6 +1108,16 @@ const PartyMenuManagement: React.FC = () => {
 
   const [filterType, setFilterType] = useState<MenuType | 'all'>('all');
 
+  // ─── Image upload state ───────────────────────────────────────
+  const [existingImages, setExistingImages] = useState<string[]>([]);
+  const [imagesToDelete, setImagesToDelete] = useState<string[]>([]);
+  const [newImageFiles, setNewImageFiles] = useState<File[]>([]);
+  const [newImagePreviews, setNewImagePreviews] = useState<string[]>([]);
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const MAX_IMAGES = 5;
+
   // ─── Data loading ─────────────────────────────────────────────
 
   const load = useCallback(async () => {
@@ -1101,16 +1140,27 @@ const PartyMenuManagement: React.FC = () => {
     void load();
   }, [load]);
 
+  // Real-time updates via WebSocket
+  useWsRefresh(WsEvent.PARTY_MENU_UPDATED, load);
+
   // ─── Dialog helpers ───────────────────────────────────────────
 
   const openCreate = () => {
     setEditingMenu(null);
     setFormData(blankMenu());
+    setExistingImages([]);
+    setImagesToDelete([]);
+    setNewImageFiles([]);
+    setNewImagePreviews([]);
     setDialogOpen(true);
   };
 
   const openEdit = (menu: PartyMenu) => {
     setEditingMenu(menu);
+    setExistingImages(menu.imageUrls ? [...menu.imageUrls] : []);
+    setImagesToDelete([]);
+    setNewImageFiles([]);
+    setNewImagePreviews([]);
     setFormData({
       name: menu.name,
       menuType: menu.menuType,
@@ -1119,6 +1169,7 @@ const PartyMenuManagement: React.FC = () => {
       maximumGuests: menu.maximumGuests,
       description: menu.description ?? '',
       isActive: menu.isActive,
+      imageUrls: menu.imageUrls ?? [],
       sortOrder: menu.sortOrder,
       sections: menu.sections.map((sec) => ({
         ...sec,
@@ -1134,10 +1185,65 @@ const PartyMenuManagement: React.FC = () => {
   };
 
   const closeDialog = () => {
-    if (!saving) {
+    if (!saving && !uploading) {
+      newImagePreviews.forEach((p) => URL.revokeObjectURL(p));
+      setNewImageFiles([]);
+      setNewImagePreviews([]);
+      setExistingImages([]);
+      setImagesToDelete([]);
       setDialogOpen(false);
       setEditingMenu(null);
     }
+  };
+
+  // ─── Image handlers ───────────────────────────────────────────
+
+  const currentImageCount =
+    existingImages.filter((u) => !imagesToDelete.includes(u)).length +
+    newImageFiles.length;
+
+  const handleImageFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
+    const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+    const maxSizeBytes = 1 * 1024 * 1024; // 1 MB
+    const newFilesArr: File[] = [];
+    const newPreviewsArr: string[] = [];
+    let count = currentImageCount;
+
+    for (let i = 0; i < files.length; i++) {
+      if (count >= MAX_IMAGES) {
+        showToast(`Maximum ${MAX_IMAGES} images allowed.`, 'error');
+        break;
+      }
+      const file = files[i];
+      if (!validTypes.includes(file.type)) {
+        showToast('Only JPEG, PNG, and WebP images are allowed.', 'error');
+        continue;
+      }
+      if (file.size > maxSizeBytes) {
+        showToast(`"${file.name}" exceeds the 1 MB size limit.`, 'error');
+        continue;
+      }
+      newFilesArr.push(file);
+      newPreviewsArr.push(URL.createObjectURL(file));
+      count++;
+    }
+
+    setNewImageFiles((prev) => [...prev, ...newFilesArr]);
+    setNewImagePreviews((prev) => [...prev, ...newPreviewsArr]);
+    if (fileInputRef.current) fileInputRef.current.value = '';
+  };
+
+  const handleRemoveExistingImage = (url: string) => {
+    setImagesToDelete((prev) => [...prev, url]);
+  };
+
+  const handleRemoveNewImage = (index: number) => {
+    URL.revokeObjectURL(newImagePreviews[index]);
+    setNewImageFiles((prev) => prev.filter((_, i) => i !== index));
+    setNewImagePreviews((prev) => prev.filter((_, i) => i !== index));
   };
 
   // ─── Section helpers ──────────────────────────────────────────
@@ -1205,6 +1311,33 @@ const PartyMenuManagement: React.FC = () => {
       return;
     }
 
+    // ── Upload new images, delete removed ones ──────────────────
+    let finalImageUrls = existingImages.filter(
+      (u) => !imagesToDelete.includes(u),
+    );
+
+    if (newImageFiles.length > 0) {
+      setUploading(true);
+      try {
+        const uploaded = await uploadImages(newImageFiles, 'party-menu');
+        finalImageUrls = [...finalImageUrls, ...uploaded];
+      } catch (e) {
+        showToast(`Image upload failed: ${getErrorMessage(e)}`, 'error');
+        setUploading(false);
+        return;
+      } finally {
+        setUploading(false);
+      }
+    }
+
+    if (imagesToDelete.length > 0) {
+      try {
+        await api.delete('/upload/images', { data: { urls: imagesToDelete } });
+      } catch {
+        // non-blocking — old files may already be gone
+      }
+    }
+
     const payload = {
       name: formData.name.trim(),
       menuType: formData.menuType,
@@ -1217,6 +1350,7 @@ const PartyMenuManagement: React.FC = () => {
         : undefined,
       description: formData.description.trim(),
       isActive: formData.isActive,
+      imageUrls: finalImageUrls,
       sortOrder: formData.sortOrder,
     };
 
@@ -1335,7 +1469,7 @@ const PartyMenuManagement: React.FC = () => {
     } finally {
       setSaving(false);
     }
-  };
+  };;
 
   // ─── Toggle / Delete / Reorder ────────────────────────────────
 
@@ -1665,7 +1799,7 @@ const PartyMenuManagement: React.FC = () => {
           </Box>
           <IconButton
             onClick={closeDialog}
-            disabled={saving}
+            disabled={saving || uploading}
             sx={{
               color: '#FFFFFF',
               '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' },
@@ -1675,7 +1809,7 @@ const PartyMenuManagement: React.FC = () => {
           </IconButton>
         </Box>
 
-        {saving && (
+        {(saving || uploading) && (
           <LinearProgress
             sx={{
               height: 2,
@@ -1909,6 +2043,161 @@ const PartyMenuManagement: React.FC = () => {
 
           <Divider />
 
+          {/* ── Images ──────────────────────────────────────────── */}
+          <Box sx={{ px: 3, pt: 2.5, pb: 2 }}>
+            <Box
+              sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.5 }}
+            >
+              <Box
+                sx={{
+                  width: 4,
+                  height: 18,
+                  borderRadius: '2px',
+                  bgcolor: formTok.color,
+                }}
+              />
+              <Typography
+                sx={{ fontWeight: 700, fontSize: '0.875rem', color: '#1D2327' }}
+              >
+                Images
+              </Typography>
+              <Typography sx={{ fontSize: '0.75rem', color: '#787C82' }}>
+                (up to {MAX_IMAGES}, max 1 MB each)
+              </Typography>
+            </Box>
+
+            <Box
+              sx={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: 1,
+                mb: currentImageCount < MAX_IMAGES ? 1.5 : 0,
+              }}
+            >
+              {existingImages
+                .filter((u) => !imagesToDelete.includes(u))
+                .map((url) => (
+                  <Box
+                    key={url}
+                    sx={{
+                      position: 'relative',
+                      width: 88,
+                      height: 88,
+                      borderRadius: '4px',
+                      overflow: 'hidden',
+                      border: '1px solid #E2E4E7',
+                    }}
+                  >
+                    <Box
+                      component="img"
+                      src={getImageUrl(url)}
+                      alt=""
+                      sx={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    />
+                    <IconButton
+                      size="small"
+                      onClick={() => handleRemoveExistingImage(url)}
+                      sx={{
+                        position: 'absolute',
+                        top: 2,
+                        right: 2,
+                        bgcolor: 'rgba(0,0,0,0.55)',
+                        color: '#fff',
+                        p: '2px',
+                        '&:hover': { bgcolor: 'rgba(0,0,0,0.8)' },
+                      }}
+                    >
+                      <CloseIcon sx={{ fontSize: 12 }} />
+                    </IconButton>
+                  </Box>
+                ))}
+
+              {newImagePreviews.map((preview, idx) => (
+                <Box
+                  key={idx}
+                  sx={{
+                    position: 'relative',
+                    width: 88,
+                    height: 88,
+                    borderRadius: '4px',
+                    overflow: 'hidden',
+                    border: `1px solid ${formTok.color}`,
+                  }}
+                >
+                  <Box
+                    component="img"
+                    src={preview}
+                    alt=""
+                    sx={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  />
+                  <IconButton
+                    size="small"
+                    onClick={() => handleRemoveNewImage(idx)}
+                    sx={{
+                      position: 'absolute',
+                      top: 2,
+                      right: 2,
+                      bgcolor: 'rgba(0,0,0,0.55)',
+                      color: '#fff',
+                      p: '2px',
+                      '&:hover': { bgcolor: 'rgba(0,0,0,0.8)' },
+                    }}
+                  >
+                    <CloseIcon sx={{ fontSize: 12 }} />
+                  </IconButton>
+                </Box>
+              ))}
+            </Box>
+
+            {currentImageCount < MAX_IMAGES && (
+              <Box
+                onClick={() => fileInputRef.current?.click()}
+                sx={{
+                  border: '2px dashed #CDD0D4',
+                  borderRadius: '4px',
+                  p: 2.5,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: 0.75,
+                  cursor: 'pointer',
+                  bgcolor: '#FAFAFA',
+                  transition: 'border-color 0.15s, background-color 0.15s',
+                  '&:hover': {
+                    borderColor: formTok.color,
+                    bgcolor: alpha(formTok.color, 0.04),
+                  },
+                }}
+              >
+                <CloudUploadIcon sx={{ fontSize: 28, color: '#CDD0D4' }} />
+                <Typography
+                  fontSize="0.8125rem"
+                  color="#50575E"
+                  fontWeight={500}
+                >
+                  Click to upload images
+                </Typography>
+                <Typography fontSize="0.75rem" color="#A7AAAD">
+                  JPEG, PNG, WebP · max 1 MB · {MAX_IMAGES - currentImageCount}{' '}
+                  remaining
+                </Typography>
+              </Box>
+            )}
+
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/jpeg,image/jpg,image/png,image/webp"
+              multiple
+              title="Upload party menu images"
+              aria-label="Upload party menu images"
+              onChange={handleImageFileSelect}
+              hidden
+            />
+          </Box>
+
+          <Divider />
+
           {/* ── Section 2: Sections ─────────────────────────────── */}
           <Box sx={{ px: 3, pt: 2, pb: 2.5 }}>
             <Box
@@ -2056,16 +2345,20 @@ const PartyMenuManagement: React.FC = () => {
           </Stack>
           <Button
             onClick={closeDialog}
-            disabled={saving}
+            disabled={saving || uploading}
             sx={{ textTransform: 'none', fontWeight: 600, color: '#50575E' }}
           >
             Cancel
           </Button>
           <Button
             variant="contained"
-            startIcon={saving ? undefined : <SaveIcon sx={{ fontSize: 16 }} />}
+            startIcon={
+              saving || uploading ? undefined : (
+                <SaveIcon sx={{ fontSize: 16 }} />
+              )
+            }
             onClick={handleSave}
-            disabled={saving}
+            disabled={saving || uploading}
             sx={{
               bgcolor: formTok.color,
               fontWeight: 600,
@@ -2080,11 +2373,13 @@ const PartyMenuManagement: React.FC = () => {
               },
             }}
           >
-            {saving
-              ? 'Saving…'
-              : editingMenu
-                ? 'Save Changes'
-                : 'Create Package'}
+            {uploading
+              ? 'Uploading…'
+              : saving
+                ? 'Saving…'
+                : editingMenu
+                  ? 'Save Changes'
+                  : 'Create Package'}
           </Button>
         </DialogActions>
       </Dialog>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { API_BASE_URL } from '../config/env.config';
+import { useWsRefresh, WsEvent } from '../contexts/WebSocketContext';
 import {
   Box,
   Typography,
@@ -156,6 +157,9 @@ const StoriesManagement: React.FC = () => {
   useEffect(() => {
     loadCategories();
   }, [loadCategories]);
+
+  // Real-time updates via WebSocket
+  useWsRefresh(WsEvent.STORY_UPDATED, loadCategories);
 
   const handleOpenCategoryDialog = (category?: StoryCategory) => {
     if (category) {
@@ -1480,7 +1484,10 @@ const StoriesManagement: React.FC = () => {
           <IconButton
             size="small"
             onClick={() => setCategoryDialog(false)}
-            sx={{ color: 'rgba(255,255,255,0.6)', '&:hover': { color: '#FFFFFF' } }}
+            sx={{
+              color: 'rgba(255,255,255,0.6)',
+              '&:hover': { color: '#FFFFFF' },
+            }}
           >
             <CloseIcon fontSize="small" />
           </IconButton>
@@ -1524,7 +1531,8 @@ const StoriesManagement: React.FC = () => {
                   }
                   sx={{
                     '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-                      backgroundColor: '#00A32A', opacity: 1,
+                      backgroundColor: '#00A32A',
+                      opacity: 1,
                     },
                   }}
                 />
@@ -1880,7 +1888,19 @@ const StoriesManagement: React.FC = () => {
           <Button
             onClick={() => setCategoryDialog(false)}
             variant="outlined"
-            sx={{ borderRadius: '2px', fontWeight: 600, px: 3, borderColor: '#E2E4E7', color: '#50575E', textTransform: 'none', '&:hover': { borderColor: '#BE5953', color: '#BE5953', bgcolor: 'transparent' } }}
+            sx={{
+              borderRadius: '2px',
+              fontWeight: 600,
+              px: 3,
+              borderColor: '#E2E4E7',
+              color: '#50575E',
+              textTransform: 'none',
+              '&:hover': {
+                borderColor: '#BE5953',
+                color: '#BE5953',
+                bgcolor: 'transparent',
+              },
+            }}
           >
             Cancel
           </Button>
@@ -1939,6 +1959,6 @@ const StoriesManagement: React.FC = () => {
       </Snackbar>
     </Box>
   );
-};
+};;;
 
 export default StoriesManagement;
