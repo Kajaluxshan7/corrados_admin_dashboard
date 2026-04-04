@@ -902,7 +902,7 @@ const MenuCard: React.FC<MenuCardProps> = ({
                     {availItems.map((item) => (
                       <Box
                         key={item.id}
-                        sx={{ display: 'flex', gap: 0.5, pl: 0.5 }}
+                        sx={{ display: 'flex', gap: 0.5, pl: 0.5, alignItems: 'center' }}
                       >
                         <Typography
                           sx={{

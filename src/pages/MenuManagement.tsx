@@ -694,6 +694,7 @@ const MenuManagement: React.FC = () => {
           }
           onMove={handleMoveItem}
           onToggleAvailability={handleToggleAvailability}
+          measurementTypes={measurementTypes}
           onAdd={() => {
             setDrawerFormType('item');
             setDrawerEditData(null);
