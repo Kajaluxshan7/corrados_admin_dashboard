@@ -53,6 +53,7 @@ import { PageHeader } from '../components/common/PageHeader';
 
 interface Subscriber {
   id: string;
+  subscriberNumber: number;
   email: string;
   isActive: boolean;
   unsubscribeToken: string;
@@ -311,11 +312,13 @@ const NewsletterManagement: React.FC = () => {
   };
 
   const handlePrintSelected = () => {
-    const toPrint = Array.from(selectedSubscribers.values());
+    // Sort descending by subscriberNumber so the list is in proper order
+    const toPrint = Array.from(selectedSubscribers.values())
+      .sort((a, b) => b.subscriberNumber - a.subscriberNumber);
     if (toPrint.length === 0) return;
 
     const formatDate = (iso: string | null, includeTime = false) => {
-      if (!iso) return '-';
+      if (!iso) return '—';
       const fmt = includeTime ? 'MMM D, YYYY h:mm A' : 'MMM D, YYYY';
       return moment(iso).tz('America/Toronto').format(fmt);
     };
@@ -323,14 +326,14 @@ const NewsletterManagement: React.FC = () => {
     const logoUrl = `${window.location.origin}/corrados-logo.png`;
     const rows = toPrint.map((s, i) => `
       <tr class="${i % 2 === 0 ? 'even' : 'odd'}">
-        <td class="num">${i + 1}</td>
+        <td class="num">#${s.subscriberNumber}</td>
         <td class="email">${s.email}</td>
         <td><span class="badge ${s.isActive ? 'active' : 'inactive'}">${s.isActive ? 'Active' : 'Unsub'}</span></td>
         <td>${formatDate(s.subscribedAt)}</td>
-        <td class="mono">${s.promoCode ?? '-'}</td>
+        <td class="mono">${s.promoCode ?? '—'}</td>
         <td><span class="badge ${s.promoClaimed ? 'claimed' : s.promoCodeSent ? 'sent' : 'pending'}">${s.promoClaimed ? 'Claimed' : s.promoCodeSent ? 'Sent' : 'Pending'}</span></td>
-        <td>${s.promoSentAt ? formatDate(s.promoSentAt) : '-'}</td>
-        <td>${s.promoClaimedAt ? formatDate(s.promoClaimedAt) : '-'}</td>
+        <td>${s.promoSentAt ? formatDate(s.promoSentAt) : '—'}</td>
+        <td>${s.promoClaimedAt ? formatDate(s.promoClaimedAt) : '—'}</td>
       </tr>`).join('');
 
     const filterLabel = filterOptions.find((f) => f.value === filterStatus)?.label ?? 'All';
@@ -743,6 +746,7 @@ td.email{font-weight:600;color:#1D2327;word-break:break-all;max-width:180px}td.m
             <TableHead>
               <TableRow>
                 <TableCell sx={{ ...thSx, width: 40 }} padding="checkbox" />
+                <TableCell sx={{ ...thSx, width: 48, textAlign: 'center' }}>#</TableCell>
                 <TableCell sx={thSx}>Subscriber</TableCell>
                 <TableCell sx={thSx}>Status</TableCell>
                 <TableCell sx={thSx}>Promo Code</TableCell>
@@ -757,7 +761,7 @@ td.email{font-weight:600;color:#1D2327;word-break:break-all;max-width:180px}td.m
               {!loading && subscribers.length === 0 ? (
                 <TableRow>
                   <TableCell
-                    colSpan={7}
+                    colSpan={8}
                     sx={{ py: 6, textAlign: 'center', border: 0 }}
                   >
                     <Box
@@ -849,6 +853,9 @@ td.email{font-weight:600;color:#1D2327;word-break:break-all;max-width:180px}td.m
                             p: 0.5,
                           }}
                         />
+                      </TableCell>
+                      <TableCell sx={{ ...tdSx, textAlign: 'center', width: 48, color: '#A7AAAD', fontSize: '0.75rem', fontWeight: 600 }}>
+                        #{subscriber.subscriberNumber}
                       </TableCell>
                       <TableCell sx={tdSx}>
                         <Box
