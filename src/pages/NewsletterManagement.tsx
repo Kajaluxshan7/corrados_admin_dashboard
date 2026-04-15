@@ -801,8 +801,9 @@ td.email{font-weight:600;color:#1D2327;word-break:break-all;max-width:180px}td.m
                 </TableRow>
               ) : (
                 subscribers.map((subscriber) => {
-                  const canSendPromo =
-                    subscriber.isActive && !subscriber.promoCodeSent;
+                  // FEATURE DISABLED: Send promo code is temporarily turned off.
+                  // To re-enable, restore: subscriber.isActive && !subscriber.promoCodeSent
+                  const canSendPromo = false;
                   const canMarkClaimed =
                     subscriber.promoCodeSent && !subscriber.promoClaimed;
                   const isSelected = selectedSubscribers.has(subscriber.id);
