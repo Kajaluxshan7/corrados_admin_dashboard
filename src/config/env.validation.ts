@@ -5,6 +5,7 @@
 
 interface EnvConfig {
   VITE_API_BASE_URL: string;
+  VITE_FRONTEND_BASE_URL?: string;
   VITE_APP_NAME?: string;
   VITE_APP_VERSION?: string;
   VITE_ENABLE_DEBUG?: string;
@@ -16,6 +17,7 @@ import logger from '../utils/logger';
 const REQUIRED_ENV_VARS: (keyof EnvConfig)[] = ['VITE_API_BASE_URL'];
 
 const OPTIONAL_ENV_VARS: (keyof EnvConfig)[] = [
+  'VITE_FRONTEND_BASE_URL',
   'VITE_APP_NAME',
   'VITE_APP_VERSION',
   'VITE_ENABLE_DEBUG',

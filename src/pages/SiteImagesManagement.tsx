@@ -29,6 +29,7 @@ import {
 } from '@mui/icons-material';
 import { PageHeader } from '../components/common/PageHeader';
 import { api, API_BASE_URL } from '../utils/api';
+import { FRONTEND_BASE_URL } from '../config/env.config';
 import {
   uploadImages,
   getErrorMessage,
@@ -78,7 +79,14 @@ function resolvePreview(url: string): string {
   if (!url) return '';
   if (url.startsWith('http://') || url.startsWith('https://')) return url;
   if (url.startsWith('data:')) return url;
-  if (url.startsWith('/')) return `${API_BASE_URL}${url}`;
+  if (url.startsWith('/')) {
+    // Frontend static assets (e.g. /restaurant/...) live in the frontend public
+    // folder, not on the backend. Route them through the frontend origin.
+    const isFrontendAsset =
+      url.startsWith('/restaurant/') || url.startsWith('/public/');
+    const base = isFrontendAsset ? FRONTEND_BASE_URL : API_BASE_URL;
+    return `${base}${url}`;
+  }
   return `${API_BASE_URL}/${url}`;
 }
 

@@ -12,6 +12,7 @@ import { getRequiredEnv, getOptionalEnv } from './env.validation';
 // API Configuration (Required)
 // ========================================
 export const API_BASE_URL = getRequiredEnv('VITE_API_BASE_URL');
+export const FRONTEND_BASE_URL = getOptionalEnv('VITE_FRONTEND_BASE_URL', 'http://localhost:5173')!;
 
 // ========================================
 // Application Configuration (Optional)
