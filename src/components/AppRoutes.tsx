@@ -19,6 +19,7 @@ import NewsletterManagement from "../pages/NewsletterManagement";
 import AnnouncementsManagement from '../pages/AnnouncementsManagement';
 import ScheduledNotifications from '../pages/ScheduledNotifications';
 import PartyMenuManagement from '../pages/PartyMenuManagement';
+import SiteImagesManagement from '../pages/SiteImagesManagement';
 import LoadingScreen from '../components/LoadingScreen';
 
 const AppRoutes: React.FC = () => {
@@ -55,6 +56,7 @@ const AppRoutes: React.FC = () => {
         <Route path="newsletter" element={<NewsletterManagement />} />
         <Route path="announcements" element={<AnnouncementsManagement />} />
         <Route path="notifications" element={<ScheduledNotifications />} />
+        <Route path="site-images" element={<SiteImagesManagement />} />
         <Route path="settings" element={<Settings />} />
       </Route>
       <Route path="/login" element={<Navigate to="/" replace />} />

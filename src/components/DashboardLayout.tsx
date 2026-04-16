@@ -37,6 +37,7 @@ import {
   ChevronRight as ChevronRightIcon,
   KeyboardArrowDown as ArrowDownIcon,
   Celebration as PartyMenuIcon,
+  Wallpaper as SiteImagesIcon,
 } from '@mui/icons-material';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
@@ -81,6 +82,7 @@ const navigationGroups = [
   {
     label: 'System',
     items: [
+      { name: 'Site Images', path: '/site-images', icon: SiteImagesIcon },
       { name: 'Users', path: '/users', icon: PeopleIcon },
       { name: 'Settings', path: '/settings', icon: SettingsIcon },
     ],
