@@ -30,7 +30,6 @@ import {
 import { PageHeader } from '../components/common/PageHeader';
 import { api, API_BASE_URL } from '../utils/api';
 import {
-  getImageUrl,
   uploadImages,
   getErrorMessage,
 } from '../utils/uploadHelpers';
