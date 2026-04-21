@@ -29,7 +29,6 @@ import {
 } from '@mui/icons-material';
 import { PageHeader } from '../components/common/PageHeader';
 import { api, API_BASE_URL } from '../utils/api';
-import { FRONTEND_BASE_URL } from '../config/env.config';
 import {
   uploadImages,
   getErrorMessage,
@@ -63,14 +62,16 @@ const CATEGORY_ORDER = [
   'home_sections',
   'about',
   'family_meals',
+  'gift_cards',
 ];
 
 const CATEGORY_LABELS: Record<string, string> = {
   heroes: 'Page Heroes',
   nav_tiles: 'Home: Navigation Tiles',
-  home_sections: 'Home: Section Backgrounds',
+  home_sections: 'Home: Sections & Cards',
   about: 'About Page',
   family_meals: 'Family Meal Cards',
+  gift_cards: 'Gift Cards: Occasions',
 };
 
 // ── Helper: resolve image src for preview ────────────────────────────────────
@@ -80,12 +81,9 @@ function resolvePreview(url: string): string {
   if (url.startsWith('http://') || url.startsWith('https://')) return url;
   if (url.startsWith('data:')) return url;
   if (url.startsWith('/')) {
-    // Frontend static assets (e.g. /restaurant/...) live in the frontend public
-    // folder, not on the backend. Route them through the frontend origin.
-    const isFrontendAsset =
-      url.startsWith('/restaurant/') || url.startsWith('/public/');
-    const base = isFrontendAsset ? FRONTEND_BASE_URL : API_BASE_URL;
-    return `${base}${url}`;
+    // All relative paths are served from the backend (which also serves the
+    // frontend public folder under /restaurant/ in local development).
+    return `${API_BASE_URL}${url}`;
   }
   return `${API_BASE_URL}/${url}`;
 }
@@ -457,7 +455,9 @@ const SiteImagesManagement: React.FC = () => {
               ref={fileInputRef}
               type="file"
               accept="image/jpeg,image/jpg,image/png,image/webp"
-              style={{ display: 'none' }}
+              aria-label="Choose image file"
+              title="Choose image file"
+              className="site-image-file-input"
               onChange={handleFileSelect}
             />
             <Button

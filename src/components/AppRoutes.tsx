@@ -19,6 +19,7 @@ import NewsletterManagement from "../pages/NewsletterManagement";
 import AnnouncementsManagement from '../pages/AnnouncementsManagement';
 import ScheduledNotifications from '../pages/ScheduledNotifications';
 import PartyMenuManagement from '../pages/PartyMenuManagement';
+import FamilyMealsManagement from '../pages/FamilyMealsManagement';
 import SiteImagesManagement from '../pages/SiteImagesManagement';
 import LoadingScreen from '../components/LoadingScreen';
 
@@ -47,6 +48,7 @@ const AppRoutes: React.FC = () => {
         <Route index element={<Dashboard />} />
         <Route path="menu" element={<MenuManagement />} />
         <Route path="party-menu" element={<PartyMenuManagement />} />
+        <Route path="family-meals" element={<FamilyMealsManagement />} />
         <Route path="measurements" element={<MeasurementsManagement />} />
         <Route path="specials" element={<SpecialsManagement />} />
         <Route path="events" element={<EventsManagement />} />

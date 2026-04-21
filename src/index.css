@@ -201,6 +201,8 @@ main {
 .animate-slide-in { animation: slideIn 0.2s ease-out; }
 .animate-scale-in { animation: scaleIn 0.15s ease-out; }
 
+.site-image-file-input { display: none; }
+
 /* Accessibility */
 @media (prefers-contrast: high) {
   :root {

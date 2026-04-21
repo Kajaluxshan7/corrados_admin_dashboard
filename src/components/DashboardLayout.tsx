@@ -37,6 +37,7 @@ import {
   ChevronRight as ChevronRightIcon,
   KeyboardArrowDown as ArrowDownIcon,
   Celebration as PartyMenuIcon,
+  FamilyRestroom as FamilyMealsIcon,
   Wallpaper as SiteImagesIcon,
 } from '@mui/icons-material';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -56,6 +57,7 @@ const navigationGroups = [
     items: [
       { name: 'Menu', path: '/menu', icon: RestaurantIcon },
       { name: 'Party Menus', path: '/party-menu', icon: PartyMenuIcon },
+      { name: 'Family Meals', path: '/family-meals', icon: FamilyMealsIcon },
       { name: 'Measurements', path: '/measurements', icon: MeasurementsIcon },
       { name: 'Specials', path: '/specials', icon: SpecialsIcon },
       { name: 'Events', path: '/events', icon: EventIcon },

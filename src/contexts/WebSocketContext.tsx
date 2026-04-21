@@ -30,6 +30,7 @@ export const WsEvent = {
   TODO_DELETED: 'todo:deleted',
   STORY_UPDATED: 'story:updated',
   PARTY_MENU_UPDATED: 'partyMenu:updated',
+  FAMILY_MEAL_UPDATED: 'familyMeal:updated',
   USER_UPDATED: 'user:updated',
   NEWSLETTER_UPDATED: 'newsletter:updated',
   NOTIFICATION_SENT: 'notification:sent',
